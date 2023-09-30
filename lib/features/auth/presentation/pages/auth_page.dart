@@ -173,32 +173,39 @@ class AuthForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 80),
                 child: BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                      ),
-                      onPressed: () {
-                        if (_keyForm.currentState!.validate()) {
-                          authBloc.add(
-                            OnLoginEvent(
-                              _emailController.text,
-                              _passwordController.text,
-                            ),
-                          );
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          (state is LoadingAuthState)
-                              ? const CircularProgressIndicator.adaptive(
-                                  backgroundColor: Colors.white,
-                                )
-                              : const SizedBox(width: 0),
-                          const SizedBox(width: 10),
-                          const Text('Iniciar sesión'),
-                        ],
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                        onPressed: () {
+                          if (_keyForm.currentState!.validate()) {
+                            authBloc.add(
+                              OnLoginEvent(
+                                _emailController.text,
+                                _passwordController.text,
+                              ),
+                            );
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            (state is LoadingAuthState)
+                                ? const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: CircularProgressIndicator.adaptive(
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  )
+                                : const SizedBox(width: 0),
+                            const SizedBox(width: 10),
+                            const Text('Iniciar sesión'),
+                          ],
+                        ),
                       ),
                     );
                   },
