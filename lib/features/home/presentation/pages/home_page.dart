@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:inventory_tesis/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/common/theme/app_colors.dart';
 
 @RoutePage()
@@ -19,7 +20,7 @@ class _HomePage extends State<HomePage> {
         label: "Escanear",
         icon: Icons.qr_code_scanner_outlined,
         onTap: () {
-          // context.router.push(ScanRoute());
+          context.router.push(const ScanRoute());
         },
       ),
       ItemGrid(

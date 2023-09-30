@@ -6,20 +6,17 @@ class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-<<<<<<< HEAD
-          page: ScanRoute.page,
-          initial: true,
-=======
-          page: AuthRoute.page,
->>>>>>> develop
-        ),
-        AutoRoute(
           page: AuthRoute.page,
         ),
         AutoRoute(
           page: HomeRoute.page,
           initial: true,
-
+        ),
+        AutoRoute(
+          page: ScanRoute.page,
+        ),
+        AutoRoute(
+          page: ScaDetailsRoute.page,
         ),
       ];
 }

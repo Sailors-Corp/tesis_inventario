@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:inventory_tesis/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/common/theme/app_colors.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -19,9 +19,6 @@ class _ScanPage extends State<ScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(
-          color: Colors.white,
-        ),
         centerTitle: true,
         title: const Text('Escanear medio'),
       ),
@@ -43,40 +40,6 @@ class _ScanState extends State<Scan> {
   Barcode? result;
 
   QRViewController? controller;
-
-  Future<void> _showMyDialog(
-      {required BuildContext context, required Barcode result}) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Título del Diálogo'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                    'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Aceptar'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo
-              },
-            ),
-            TextButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   void reassemble() {
@@ -138,7 +101,9 @@ class _ScanState extends State<Scan> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.router.pop();
+                  },
                   child: const Text('Cancelar'),
                 ),
               ),
@@ -146,6 +111,75 @@ class _ScanState extends State<Scan> {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _showMyDialog(
+      {required BuildContext context, required Barcode result}) async {
+    final TextEditingController rotuloController =
+        TextEditingController(text: result.code.toString());
+    final TextEditingController subclasificationController =
+        TextEditingController(text: result.format.toString());
+    final TextEditingController areaController =
+        TextEditingController(text: result.format.toString());
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text("Resultado"),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                // Verificar si el medio esta en el lugar que le corresponde
+                const Text(
+                  'Este medio básico fuera del area de correspondencia',
+                  style: TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+                TextField(
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Rotulo',
+                  ),
+                  controller: rotuloController,
+                ),
+                TextField(
+                  readOnly: true,
+                  controller: subclasificationController,
+                  decoration: const InputDecoration(
+                    labelText: 'Subclasificación',
+                  ),
+                ),
+                TextField(
+                  readOnly: true,
+                  controller: areaController,
+                  decoration: const InputDecoration(
+                    labelText: 'Área',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Escanear otro'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            const Spacer(),
+            TextButton(
+              child: const Text('Ver detalles'),
+              onPressed: () {
+                context.router.push(const ScaDetailsRoute());
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
