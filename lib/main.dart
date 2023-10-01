@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/common/routes/app_routes.dart';
-import 'package:inventory_tesis/features/app/presentation/bloc/cubit/app_cubit.dart';
 import 'package:inventory_tesis/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:inventory_tesis/features/home/presentation/bloc/home_bloc.dart';
+import 'package:inventory_tesis/features/shared/presentation/blocs/manager/app_cubit.dart';
 import 'package:inventory_tesis/injector.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:sizer/sizer.dart' as sizer;
@@ -33,9 +32,6 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => injector<AppCubit>(),
-          ),
-          BlocProvider(
-            create: ((context) => injector<HomeBloc>()),
           ),
           BlocProvider(
             create: ((context) => injector<AuthBloc>()),
