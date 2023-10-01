@@ -18,9 +18,7 @@ class _HomePage extends State<HomePage> {
       ItemGrid(
         label: "Escanear",
         icon: Icons.qr_code_scanner_outlined,
-        onTap: () {
-          // context.router.push(ScanRoute());
-        },
+        onTap: () {},
       ),
       ItemGrid(
         label: "Generar",
@@ -40,9 +38,28 @@ class _HomePage extends State<HomePage> {
     ];
 
     return Scaffold(
+      drawer: Container(),
       appBar: AppBar(
         title: const Text("UCInventory"),
-        centerTitle: true,
+        actions: [
+          IconButton(
+            color: Colors.white,
+            onPressed: () {},
+            icon: const Icon(Icons.search_outlined),
+          ),
+          IconButton(
+            color: Colors.white,
+            onPressed: () {
+              // context.router.push(ScanRoute());
+            },
+            icon: const Icon(Icons.qr_code_scanner_outlined),
+          ),
+          IconButton(
+            color: Colors.white,
+            onPressed: () {},
+            icon: const Icon(Icons.qr_code_2_outlined),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
