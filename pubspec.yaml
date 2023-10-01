@@ -50,8 +50,9 @@ dependencies:
   excel:
   file_picker:
   csv:
-  form_field_validator: 
-
+  form_field_validator:
+  qr_flutter:
+  qr_code_scanner: 
 
 dev_dependencies:
   flutter_test:
