@@ -58,6 +58,8 @@ Future<void> initializeDependencies() async {
     () => AuthRepositoryImpl(injector()),
   );
 
+  //Register Blocs
+
   injector.registerFactory<AuthBloc>(
     () => AuthBloc(
       injector(),

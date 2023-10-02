@@ -5,7 +5,7 @@ class AppTextStyle {
       {double size = 14,
       FontWeight weight = FontWeight.normal,
       FontStyle style = FontStyle.normal,
-      Color color = Colors.white}) {
+      Color? color}) {
     return TextStyle(
         color: color,
         fontSize: size,

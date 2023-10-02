@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,57 +13,84 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primaryColor,
-      width: MediaQuery.of(context).size.width * .7,
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(
-              height: 200,
-              child: Placeholder(),
-            ),
-            const SideBarLabel(),
-            BlocBuilder<AppCubit, AppState>(
-              builder: (context, state) {
-                return GestureDetector(
-                  onTap: () {
-                    final appCubit = context.read<AppCubit>().toggleTheme();
-                  },
-                  child: SideBarItem(
-                    label: "Tema",
-                    icon: state.themeData?.brightness == Brightness.light
-                        ? const Icon(
-                            CupertinoIcons.sun_max_fill,
-                            color: Colors.amber,
-                          )
-                        : const Icon(
-                            CupertinoIcons.moon_stars_fill,
-                            color: Colors.white,
-                          ),
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        return Container(
+          color: state.themeData?.brightness == Brightness.light
+              ? Colors.white
+              : AppColors.primaryBlue,
+          width: MediaQuery.of(context).size.width * .7,
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(
+                  height: 200,
+                  child: Placeholder(),
+                ),
+                const SideBarLabel(
+                  label: 'Operaciones',
+                ),
+                const SideBarItem(
+                  label: "Realizar Inventario",
+                  icon: Icon(
+                    CupertinoIcons.cube_box,
                   ),
-                );
-              },
+                ),
+                const SizedBox(height: 10),
+                const SideBarItem(
+                  label: "Generar Reporte",
+                  icon: Icon(
+                    CupertinoIcons.doc,
+                  ),
+                ),
+                const SideBarLabel(
+                  label: 'Opciones',
+                ),
+                BlocBuilder<AppCubit, AppState>(
+                  builder: (context, state) {
+                    return GestureDetector(
+                      onTap: () {
+                        final appCubit = context.read<AppCubit>().toggleTheme();
+                      },
+                      child: SideBarItem(
+                        label: "Cambiar tema",
+                        icon: state.themeData?.brightness == Brightness.light
+                            ? const Icon(
+                                CupertinoIcons.sun_max_fill,
+                                color: Colors.amber,
+                              )
+                            : const Icon(
+                                CupertinoIcons.moon_stars_fill,
+                                color: Colors.white,
+                              ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
 
 class SideBarLabel extends StatelessWidget {
   const SideBarLabel({
-    super.key,
-  });
+    Key? key,
+    required this.label,
+  }) : super(key: key);
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(10.0),
       child: Text(
-        'Opciones',
+        label,
         style: AppTextStyle.getAppTextStyle(size: 18, color: Colors.grey),
       ),
     );
@@ -82,17 +110,15 @@ class SideBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 30,
-      ),
+      padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
+          icon!,
+          const SizedBox(width: 10),
           Text(
             label,
             style: AppTextStyle.getAppTextStyle(size: 23),
           ),
-          const Spacer(),
-          icon!,
         ],
       ),
     );
