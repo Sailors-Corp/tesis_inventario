@@ -66,7 +66,7 @@ class _AuthPageState extends State<AuthPage> {
             );
           } else {
             _clearForm();
-            context.router.replace(const HomeRoute());
+            context.router.replace(const GenerateQRRoute());
           }
         },
         child: AuthForm(

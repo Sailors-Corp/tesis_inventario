@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/common/routes/app_routes.dart';
 import 'package:inventory_tesis/features/app/presentation/bloc/cubit/app_cubit.dart';
 import 'package:inventory_tesis/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:inventory_tesis/features/generateQR/presentation/bloc/generate_qr_bloc.dart';
 import 'package:inventory_tesis/features/home/presentation/bloc/home_bloc.dart';
 import 'package:inventory_tesis/injector.dart';
 import 'package:oktoast/oktoast.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: ((context) => injector<AuthBloc>()),
+          ),
+          BlocProvider(
+            create: ((context) => injector<GenerateQRBloc>()),
           ),
         ],
         child: BlocBuilder<AppCubit, AppState>(
