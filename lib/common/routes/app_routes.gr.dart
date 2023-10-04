@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i5;
+import 'package:flutter/material.dart' as _i6;
 import 'package:inventory_tesis/features/auth/presentation/pages/auth_page.dart'
     as _i2;
 import 'package:inventory_tesis/features/scan/presentation/pages/scan_page.dart'
@@ -24,9 +25,13 @@ abstract class $AppRouter extends _i5.RootStackRouter {
   @override
   final Map<String, _i5.PageFactory> pagesMap = {
     AreasDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<AreasDetailsRouteArgs>();
       return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.AreasDetailsPage(),
+        child: _i1.AreasDetailsPage(
+          key: args.key,
+          title: args.title,
+        ),
       );
     },
     AuthRoute.name: (routeData) {
@@ -52,16 +57,40 @@ abstract class $AppRouter extends _i5.RootStackRouter {
 
 /// generated route for
 /// [_i1.AreasDetailsPage]
-class AreasDetailsRoute extends _i5.PageRouteInfo<void> {
-  const AreasDetailsRoute({List<_i5.PageRouteInfo>? children})
-      : super(
+class AreasDetailsRoute extends _i5.PageRouteInfo<AreasDetailsRouteArgs> {
+  AreasDetailsRoute({
+    _i6.Key? key,
+    required String title,
+    List<_i5.PageRouteInfo>? children,
+  }) : super(
           AreasDetailsRoute.name,
+          args: AreasDetailsRouteArgs(
+            key: key,
+            title: title,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AreasDetailsRoute';
 
-  static const _i5.PageInfo<void> page = _i5.PageInfo<void>(name);
+  static const _i5.PageInfo<AreasDetailsRouteArgs> page =
+      _i5.PageInfo<AreasDetailsRouteArgs>(name);
+}
+
+class AreasDetailsRouteArgs {
+  const AreasDetailsRouteArgs({
+    this.key,
+    required this.title,
+  });
+
+  final _i6.Key? key;
+
+  final String title;
+
+  @override
+  String toString() {
+    return 'AreasDetailsRouteArgs{key: $key, title: $title}';
+  }
 }
 
 /// generated route for

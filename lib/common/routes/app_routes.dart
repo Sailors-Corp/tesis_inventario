@@ -15,5 +15,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: ScanRoute.page,
         ),
+        AutoRoute(
+          page: AreasDetailsRoute.page,
+        ),
       ];
 }

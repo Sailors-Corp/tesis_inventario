@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_tesis/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/common/theme/app_colors.dart';
 import 'package:inventory_tesis/common/theme/app_text_styles.dart';
 import 'package:inventory_tesis/features/shared/presentation/blocs/home/home_bloc.dart';
@@ -22,28 +23,7 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
 
-    final List<Widget> items = [
-      ItemGrid(
-        label: "Escanear",
-        icon: Icons.qr_code_scanner_outlined,
-        onTap: () {},
-      ),
-      ItemGrid(
-        label: "Generar",
-        icon: Icons.qr_code_2_outlined,
-        onTap: () {},
-      ),
-      ItemGrid(
-        label: "Buscar",
-        icon: Icons.search_outlined,
-        onTap: () {},
-      ),
-      ItemGrid(
-        label: "Ajustes",
-        icon: Icons.settings_outlined,
-        onTap: () {},
-      ),
-    ];
+    final List items = List.generate(10, (index) => "$index");
 
     return Scaffold(
       drawer: const SideBar(),
@@ -83,7 +63,7 @@ class _HomePage extends State<HomePage> {
       //Importar base de datos
       // body: ImportDataBaseWidget(homeBloc: homeBloc),
       // Lista de areas
-      // body: const ViewListArea(),
+      body: const ViewListArea(),
     );
   }
 }
@@ -178,7 +158,9 @@ class ItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: onTap,
+      onTap: () {
+        context.router.push(AreasDetailsRoute(title: "$index"));
+      },
       title: Text('Esta es la prueba $index'),
       trailing: const Icon(CupertinoIcons.chevron_right),
     );
