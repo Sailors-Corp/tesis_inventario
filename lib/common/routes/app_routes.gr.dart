@@ -9,14 +9,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:inventory_tesis/features/auth/presentation/pages/auth_page.dart'
+import 'package:inventory_tesis/features/presentation/pages/auth_page.dart'
     as _i1;
-import 'package:inventory_tesis/features/generateQR/presentation/pages/generateQR_page.dart'
+import 'package:inventory_tesis/features/presentation/pages/generateQR_page.dart'
     as _i2;
-import 'package:inventory_tesis/features/scan/presentation/pages/scan_page.dart'
-    as _i4;
-import 'package:inventory_tesis/features/shared/presentation/pages/home_page.dart'
+import 'package:inventory_tesis/features/presentation/pages/home_page.dart'
     as _i3;
+import 'package:inventory_tesis/features/presentation/pages/scan_page.dart'
+    as _i4;
 
 abstract class $AppRouter extends _i5.RootStackRouter {
   $AppRouter({super.navigatorKey});
