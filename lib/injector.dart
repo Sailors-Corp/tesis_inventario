@@ -6,6 +6,10 @@ import 'package:inventory_tesis/features/auth/data/datasources/auth_data_sources
 import 'package:inventory_tesis/features/auth/data/repositories/auth_repository_imp.dart';
 import 'package:inventory_tesis/features/auth/domain/repositories/auth_repository.dart';
 import 'package:inventory_tesis/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:inventory_tesis/features/generateQR/data/datasources/generate_qr_data_sources.dart';
+import 'package:inventory_tesis/features/generateQR/data/repositories/generate_qr_repository_imp.dart';
+import 'package:inventory_tesis/features/generateQR/domain/repositories/generate_qr_repository.dart';
+import 'package:inventory_tesis/features/generateQR/presentation/bloc/generate_qr_bloc.dart';
 import 'package:inventory_tesis/features/shared/data/repositories/app_repository_impl.dart';
 import 'package:inventory_tesis/features/shared/domain/repositories/app_repo.dart';
 import 'package:inventory_tesis/features/shared/presentation/blocs/home/home_bloc.dart';
@@ -47,6 +51,9 @@ Future<void> initializeDependencies() async {
   injector.registerLazySingleton<AuthDataSources>(
     () => AuthDataSourcesImpl(),
   );
+  injector.registerLazySingleton<GenerateQRDataSources>(
+    () => GenerateQRDataSourcesImpl(),
+  );
 
   // Register Repositories
   injector.registerLazySingleton<AppRepository>(
@@ -56,6 +63,9 @@ Future<void> initializeDependencies() async {
   );
   injector.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(injector()),
+  );
+  injector.registerLazySingleton<GenerateQRRepository>(
+    () => GenerateQRRepositoryImpl(injector()),
   );
 
   injector.registerFactory<AuthBloc>(
@@ -73,6 +83,12 @@ Future<void> initializeDependencies() async {
 
   injector.registerFactory<HomeBloc>(
     () => HomeBloc(),
+  );
+
+  injector.registerFactory<GenerateQRBloc>(
+    () => GenerateQRBloc(
+      injector(),
+    ),
   );
 }
 

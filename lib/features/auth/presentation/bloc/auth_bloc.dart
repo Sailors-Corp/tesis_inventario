@@ -34,8 +34,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (response) {
       emit(SuccessfulAuthState());
     } else {
-      emit(const FailureAuthState(
-          "Por favor, verifique que el usuario y/o la contraseña sean correctos"));
+      emit(
+        const FailureAuthState(
+            "Por favor, verifique que el usuario y/o la contraseña sean correctos"),
+      );
     }
   }
 

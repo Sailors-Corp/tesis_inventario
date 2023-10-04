@@ -87,9 +87,9 @@
     },
     {
       "name": "build_resolvers",
-      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/build_resolvers-2.4.0",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/build_resolvers-2.4.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "build_runner",
@@ -422,6 +422,12 @@
       "languageVersion": "2.15"
     },
     {
+      "name": "image_gallery_saver",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_gallery_saver-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/intl-0.18.1",
       "packageUri": "lib/",
@@ -507,7 +513,7 @@
     },
     {
       "name": "mocktail",
-      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/mocktail-1.0.0",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/mocktail-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -651,7 +657,7 @@
     },
     {
       "name": "retrofit",
-      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/retrofit-4.0.1",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/retrofit-4.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -660,6 +666,12 @@
       "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/retrofit_generator-6.0.0+3",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "share",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/share-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",
@@ -932,7 +944,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-09-30T23:31:42.532483Z",
+  "generated": "2023-10-04T04:52:48.674867Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }
