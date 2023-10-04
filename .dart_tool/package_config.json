@@ -87,9 +87,9 @@
     },
     {
       "name": "build_resolvers",
-      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/build_resolvers-2.4.1",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/build_resolvers-2.4.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.19"
     },
     {
       "name": "build_runner",
@@ -513,7 +513,7 @@
     },
     {
       "name": "mocktail",
-      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/mocktail-1.0.1",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/mocktail-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -657,7 +657,7 @@
     },
     {
       "name": "retrofit",
-      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/retrofit-4.0.2",
+      "rootUri": "file:///Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/retrofit-4.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -944,7 +944,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-10-04T04:52:48.674867Z",
+  "generated": "2023-10-04T05:03:15.571371Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }

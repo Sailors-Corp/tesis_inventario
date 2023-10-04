@@ -54,7 +54,7 @@ dependencies:
   qr_flutter:
   image_gallery_saver:
   share:
-  qr_code_scanner: 
+  qr_code_scanner:
 
 dev_dependencies:
   flutter_test:
