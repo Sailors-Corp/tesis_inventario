@@ -157,12 +157,14 @@ class ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        context.router.push(AreasDetailsRoute(title: "$index"));
-      },
-      title: Text('Esta es la prueba $index'),
-      trailing: const Icon(CupertinoIcons.chevron_right),
+    return Card(
+      child: ListTile(
+        onTap: () {
+          context.router.push(AreasDetailsRoute(title: "$index"));
+        },
+        title: Text('Esta es la prueba $index'),
+        trailing: const Icon(CupertinoIcons.chevron_right),
+      ),
     );
   }
 }

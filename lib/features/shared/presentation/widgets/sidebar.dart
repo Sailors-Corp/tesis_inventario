@@ -35,13 +35,14 @@ class SideBar extends StatelessWidget {
                   label: "Realizar Inventario",
                   icon: Icon(
                     CupertinoIcons.cube_box,
+                    size: 20,
                   ),
                 ),
-                const SizedBox(height: 10),
                 const SideBarItem(
                   label: "Generar Reporte",
                   icon: Icon(
                     CupertinoIcons.doc,
+                    size: 20,
                   ),
                 ),
                 const SideBarLabel(
@@ -59,10 +60,12 @@ class SideBar extends StatelessWidget {
                             ? const Icon(
                                 CupertinoIcons.sun_max_fill,
                                 color: Colors.amber,
+                                size: 20,
                               )
                             : const Icon(
                                 CupertinoIcons.moon_stars_fill,
                                 color: Colors.white,
+                                size: 20,
                               ),
                       ),
                     );
@@ -91,7 +94,7 @@ class SideBarLabel extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Text(
         label,
-        style: AppTextStyle.getAppTextStyle(size: 18, color: Colors.grey),
+        style: AppTextStyle.getAppTextStyle(size: 16, color: Colors.grey),
       ),
     );
   }
@@ -117,7 +120,7 @@ class SideBarItem extends StatelessWidget {
           const SizedBox(width: 10),
           Text(
             label,
-            style: AppTextStyle.getAppTextStyle(size: 23),
+            style: AppTextStyle.getAppTextStyle(size: 20),
           ),
         ],
       ),
