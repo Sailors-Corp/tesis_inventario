@@ -53,13 +53,15 @@ class _HomePage extends State<HomePage> {
           IconButton(
             color: Colors.white,
             onPressed: () {
-              // context.router.push(ScanRoute());
+              context.router.push(const ScanRoute());
             },
             icon: const Icon(Icons.qr_code_scanner_outlined),
           ),
           IconButton(
             color: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              context.router.push(const GenerateQRRoute());
+            },
             icon: const Icon(Icons.qr_code_2_outlined),
           )
         ],

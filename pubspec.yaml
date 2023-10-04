@@ -50,17 +50,11 @@ dependencies:
   excel:
   file_picker:
   csv:
-<<<<<<< HEAD
-  form_field_validator: 
+  form_field_validator:
   qr_flutter:
   image_gallery_saver:
   share:
-
-=======
-  form_field_validator:
-  qr_flutter:
   qr_code_scanner: 
->>>>>>> develop
 
 dev_dependencies:
   flutter_test:

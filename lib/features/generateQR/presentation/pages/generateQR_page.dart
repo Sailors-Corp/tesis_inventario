@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, file_names
 
 import 'dart:developer';
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
@@ -13,7 +12,6 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:inventory_tesis/common/theme/app_colors.dart';
 import 'package:inventory_tesis/features/generateQR/presentation/bloc/generate_qr_bloc.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 
 @RoutePage()
@@ -186,7 +184,6 @@ class GenerateQRForm extends StatelessWidget {
           title: const Text("Generar QR"),
           centerTitle: true,
         ),
-        backgroundColor: Colors.white,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -200,7 +197,7 @@ class GenerateQRForm extends StatelessWidget {
                     autocorrect: true,
                     keyboardType: TextInputType.text,
                     controller: _nombreController,
-                    cursorColor: AppColors.primaryBlue,
+                    cursorColor: Colors.white,
                     decoration: const InputDecoration(
                       hintText: "Nombre",
                       prefixIcon: Material(
@@ -208,7 +205,7 @@ class GenerateQRForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
                           Icons.people_alt_outlined,
-                          color: AppColors.primaryBlue,
+                          color: Colors.white,
                         ),
                       ),
                       border: InputBorder.none,
@@ -232,7 +229,7 @@ class GenerateQRForm extends StatelessWidget {
                     autocorrect: true,
                     keyboardType: TextInputType.text,
                     controller: _subClasificacionController,
-                    cursorColor: AppColors.primaryBlue,
+                    cursorColor: Colors.white,
                     decoration: const InputDecoration(
                       hintText: "Subclasificación",
                       prefixIcon: Material(
@@ -240,7 +237,7 @@ class GenerateQRForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
                           Icons.people_alt_outlined,
-                          color: AppColors.primaryBlue,
+                          color: Colors.white,
                         ),
                       ),
                       border: InputBorder.none,
@@ -264,7 +261,7 @@ class GenerateQRForm extends StatelessWidget {
                     autocorrect: true,
                     keyboardType: TextInputType.text,
                     controller: _rotuloController,
-                    cursorColor: AppColors.primaryBlue,
+                    cursorColor: Colors.white,
                     decoration: const InputDecoration(
                       hintText: "Rótulo",
                       prefixIcon: Material(
@@ -272,7 +269,7 @@ class GenerateQRForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
                           Icons.people_alt_outlined,
-                          color: AppColors.primaryBlue,
+                          color: Colors.white,
                         ),
                       ),
                       border: InputBorder.none,
@@ -316,7 +313,9 @@ class GenerateQRForm extends StatelessWidget {
                                 )
                               : const SizedBox(width: 0),
                           const SizedBox(width: 10),
-                          const Text('Generar QR'),
+                          (state is LoadingGenerateQRState)
+                              ? const Text('Generando')
+                              : const Text('Generar QR'),
                         ],
                       ),
                     );

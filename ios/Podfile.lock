@@ -36,12 +36,9 @@ PODS:
   - Flutter (1.0.0)
   - flutter_native_splash (0.0.1):
     - Flutter
-<<<<<<< HEAD
   - image_gallery_saver (2.0.2):
     - Flutter
-=======
   - MTBBarcodeScanner (5.0.11)
->>>>>>> develop
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -64,11 +61,8 @@ DEPENDENCIES:
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
-<<<<<<< HEAD
   - share (from `.symlinks/plugins/share/ios`)
-=======
   - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
->>>>>>> develop
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
 SPEC REPOS:
@@ -90,13 +84,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
-<<<<<<< HEAD
   share:
     :path: ".symlinks/plugins/share/ios"
-=======
   qr_code_scanner:
     :path: ".symlinks/plugins/qr_code_scanner/ios"
->>>>>>> develop
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
@@ -106,11 +97,8 @@ SPEC CHECKSUMS:
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
-<<<<<<< HEAD
   image_gallery_saver: cb43cc43141711190510e92c460eb1655cd343cb
-=======
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
->>>>>>> develop
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
