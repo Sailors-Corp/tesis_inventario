@@ -51,6 +51,9 @@ dependencies:
   file_picker:
   csv:
   form_field_validator: 
+  qr_flutter:
+  image_gallery_saver:
+  share:
 
 
 dev_dependencies:

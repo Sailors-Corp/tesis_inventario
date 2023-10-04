@@ -13,5 +13,8 @@ class AppRouter extends $AppRouter {
           initial: true,
 
         ),
+        AutoRoute(
+          page: GenerateQRRoute.page,
+        ),
       ];
 }
