@@ -11,9 +11,15 @@
 import 'package:auto_route/auto_route.dart' as _i4;
 import 'package:inventory_tesis/features/auth/presentation/pages/auth_page.dart'
     as _i1;
+<<<<<<< HEAD
 import 'package:inventory_tesis/features/generateQR/presentation/pages/generateQR_page.dart'
     as _i2;
 import 'package:inventory_tesis/features/home/presentation/pages/home_page.dart'
+=======
+import 'package:inventory_tesis/features/shared/presentation/pages/home_page.dart'
+    as _i2;
+import 'package:inventory_tesis/features/scan/presentation/pages/scan_page.dart'
+>>>>>>> develop
     as _i3;
 
 abstract class $AppRouter extends _i4.RootStackRouter {
@@ -39,6 +45,12 @@ abstract class $AppRouter extends _i4.RootStackRouter {
         child: const _i3.HomePage(),
       );
     },
+    ScanRoute.name: (routeData) {
+      return _i4.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.ScanPage(),
+      );
+    },
   };
 }
 
@@ -54,6 +66,7 @@ class AuthRoute extends _i4.PageRouteInfo<void> {
   static const String name = 'AuthRoute';
 
   static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+<<<<<<< HEAD
 }
 
 /// generated route for
@@ -72,6 +85,12 @@ class GenerateQRRoute extends _i4.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.HomePage]
+=======
+}
+
+/// generated route for
+/// [_i2.HomePage]
+>>>>>>> develop
 class HomeRoute extends _i4.PageRouteInfo<void> {
   const HomeRoute({List<_i4.PageRouteInfo>? children})
       : super(
@@ -82,4 +101,21 @@ class HomeRoute extends _i4.PageRouteInfo<void> {
   static const String name = 'HomeRoute';
 
   static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+<<<<<<< HEAD
+=======
+}
+
+/// generated route for
+/// [_i3.ScanPage]
+class ScanRoute extends _i4.PageRouteInfo<void> {
+  const ScanRoute({List<_i4.PageRouteInfo>? children})
+      : super(
+          ScanRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ScanRoute';
+
+  static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+>>>>>>> develop
 }

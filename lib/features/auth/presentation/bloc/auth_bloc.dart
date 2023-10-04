@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:inventory_tesis/features/app/domain/repositories/app_repo.dart';
+import 'package:inventory_tesis/features/shared/domain/repositories/app_repo.dart';
 import 'package:inventory_tesis/features/auth/domain/repositories/auth_repository.dart';
 import 'package:meta/meta.dart';
 

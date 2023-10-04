@@ -19,7 +19,7 @@ class AppThemeData {
   static final ThemeData _base = ThemeData(
     useMaterial3: true,
     appBarTheme: const AppBarTheme(
-      elevation: 0.0,
+      elevation: 1.0,
       backgroundColor: AppColors.primaryBlue,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -44,9 +44,7 @@ class AppThemeData {
         },
       ),
       appBarTheme: _base.appBarTheme.copyWith(
-        iconTheme: const IconThemeData(
-          color: AppColors.primaryBlue,
-        ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       bottomNavigationBarTheme: _base.bottomNavigationBarTheme.copyWith(
         backgroundColor: Colors.white,

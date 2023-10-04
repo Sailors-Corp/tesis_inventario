@@ -11,7 +11,9 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: HomeRoute.page,
           initial: true,
-
+        ),
+        AutoRoute(
+          page: ScanRoute.page,
         ),
         AutoRoute(
           page: GenerateQRRoute.page,
