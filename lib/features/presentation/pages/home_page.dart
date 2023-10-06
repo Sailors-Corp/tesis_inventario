@@ -2,19 +2,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD:lib/features/shared/presentation/pages/home_page.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/common/theme/app_colors.dart';
 import 'package:inventory_tesis/common/theme/app_text_styles.dart';
-import 'package:inventory_tesis/features/shared/presentation/blocs/home/home_bloc.dart';
-import 'package:inventory_tesis/features/shared/presentation/widgets/sidebar.dart';
-import 'package:oktoast/oktoast.dart';
-=======
-import 'package:inventory_tesis/common/routes/app_routes.gr.dart';
-import 'package:inventory_tesis/common/theme/app_colors.dart';
+import 'package:inventory_tesis/features/presentation/blocs/home/home_bloc.dart';
 import 'package:inventory_tesis/features/presentation/components/sidebar.dart';
->>>>>>> develop:lib/features/presentation/pages/home_page.dart
+import 'package:oktoast/oktoast.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -27,11 +21,6 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD:lib/features/shared/presentation/pages/home_page.dart
-    final homeBloc = BlocProvider.of<HomeBloc>(context);
-
-    final List items = List.generate(10, (index) => "$index");
-=======
     final List<Widget> items = [
       ItemGrid(
         label: "Escanear",
@@ -56,7 +45,6 @@ class _HomePage extends State<HomePage> {
         onTap: () {},
       ),
     ];
->>>>>>> develop:lib/features/presentation/pages/home_page.dart
 
     return Scaffold(
       drawer: const SideBar(),
@@ -82,13 +70,9 @@ class _HomePage extends State<HomePage> {
           ),
           IconButton(
             color: Colors.white,
-<<<<<<< HEAD:lib/features/shared/presentation/pages/home_page.dart
-            onPressed: () {},
-=======
             onPressed: () {
               context.router.push(const ScanRoute());
             },
->>>>>>> develop:lib/features/presentation/pages/home_page.dart
             icon: const Icon(Icons.qr_code_scanner_outlined),
           ),
           IconButton(
