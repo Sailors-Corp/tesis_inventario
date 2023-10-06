@@ -16,7 +16,11 @@ class AppRouter extends $AppRouter {
           page: ScanRoute.page,
         ),
         AutoRoute(
+<<<<<<< HEAD
           page: AreasDetailsRoute.page,
+=======
+          page: GenerateQRRoute.page,
+>>>>>>> develop
         ),
       ];
 }

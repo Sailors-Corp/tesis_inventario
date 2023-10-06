@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/common/routes/app_routes.dart';
+<<<<<<< HEAD
 import 'package:inventory_tesis/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:inventory_tesis/features/shared/presentation/blocs/home/home_bloc.dart';
 import 'package:inventory_tesis/features/shared/presentation/blocs/manager/app_cubit.dart';
+=======
+>>>>>>> develop
 import 'package:inventory_tesis/injector.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:sizer/sizer.dart' as sizer;
+
+import 'features/presentation/presentation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +44,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: ((context) => injector<AuthBloc>()),
+          ),
+          BlocProvider(
+            create: ((context) => injector<GenerateQRBloc>()),
           ),
         ],
         child: BlocBuilder<AppCubit, AppState>(
