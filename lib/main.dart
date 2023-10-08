@@ -31,16 +31,16 @@ class MyApp extends StatelessWidget {
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => injector<AppCubit>(),
+            create: (context) => injector.call<AppCubit>(),
           ),
           BlocProvider(
-            create: (context) => injector<HomeBloc>(),
+            create: (context) => injector.call<HomeBloc>(),
           ),
           BlocProvider(
-            create: ((context) => injector<AuthBloc>()),
+            create: ((context) => injector.call<AuthBloc>()),
           ),
           BlocProvider(
-            create: ((context) => injector<GenerateQRBloc>()),
+            create: ((context) => injector.call<GenerateQRBloc>()),
           ),
         ],
         child: BlocBuilder<AppCubit, AppState>(

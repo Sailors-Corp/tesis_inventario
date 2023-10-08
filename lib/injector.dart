@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_tesis/features/data/data.dart';
+import 'package:inventory_tesis/features/data/datasources/db_datasource.dart';
+import 'package:inventory_tesis/features/data/db/dao/dao.dart';
+import 'package:inventory_tesis/features/data/db/database.dart';
 import 'package:inventory_tesis/features/domain/repositories/app_repo.dart';
 import 'package:inventory_tesis/features/domain/repositories/auth_repository.dart';
 import 'package:inventory_tesis/features/domain/repositories/generate_qr_repository.dart';
@@ -38,8 +41,13 @@ Future<void> initializeDependencies() async {
   //     ));
 
   //Database
-  // injector.registerLazySingleton<AppDatabase>(() => AppDatabase());
+  injector.registerLazySingleton<AppDatabase>(() => AppDatabase());
+
   // injector.registerLazySingleton<IsarServices>(() => IsarServices());
+
+  injector.registerFactory(() => MedioDao(
+        injector<AppDatabase>(),
+      ));
 
   // Register DataSources
   injector.registerLazySingleton<AuthDataSources>(
@@ -48,6 +56,9 @@ Future<void> initializeDependencies() async {
   injector.registerLazySingleton<GenerateQRDataSources>(
     () => GenerateQRDataSourcesImpl(),
   );
+
+  injector.registerLazySingleton<DBDataSources>(
+      () => DBDataSourcesImpl(injector()));
 
   // Register Repositories
   injector.registerLazySingleton<AppRepository>(

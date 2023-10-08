@@ -6,19 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/common/theme/app_colors.dart';
 import 'package:inventory_tesis/common/theme/app_text_styles.dart';
+import 'package:inventory_tesis/features/data/datasources/db_datasource.dart';
 import 'package:inventory_tesis/features/presentation/blocs/home/home_bloc.dart';
 import 'package:inventory_tesis/features/presentation/components/sidebar.dart';
+import 'package:inventory_tesis/injector.dart';
 import 'package:oktoast/oktoast.dart';
 
 @RoutePage()
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  createState() => _HomePage();
-}
-
-class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> items = [
@@ -31,7 +28,7 @@ class _HomePage extends State<HomePage> {
         label: "Generar",
         icon: Icons.qr_code_2_outlined,
         onTap: () {
-          context.router.push(const GenerateQRRoute());
+          // context.router.push(const GenerateQRRoute());
         },
       ),
       ItemGrid(
@@ -65,7 +62,9 @@ class _HomePage extends State<HomePage> {
         actions: [
           IconButton(
             color: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              injector<DBDataSources>().getCSVDataBase();
+            },
             icon: const Icon(Icons.search_outlined),
           ),
           IconButton(
@@ -86,9 +85,9 @@ class _HomePage extends State<HomePage> {
       ),
       //Verificar si existe la base de datos y mostrar la info segun corresponda
       //Importar base de datos
-      // body: ImportDataBaseWidget(homeBloc: homeBloc),
+      body: const ImportDataBaseWidget(),
       // Lista de areas
-      body: const ViewListArea(),
+      // body: const ViewListArea(),
     );
   }
 }
@@ -114,10 +113,10 @@ class ViewListArea extends StatelessWidget {
 class ImportDataBaseWidget extends StatelessWidget {
   const ImportDataBaseWidget({
     super.key,
-    required this.homeBloc,
+    // required this.homeBloc,
   });
 
-  final HomeBloc homeBloc;
+  // final HomeBloc homeBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +144,7 @@ class ImportDataBaseWidget extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    homeBloc.add(OnChargedBD());
+                    // homeBloc.add(OnChargedBD());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
@@ -230,41 +229,3 @@ class ItemGrid extends StatelessWidget {
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("UCInventory"),
-//         centerTitle: true,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Center(
-//           child: BlocBuilder<HomeBloc, HomeState>(
-//             builder: (context, state) {
-//               if (state is SuccessHomeState) {}
-//               if (state is FailureHomeState) {
-//                 showToast(
-//                   'Ha ocurrido algun error inesperado',
-//                   backgroundColor: Colors.red,
-//                 );
-//               }
-//               return ElevatedButton(
-//                 onPressed: () {
-//                   homeBloc.add(OnChargedBD());
-//                 },
-//                 child: const Row(
-//                   children: [
-//                     Icon(Icons.import_export),
-//                     Text('Importar BD'),
-//                   ],
-//                 ),
-//               );
-//             },
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -4,9 +4,9 @@ import 'package:drift/drift.dart';
 class MedioTable extends Table {
   TextColumn get rotulo => text()();
 
-  TextColumn get name => text()();
+  TextColumn get area => text()();
 
-  TextColumn get subclasificaion => text()();
+  TextColumn get subclasification => text()();
 
   @override
   Set<Column> get primaryKey => {rotulo};
