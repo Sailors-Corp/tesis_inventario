@@ -8,6 +8,11 @@ local.properties
 # Log/OS Files
 *.log
 
+# build
+ios/
+android/
+.dart_tool/
+
 # Android Studio generated files and folders
 captures/
 .externalNativeBuild/
@@ -31,3 +36,5 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+.flutter-plugins-dependencies

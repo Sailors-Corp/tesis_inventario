@@ -52,7 +52,9 @@ dependencies:
   csv:
   form_field_validator:
   qr_flutter:
-  qr_code_scanner: 
+  image_gallery_saver:
+  share:
+  qr_code_scanner:
 
 dev_dependencies:
   flutter_test:

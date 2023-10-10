@@ -2,16 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:inventory_tesis/features/auth/data/datasources/auth_data_sources.dart';
-import 'package:inventory_tesis/features/auth/data/repositories/auth_repository_imp.dart';
-import 'package:inventory_tesis/features/auth/domain/repositories/auth_repository.dart';
-import 'package:inventory_tesis/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:inventory_tesis/features/shared/data/repositories/app_repository_impl.dart';
-import 'package:inventory_tesis/features/shared/domain/repositories/app_repo.dart';
-import 'package:inventory_tesis/features/shared/presentation/blocs/home/home_bloc.dart';
-import 'package:inventory_tesis/features/shared/presentation/blocs/manager/app_cubit.dart';
+import 'package:inventory_tesis/features/data/data.dart';
+import 'package:inventory_tesis/features/domain/repositories/app_repo.dart';
+import 'package:inventory_tesis/features/domain/repositories/auth_repository.dart';
+import 'package:inventory_tesis/features/domain/repositories/generate_qr_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'features/presentation/presentation.dart';
 
 final injector = GetIt.instance;
 
@@ -47,6 +45,9 @@ Future<void> initializeDependencies() async {
   injector.registerLazySingleton<AuthDataSources>(
     () => AuthDataSourcesImpl(),
   );
+  injector.registerLazySingleton<GenerateQRDataSources>(
+    () => GenerateQRDataSourcesImpl(),
+  );
 
   // Register Repositories
   injector.registerLazySingleton<AppRepository>(
@@ -56,6 +57,9 @@ Future<void> initializeDependencies() async {
   );
   injector.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(injector()),
+  );
+  injector.registerLazySingleton<GenerateQRRepository>(
+    () => GenerateQRRepositoryImpl(injector()),
   );
 
   injector.registerFactory<AuthBloc>(
@@ -73,6 +77,12 @@ Future<void> initializeDependencies() async {
 
   injector.registerFactory<HomeBloc>(
     () => HomeBloc(),
+  );
+
+  injector.registerFactory<GenerateQRBloc>(
+    () => GenerateQRBloc(
+      injector(),
+    ),
   );
 }
 
