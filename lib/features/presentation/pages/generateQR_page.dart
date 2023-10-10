@@ -197,7 +197,7 @@ class GenerateQRForm extends StatelessWidget {
                     autocorrect: true,
                     keyboardType: TextInputType.text,
                     controller: _nombreController,
-                    cursorColor: Colors.white,
+                    cursorColor: AppColors.primaryColor,
                     decoration: const InputDecoration(
                       hintText: "Nombre",
                       prefixIcon: Material(
@@ -205,7 +205,7 @@ class GenerateQRForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
                           Icons.people_alt_outlined,
-                          color: Colors.white,
+                          color: AppColors.primaryColor,
                         ),
                       ),
                       border: InputBorder.none,
@@ -229,7 +229,7 @@ class GenerateQRForm extends StatelessWidget {
                     autocorrect: true,
                     keyboardType: TextInputType.text,
                     controller: _subClasificacionController,
-                    cursorColor: Colors.white,
+                    cursorColor: AppColors.primaryColor,
                     decoration: const InputDecoration(
                       hintText: "Subclasificación",
                       prefixIcon: Material(
@@ -237,7 +237,7 @@ class GenerateQRForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
                           Icons.people_alt_outlined,
-                          color: Colors.white,
+                          color: AppColors.primaryColor,
                         ),
                       ),
                       border: InputBorder.none,
@@ -261,7 +261,7 @@ class GenerateQRForm extends StatelessWidget {
                     autocorrect: true,
                     keyboardType: TextInputType.text,
                     controller: _rotuloController,
-                    cursorColor: Colors.white,
+                    cursorColor: AppColors.primaryColor,
                     decoration: const InputDecoration(
                       hintText: "Rótulo",
                       prefixIcon: Material(
@@ -269,7 +269,7 @@ class GenerateQRForm extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
                           Icons.people_alt_outlined,
-                          color: Colors.white,
+                          color: AppColors.primaryColor,
                         ),
                       ),
                       border: InputBorder.none,
