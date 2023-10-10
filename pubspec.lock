@@ -273,6 +273,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.6"
+  dart_service_announcement:
+    dependency: transitive
+    description:
+      name: dart_service_announcement
+      sha256: "90cac44984b3dd8b509af2f5130c7f179d375a8dab6c87213f734b8ef0172674"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.2.3"
   dart_style:
     dependency: transitive
     description:
@@ -289,6 +297,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
+  db_viewer:
+    dependency: transitive
+    description:
+      name: db_viewer
+      sha256: "426daaaa0142facb95590da5b5b1d9a86d31c129098423c8644d3cc009bfe849"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.3"
   device_frame:
     dependency: transitive
     description:
@@ -322,13 +338,21 @@ packages:
     source: hosted
     version: "5.3.3"
   drift:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: drift
-      sha256: "5722f6db3b24018627ecf88cfc9879a57ee29a2c76286f309132336ef949e931"
+      sha256: c66df5f88616f5b1fb8d83266738d4f3671c692b2aa680fd8fe53e57a4e149be
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.12.0"
+    version: "2.12.1"
+  drift_db_viewer:
+    dependency: "direct main"
+    description:
+      name: drift_db_viewer
+      sha256: d8728086823ae987c7a003cba477bc442b8ee85672ae84217171b280d9f6efd2
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   drift_dev:
     dependency: "direct dev"
     description:
@@ -337,6 +361,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.12.0"
+  drift_local_storage_inspector:
+    dependency: "direct dev"
+    description:
+      name: drift_local_storage_inspector
+      sha256: d02ef5ceac55ed1e9c0eb6493b7413436fa6ce90d12aecaaf8498feec97c6fa7
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.0"
   equatable:
     dependency: "direct main"
     description:
@@ -710,7 +742,7 @@ packages:
     source: hosted
     version: "2.1.0"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "8829d8a55c13fc0e37127c29fedf290c102f4e40ae94ada574091fe0ff96c917"
@@ -853,6 +885,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.1.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.2.1"
   recase:
     dependency: transitive
     description:
@@ -873,10 +913,10 @@ packages:
     dependency: "direct dev"
     description:
       name: retrofit_generator
-      sha256: ba40c4b34a865976b426c59e2731962ac10ce9b36c92a0f3633c5417e272a287
+      sha256: "9499eb46b3657a62192ddbc208ff7e6c6b768b19e83c1ee6f6b119c864b99690"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.0+3"
+    version: "7.0.8"
   share:
     dependency: "direct main"
     description:
@@ -1026,6 +1066,30 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.10.0"
+  sprintf:
+    dependency: transitive
+    description:
+      name: sprintf
+      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "7.0.0"
+  sqflite:
+    dependency: "direct main"
+    description:
+      name: sqflite
+      sha256: "591f1602816e9c31377d5f008c2d9ef7b8aca8941c3f89cc5fd9d84da0c38a9a"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.3.0"
+  sqflite_common:
+    dependency: transitive
+    description:
+      name: sqflite_common
+      sha256: "1b92f368f44b0dee2425bb861cfa17b6f6cf3961f762ff6f941d20b33355660a"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.5.0"
   sqlite3:
     dependency: transitive
     description:
@@ -1034,6 +1098,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  sqlite3_flutter_libs:
+    dependency: "direct main"
+    description:
+      name: sqlite3_flutter_libs
+      sha256: fb115050b0c2589afe2085a62d77f5deda4db65db20a5c65a6e0c92fda89b45e
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.16"
   sqlparser:
     dependency: transitive
     description:
@@ -1050,6 +1122,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.11.0"
+  storage_inspector:
+    dependency: transitive
+    description:
+      name: storage_inspector
+      sha256: "79b2b33dde369a2e744f83c36e57d257ed49c50c63bbb97932bfecb045d35459"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
   stream_channel:
     dependency: transitive
     description:
@@ -1074,6 +1154,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
+  synchronized:
+    dependency: transitive
+    description:
+      name: synchronized
+      sha256: "5fcbd27688af6082f5abd611af56ee575342c30e87541d0245f7ff99faa02c60"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.1.0"
   term_glyph:
     dependency: transitive
     description:
@@ -1146,6 +1234,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.2"
+  uri:
+    dependency: transitive
+    description:
+      name: uri
+      sha256: "889eea21e953187c6099802b7b4cf5219ba8f3518f604a1033064d45b1b8268a"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      sha256: b715b8d3858b6fa9f68f87d20d98830283628014750c2b09b6f516c1da4af2a7
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.1.0"
   vector_math:
     dependency: transitive
     description:
