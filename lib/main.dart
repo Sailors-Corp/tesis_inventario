@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/common/routes/app_routes.dart';
-import 'package:inventory_tesis/features/app/presentation/bloc/cubit/app_cubit.dart';
-import 'package:inventory_tesis/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:inventory_tesis/features/generateQR/presentation/bloc/generate_qr_bloc.dart';
-import 'package:inventory_tesis/features/home/presentation/bloc/home_bloc.dart';
 import 'package:inventory_tesis/injector.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:sizer/sizer.dart' as sizer;
+
+import 'features/presentation/presentation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,16 +31,16 @@ class MyApp extends StatelessWidget {
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => injector<AppCubit>(),
+            create: (context) => injector.call<AppCubit>(),
           ),
           BlocProvider(
-            create: ((context) => injector<HomeBloc>()),
+            create: (context) => injector.call<HomeBloc>(),
           ),
           BlocProvider(
-            create: ((context) => injector<AuthBloc>()),
+            create: ((context) => injector.call<AuthBloc>()),
           ),
           BlocProvider(
-            create: ((context) => injector<GenerateQRBloc>()),
+            create: ((context) => injector.call<GenerateQRBloc>()),
           ),
         ],
         child: BlocBuilder<AppCubit, AppState>(
