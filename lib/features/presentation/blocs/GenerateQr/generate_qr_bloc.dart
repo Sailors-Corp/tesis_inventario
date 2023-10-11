@@ -24,10 +24,10 @@ class GenerateQRBloc extends Bloc<GenerateQREvent, GenerateQRState> {
     await Future.delayed(const Duration(seconds: 1));
 
     final response = await generateQRRepository.generateQR(
-        event.nombre, event.subClasificacion, event.rotulo);
-    String name = event.nombre;
+        event.area, event.subClassification, event.rotulo);
+    String subClassification = event.subClassification;
     if (response != null) {
-      emit(state.copyWith(qr: response, nombre: name));
+      emit(state.copyWith(qr: response, subClassification: subClassification));
     } else {
       emit(
         const FailureGenerateQRState(

@@ -3,12 +3,12 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $MedioTableTable extends MedioTable
-    with TableInfo<$MedioTableTable, MedioTableEntity> {
+class $MBTableTable extends MBTable
+    with TableInfo<$MBTableTable, MBTableEntity> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $MedioTableTable(this.attachedDatabase, [this._alias]);
+  $MBTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _rotuloMeta = const VerificationMeta('rotulo');
   @override
   late final GeneratedColumn<String> rotulo = GeneratedColumn<String>(
@@ -31,9 +31,9 @@ class $MedioTableTable extends MedioTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'medio_table';
+  static const String $name = 'm_b_table';
   @override
-  VerificationContext validateIntegrity(Insertable<MedioTableEntity> instance,
+  VerificationContext validateIntegrity(Insertable<MBTableEntity> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -63,9 +63,9 @@ class $MedioTableTable extends MedioTable
   @override
   Set<GeneratedColumn> get $primaryKey => {rotulo};
   @override
-  MedioTableEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+  MBTableEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return MedioTableEntity(
+    return MBTableEntity(
       rotulo: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}rotulo'])!,
       area: attachedDatabase.typeMapping
@@ -76,17 +76,16 @@ class $MedioTableTable extends MedioTable
   }
 
   @override
-  $MedioTableTable createAlias(String alias) {
-    return $MedioTableTable(attachedDatabase, alias);
+  $MBTableTable createAlias(String alias) {
+    return $MBTableTable(attachedDatabase, alias);
   }
 }
 
-class MedioTableEntity extends DataClass
-    implements Insertable<MedioTableEntity> {
+class MBTableEntity extends DataClass implements Insertable<MBTableEntity> {
   final String rotulo;
   final String area;
   final String subclasification;
-  const MedioTableEntity(
+  const MBTableEntity(
       {required this.rotulo,
       required this.area,
       required this.subclasification});
@@ -99,18 +98,18 @@ class MedioTableEntity extends DataClass
     return map;
   }
 
-  MedioTableCompanion toCompanion(bool nullToAbsent) {
-    return MedioTableCompanion(
+  MBTableCompanion toCompanion(bool nullToAbsent) {
+    return MBTableCompanion(
       rotulo: Value(rotulo),
       area: Value(area),
       subclasification: Value(subclasification),
     );
   }
 
-  factory MedioTableEntity.fromJson(Map<String, dynamic> json,
+  factory MBTableEntity.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return MedioTableEntity(
+    return MBTableEntity(
       rotulo: serializer.fromJson<String>(json['rotulo']),
       area: serializer.fromJson<String>(json['area']),
       subclasification: serializer.fromJson<String>(json['subclasification']),
@@ -126,16 +125,16 @@ class MedioTableEntity extends DataClass
     };
   }
 
-  MedioTableEntity copyWith(
+  MBTableEntity copyWith(
           {String? rotulo, String? area, String? subclasification}) =>
-      MedioTableEntity(
+      MBTableEntity(
         rotulo: rotulo ?? this.rotulo,
         area: area ?? this.area,
         subclasification: subclasification ?? this.subclasification,
       );
   @override
   String toString() {
-    return (StringBuffer('MedioTableEntity(')
+    return (StringBuffer('MBTableEntity(')
           ..write('rotulo: $rotulo, ')
           ..write('area: $area, ')
           ..write('subclasification: $subclasification')
@@ -148,24 +147,24 @@ class MedioTableEntity extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is MedioTableEntity &&
+      (other is MBTableEntity &&
           other.rotulo == this.rotulo &&
           other.area == this.area &&
           other.subclasification == this.subclasification);
 }
 
-class MedioTableCompanion extends UpdateCompanion<MedioTableEntity> {
+class MBTableCompanion extends UpdateCompanion<MBTableEntity> {
   final Value<String> rotulo;
   final Value<String> area;
   final Value<String> subclasification;
   final Value<int> rowid;
-  const MedioTableCompanion({
+  const MBTableCompanion({
     this.rotulo = const Value.absent(),
     this.area = const Value.absent(),
     this.subclasification = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  MedioTableCompanion.insert({
+  MBTableCompanion.insert({
     required String rotulo,
     required String area,
     required String subclasification,
@@ -173,7 +172,7 @@ class MedioTableCompanion extends UpdateCompanion<MedioTableEntity> {
   })  : rotulo = Value(rotulo),
         area = Value(area),
         subclasification = Value(subclasification);
-  static Insertable<MedioTableEntity> custom({
+  static Insertable<MBTableEntity> custom({
     Expression<String>? rotulo,
     Expression<String>? area,
     Expression<String>? subclasification,
@@ -187,12 +186,12 @@ class MedioTableCompanion extends UpdateCompanion<MedioTableEntity> {
     });
   }
 
-  MedioTableCompanion copyWith(
+  MBTableCompanion copyWith(
       {Value<String>? rotulo,
       Value<String>? area,
       Value<String>? subclasification,
       Value<int>? rowid}) {
-    return MedioTableCompanion(
+    return MBTableCompanion(
       rotulo: rotulo ?? this.rotulo,
       area: area ?? this.area,
       subclasification: subclasification ?? this.subclasification,
@@ -220,7 +219,7 @@ class MedioTableCompanion extends UpdateCompanion<MedioTableEntity> {
 
   @override
   String toString() {
-    return (StringBuffer('MedioTableCompanion(')
+    return (StringBuffer('MBTableCompanion(')
           ..write('rotulo: $rotulo, ')
           ..write('area: $area, ')
           ..write('subclasification: $subclasification, ')
@@ -232,11 +231,11 @@ class MedioTableCompanion extends UpdateCompanion<MedioTableEntity> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
-  late final $MedioTableTable medioTable = $MedioTableTable(this);
-  late final MedioDao medioDao = MedioDao(this as AppDatabase);
+  late final $MBTableTable mBTable = $MBTableTable(this);
+  late final MBDao mBDao = MBDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [medioTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [mBTable];
 }

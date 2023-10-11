@@ -1,19 +1,30 @@
-import 'package:inventory_tesis/features/data/datasources/generate_qr_data_sources.dart';
+import 'dart:convert';
+
 import 'package:inventory_tesis/features/domain/repositories/generate_qr_repository.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GenerateQRRepositoryImpl extends GenerateQRRepository {
-  GenerateQRRepositoryImpl(this._generateQRDataSources);
-
-  final GenerateQRDataSources _generateQRDataSources;
+  GenerateQRRepositoryImpl();
 
   @override
   Future<QrImageView?> generateQR(
-      String nombre, String subClasificacion, String rotulo) async {
-    return _generateQRDataSources.GenerateQR(
-      nombre,
-      subClasificacion,
-      rotulo,
+    String area,
+    String subClassification,
+    String rotulo,
+  ) async {
+    Map<String, dynamic> dataString = {
+      'rotulo': rotulo,
+      'subClassification': subClassification,
+      'area': area,
+    };
+
+    String jsonString = jsonEncode(dataString);
+
+    return QrImageView(
+      data: jsonString,
+      version: QrVersions.auto,
+      size: 320,
+      gapless: false,
     );
   }
 }

@@ -10,7 +10,7 @@ abstract class DBDataSources {
 }
 
 class DBDataSourcesImpl implements DBDataSources {
-  final MedioDao medioDao;
+  final MBDao medioDao;
 
   DBDataSourcesImpl(this.medioDao);
 
@@ -23,6 +23,8 @@ class DBDataSourcesImpl implements DBDataSources {
     );
 
     if (result != null) {
+      await medioDao.deleteAllMBs();
+
       final file = File(result.files.single.path!);
 
       final String fileContent = await file.readAsString();
@@ -31,7 +33,7 @@ class DBDataSourcesImpl implements DBDataSources {
           .convert(fileContent.trim())
           .toSet();
 
-      final medios = <MedioTableEntity>[];
+      final medios = <MBTableEntity>[];
 
       for (var row in rows) {
         final [
@@ -40,7 +42,7 @@ class DBDataSourcesImpl implements DBDataSources {
           String subclassification,
         ] = row;
 
-        final medio = MedioTableEntity(
+        final medio = MBTableEntity(
           rotulo: rotulo,
           area: area,
           subclasification: subclassification,
@@ -48,7 +50,7 @@ class DBDataSourcesImpl implements DBDataSources {
         medios.add(medio);
       }
 
-      await medioDao.insertMedios(medios);
+      await medioDao.insertMBs(medios);
     }
   }
 }

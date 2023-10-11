@@ -114,7 +114,7 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      state.nombre!.toUpperCase(),
+                      state.subClassification!.toUpperCase(),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -196,15 +196,15 @@ class GenerateQRForm extends StatelessWidget {
                   child: TextFormField(
                     autocorrect: true,
                     keyboardType: TextInputType.text,
-                    controller: _nombreController,
+                    controller: _rotuloController,
                     cursorColor: AppColors.primaryColor,
                     decoration: const InputDecoration(
-                      hintText: "Nombre",
+                      hintText: "Rótulo",
                       prefixIcon: Material(
                         elevation: 0,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
-                          Icons.people_alt_outlined,
+                          Icons.numbers,
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -218,7 +218,7 @@ class GenerateQRForm extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 25,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -236,7 +236,7 @@ class GenerateQRForm extends StatelessWidget {
                         elevation: 0,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
-                          Icons.people_alt_outlined,
+                          Icons.grid_view_outlined,
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -260,15 +260,15 @@ class GenerateQRForm extends StatelessWidget {
                   child: TextFormField(
                     autocorrect: true,
                     keyboardType: TextInputType.text,
-                    controller: _rotuloController,
+                    controller: _nombreController,
                     cursorColor: AppColors.primaryColor,
                     decoration: const InputDecoration(
-                      hintText: "Rótulo",
+                      hintText: "Area",
                       prefixIcon: Material(
                         elevation: 0,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
-                          Icons.people_alt_outlined,
+                          Icons.app_registration,
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -282,7 +282,7 @@ class GenerateQRForm extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 25,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 80),

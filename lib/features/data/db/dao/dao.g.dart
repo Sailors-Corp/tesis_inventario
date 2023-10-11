@@ -3,6 +3,6 @@
 part of 'dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$MedioDaoMixin on DatabaseAccessor<AppDatabase> {
-  $MedioTableTable get medioTable => attachedDatabase.medioTable;
+mixin _$MBDaoMixin on DatabaseAccessor<AppDatabase> {
+  $MBTableTable get mBTable => attachedDatabase.mBTable;
 }

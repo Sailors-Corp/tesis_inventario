@@ -4,9 +4,9 @@ part of 'generate_qr_bloc.dart';
 abstract class GenerateQREvent {}
 
 class GenerateQr extends GenerateQREvent {
-  final String nombre;
-  final String subClasificacion;
+  final String area;
+  final String subClassification;
   final String rotulo;
 
-  GenerateQr(this.nombre, this.subClasificacion, this.rotulo);
+  GenerateQr(this.area, this.subClassification, this.rotulo);
 }
