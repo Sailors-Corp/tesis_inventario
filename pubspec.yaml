@@ -109,10 +109,7 @@ flutter:
 
   assets:
     - assets/
-    - assets/images/
-    - assets/svgs/
     - assets/db/
-    - assets/animations/
 
 
 flutter_intl:

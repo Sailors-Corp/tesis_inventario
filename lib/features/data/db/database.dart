@@ -20,9 +20,9 @@ LazyDatabase _openConnection() {
 
 @DriftDatabase(
   tables: [
-    MedioTable,
+    MBTable,
   ],
-  daos: [MedioDao],
+  daos: [MBDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());

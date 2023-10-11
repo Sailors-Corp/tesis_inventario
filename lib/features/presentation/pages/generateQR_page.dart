@@ -114,7 +114,7 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      state.nombre!.toUpperCase(),
+                      state.subClassification!.toUpperCase(),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -196,80 +196,16 @@ class GenerateQRForm extends StatelessWidget {
                   child: TextFormField(
                     autocorrect: true,
                     keyboardType: TextInputType.text,
-                    controller: _nombreController,
-                    cursorColor: Colors.white,
-                    decoration: const InputDecoration(
-                      hintText: "Nombre",
-                      prefixIcon: Material(
-                        elevation: 0,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: Icon(
-                          Icons.people_alt_outlined,
-                          color: Colors.white,
-                        ),
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 13,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Material(
-                  elevation: 1.0,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: TextFormField(
-                    autocorrect: true,
-                    keyboardType: TextInputType.text,
-                    controller: _subClasificacionController,
-                    cursorColor: Colors.white,
-                    decoration: const InputDecoration(
-                      hintText: "Subclasificación",
-                      prefixIcon: Material(
-                        elevation: 0,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: Icon(
-                          Icons.people_alt_outlined,
-                          color: Colors.white,
-                        ),
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 13,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Material(
-                  elevation: 1.0,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: TextFormField(
-                    autocorrect: true,
-                    keyboardType: TextInputType.text,
                     controller: _rotuloController,
-                    cursorColor: Colors.white,
+                    cursorColor: AppColors.primaryColor,
                     decoration: const InputDecoration(
                       hintText: "Rótulo",
                       prefixIcon: Material(
                         elevation: 0,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
-                          Icons.people_alt_outlined,
-                          color: Colors.white,
+                          Icons.numbers,
+                          color: AppColors.primaryColor,
                         ),
                       ),
                       border: InputBorder.none,
@@ -283,6 +219,70 @@ class GenerateQRForm extends StatelessWidget {
               ),
               const SizedBox(
                 height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Material(
+                  elevation: 1.0,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: TextFormField(
+                    autocorrect: true,
+                    keyboardType: TextInputType.text,
+                    controller: _subClasificacionController,
+                    cursorColor: AppColors.primaryColor,
+                    decoration: const InputDecoration(
+                      hintText: "Subclasificación",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Icon(
+                          Icons.grid_view_outlined,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 13,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Material(
+                  elevation: 1.0,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: TextFormField(
+                    autocorrect: true,
+                    keyboardType: TextInputType.text,
+                    controller: _nombreController,
+                    cursorColor: AppColors.primaryColor,
+                    decoration: const InputDecoration(
+                      hintText: "Area",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Icon(
+                          Icons.app_registration,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 13,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 80),

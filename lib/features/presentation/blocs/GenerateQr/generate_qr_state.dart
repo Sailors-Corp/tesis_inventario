@@ -4,20 +4,20 @@ part of 'generate_qr_bloc.dart';
 @immutable
 class GenerateQRState {
   final QrImageView? qr;
-  final String? nombre;
+  final String? subClassification;
 
   const GenerateQRState({
     this.qr,
-    this.nombre,
+    this.subClassification,
   });
 
   GenerateQRState copyWith({
     QrImageView? qr,
-    String? nombre,
+    String? subClassification,
   }) {
     return GenerateQRState(
       qr: qr ?? this.qr,
-      nombre: nombre ?? this.nombre,
+      subClassification: subClassification ?? this.subClassification,
     );
   }
 }
