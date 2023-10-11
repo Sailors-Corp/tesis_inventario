@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
-@DataClassName('MedioTableEntity')
-class MedioTable extends Table {
+@DataClassName('MBTableEntity')
+class MBTable extends Table {
   TextColumn get rotulo => text()();
 
   TextColumn get area => text()();

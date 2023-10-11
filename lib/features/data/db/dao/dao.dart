@@ -5,71 +5,86 @@ import 'package:inventory_tesis/features/data/db/table/medio_table.dart';
 part 'dao.g.dart';
 
 // Denote which tables this DAO can access
-@DriftAccessor(tables: [MedioTable])
-class MedioDao extends DatabaseAccessor<AppDatabase> with _$MedioDaoMixin {
-  MedioDao(super.attachedDatabase);
+@DriftAccessor(tables: [MBTable])
+class MBDao extends DatabaseAccessor<AppDatabase> with _$MBDaoMixin {
+  MBDao(super.attachedDatabase);
 
-  Future<void> insertMedios(List<MedioTableEntity> medios) async {
-    await medioTable.insertAll(medios);
+  Future<void> insertMBs(List<MBTableEntity> medios) async {
+    await mBTable.insertAll(medios);
   }
 
-  Future<void> insertMedio(MedioTableEntity medioTableEntity) async {
-    await into(medioTable).insertOnConflictUpdate(medioTableEntity);
+  Future<void> insertMB(MBTableEntity medioTableEntity) async {
+    await into(mBTable).insertOnConflictUpdate(medioTableEntity);
   }
 
-  Stream<List<MedioTableEntity>> wacthAllMedios() {
-    return (select(medioTable)
-          ..orderBy([
-            (u) => OrderingTerm(mode: OrderingMode.asc, expression: u.rotulo)
-          ]))
-        .watch();
+  Future<void> deleteAllMBs() async {
+    await delete(mBTable).go();
   }
 
-  // Future<List<MedioTableEntity>> getAllGroups() {
-  //   return (select(group)
-  //         ..orderBy([
-  //           (u) => OrderingTerm(expression: u.startDate, mode: OrderingMode.asc)
-  //         ]))
-  //       .get();
-  // }
+  Future<void> deleteMB(String rotulo) async {
+    await (delete(mBTable)..where((tbl) => tbl.rotulo.equals(rotulo))).go();
+  }
 
-  // Future<List<MedioTableEntity>> getAllOpenGroups() {
-  //   return (select(group)
-  //         ..where((tbl) => tbl.type.equals("abierto"))
-  //         ..orderBy([
-  //           (u) => OrderingTerm(expression: u.startDate, mode: OrderingMode.asc)
-  //         ]))
-  //       .get();
-  // }
+  Future<void> updateMB(MBTableEntity medioTableEntity) async {
+    await update(mBTable).replace(medioTableEntity);
+  }
 
-  // Future<MedioTableEntity?> getGroupById(String groupId) async {
-  //   return (select(group)..where((tbl) => tbl.id.equals(groupId)))
-  //       .getSingleOrNull();
-  // }
+  Future<void> updateMBs(List<MBTableEntity> medios) async {
+    await batch((batch) {
+      batch.insertAll(mBTable, medios, mode: InsertMode.insertOrReplace);
+    });
+  }
 
-  // Stream<MedioTableEntity?> watchGroupById(String groupId) {
-  //   return (select(group)..where((tbl) => tbl.id.equals(groupId)))
-  //       .watchSingleOrNull();
-  // }
+  Future<List<MBTableEntity>> getAllMBs() async {
+    return await select(mBTable).get();
+  }
 
-  // Future<void> deleteAllGroups() async {
-  //   await delete(group).go();
-  // }
+  Future<List<MBTableEntity>> getMBsByArea(String area) async {
+    return await (select(mBTable)..where((tbl) => tbl.area.equals(area))).get();
+  }
 
-  // Future<List<MedioTableEntity>> getAllClosedGroups() {
-  //   return (select(group)
-  //         ..where((tbl) => tbl.type.equals("cerrado"))
-  //         ..orderBy([
-  //           (u) => OrderingTerm(expression: u.startDate, mode: OrderingMode.asc)
-  //         ]))
-  //       .get();
-  // }
+  Future<List<MBTableEntity>> getMBsBySubclasification(
+      String subclasification) async {
+    return await (select(mBTable)
+          ..where((tbl) => tbl.subclasification.equals(subclasification)))
+        .get();
+  }
 
-  // Future<void> removeAllClosedGroups() async {
-  //   await (delete(group)
-  //         ..where(
-  //           (tbl) => tbl.type.equals('cerrado'),
-  //         ))
-  //       .go();
-  // }
+  Future<List<MBTableEntity>> getMBsByAreaAndSubclasification(
+      String area, String subclasification) async {
+    return await (select(mBTable)
+          ..where((tbl) => tbl.area.equals(area))
+          ..where((tbl) => tbl.subclasification.equals(subclasification)))
+        .get();
+  }
+
+  Future<List<MBTableEntity>> getMBsByAreaAndSubclasificationAndRotulo(
+      String area, String subclasification, String rotulo) async {
+    return await (select(mBTable)
+          ..where((tbl) => tbl.area.equals(area))
+          ..where((tbl) => tbl.subclasification.equals(subclasification))
+          ..where((tbl) => tbl.rotulo.equals(rotulo)))
+        .get();
+  }
+
+  Future<List<MBTableEntity>> getMBsByAreaAndRotulo(
+      String area, String rotulo) async {
+    return await (select(mBTable)
+          ..where((tbl) => tbl.area.equals(area))
+          ..where((tbl) => tbl.rotulo.equals(rotulo)))
+        .get();
+  }
+
+  Future<List<MBTableEntity>> getMBsBySubclasificationAndRotulo(
+      String subclasification, String rotulo) async {
+    return await (select(mBTable)
+          ..where((tbl) => tbl.subclasification.equals(subclasification))
+          ..where((tbl) => tbl.rotulo.equals(rotulo)))
+        .get();
+  }
+
+  Future<MBTableEntity?> getMBsByRotulo(String rotulo) async {
+    return await (select(mBTable)..where((tbl) => tbl.rotulo.equals(rotulo)))
+        .getSingleOrNull();
+  }
 }

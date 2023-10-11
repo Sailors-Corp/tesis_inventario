@@ -6,9 +6,12 @@ import 'package:inventory_tesis/features/data/data.dart';
 import 'package:inventory_tesis/features/data/datasources/db_datasource.dart';
 import 'package:inventory_tesis/features/data/db/dao/dao.dart';
 import 'package:inventory_tesis/features/data/db/database.dart';
+import 'package:inventory_tesis/features/data/repositories/scan_repository_impl.dart';
 import 'package:inventory_tesis/features/domain/repositories/app_repo.dart';
 import 'package:inventory_tesis/features/domain/repositories/auth_repository.dart';
 import 'package:inventory_tesis/features/domain/repositories/generate_qr_repository.dart';
+import 'package:inventory_tesis/features/domain/repositories/scan_repositoy.dart';
+import 'package:inventory_tesis/features/presentation/blocs/scan/scan_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,58 +48,63 @@ Future<void> initializeDependencies() async {
 
   // injector.registerLazySingleton<IsarServices>(() => IsarServices());
 
-  injector.registerFactory(() => MedioDao(
+  injector.registerFactory(() => MBDao(
         injector<AppDatabase>(),
       ));
 
   // Register DataSources
-  injector.registerLazySingleton<AuthDataSources>(
-    () => AuthDataSourcesImpl(),
-  );
-  injector.registerLazySingleton<GenerateQRDataSources>(
-    () => GenerateQRDataSourcesImpl(),
-  );
 
-  injector.registerLazySingleton<DBDataSources>(
-      () => DBDataSourcesImpl(injector()));
+  injector
+    ..registerLazySingleton<AuthDataSources>(
+      () => AuthDataSourcesImpl(),
+    )
+    ..registerLazySingleton<DBDataSources>(
+        () => DBDataSourcesImpl(injector<MBDao>()));
 
   // Register Repositories
-  injector.registerLazySingleton<AppRepository>(
-    () => AppRepositoryImpl(
-      injector(),
-    ),
-  );
-  injector.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(injector()),
-  );
-  injector.registerLazySingleton<GenerateQRRepository>(
-    () => GenerateQRRepositoryImpl(injector()),
-  );
+  injector
+    ..registerLazySingleton<AppRepository>(
+      () => AppRepositoryImpl(
+        injector<SharedPreferences>(),
+      ),
+    )
+    ..registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(injector<AuthDataSources>()),
+    )
+    ..registerLazySingleton<ScanRepository>(
+      () => ScanRepositoryImpl(injector<MBDao>()),
+    )
+    ..registerLazySingleton<GenerateQRRepository>(
+      () => GenerateQRRepositoryImpl(),
+    );
 
   //Register Blocs
 
-  injector.registerFactory<AuthBloc>(
-    () => AuthBloc(
-      injector(),
-      injector(),
-    ),
-  );
-
-  injector.registerFactory<AppCubit>(
-    () => AppCubit(
-      injector(),
-    ),
-  );
-
-  injector.registerFactory<HomeBloc>(
-    () => HomeBloc(),
-  );
-
-  injector.registerFactory<GenerateQRBloc>(
-    () => GenerateQRBloc(
-      injector(),
-    ),
-  );
+  injector
+    ..registerLazySingleton<AuthBloc>(
+      () => AuthBloc(
+        injector<AuthRepository>(),
+        injector<AppRepository>(),
+      ),
+    )
+    ..registerLazySingleton<AppCubit>(
+      () => AppCubit(
+        injector<AppRepository>(),
+      ),
+    )
+    ..registerLazySingleton<ScanCubit>(
+      () => ScanCubit(
+        injector<ScanRepository>(),
+      ),
+    )
+    ..registerLazySingleton<HomeBloc>(
+      () => HomeBloc(),
+    )
+    ..registerLazySingleton<GenerateQRBloc>(
+      () => GenerateQRBloc(
+        injector<GenerateQRRepository>(),
+      ),
+    );
 }
 
 Future<void> registerStorageDirectory() async {
