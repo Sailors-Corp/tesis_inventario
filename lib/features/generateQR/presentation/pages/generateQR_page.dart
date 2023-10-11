@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, file_names
+// ignore_for_file: non_constant_identifier_names, file_names, use_build_context_synchronously
 
 import 'dart:developer';
 import 'dart:io';
@@ -14,6 +14,7 @@ import 'package:inventory_tesis/common/theme/app_colors.dart';
 import 'package:inventory_tesis/features/generateQR/presentation/bloc/generate_qr_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 
 @RoutePage()
@@ -28,10 +29,8 @@ class _GenerateQRPage extends State<GenerateQRPage> {
   late TextEditingController _nombreController;
   late TextEditingController _subClasificacionController;
   late TextEditingController _rotuloController;
-
-  GlobalKey rootWidgetKey = GlobalKey();
-
-  List<Uint8List> images = [];
+  //Create an instance of ScreenshotController
+  ScreenshotController screenshotController = ScreenshotController();
 
   final _keyForm = GlobalKey<FormState>();
 
@@ -60,34 +59,6 @@ class _GenerateQRPage extends State<GenerateQRPage> {
     _subClasificacionController.dispose();
     _rotuloController.dispose();
     super.dispose();
-  }
-
-  _capturePng() async {
-    RenderRepaintBoundary? boundary = rootWidgetKey.currentContext!
-        .findRenderObject() as RenderRepaintBoundary?;
-    var image = await boundary!.toImage(pixelRatio: 3.0);
-    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-    Uint8List pngBytes = byteData!.buffer.asUint8List();
-    return pngBytes;
-  }
-
-  _savePng(Uint8List pngBytes) async {
-    try {
-      ImageGallerySaver.saveImage(pngBytes);
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
-  _sharePng(Uint8List pngBytes) async {
-    try {
-      final result = await ImageGallerySaver.saveImage(pngBytes);
-      if (result != null) {
-        Share.shareFiles([result]);
-      }
-    } catch (e) {
-      log(e.toString());
-    }
   }
 
   @override
@@ -121,12 +92,12 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    RepaintBoundary(
-                      key: rootWidgetKey,
-                      child: Center(
-                        child: SizedBox(
-                          width: 150,
-                          height: 150,
+                    Center(
+                      child: SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: Screenshot(
+                          controller: screenshotController,
                           child: state.qr,
                         ),
                       ),
@@ -135,12 +106,29 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                 ),
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () => _savePng(_capturePng()),
+                    onPressed: () {
+                      double pixelRatio =
+                          MediaQuery.of(context).devicePixelRatio;
+                      screenshotController
+                          .capture(
+                        delay: const Duration(milliseconds: 10),
+                        pixelRatio: pixelRatio,
+                      )
+                          .then((image) async {
+                        if (image != null) {
+                          final directory =
+                              await getApplicationDocumentsDirectory();
+                          final imagePath = await File(
+                                  '${directory.path}/${state.nombre!.toString()}.png')
+                              .create();
+                          await imagePath.writeAsBytes(image);
+                          ImageGallerySaver.saveFile(imagePath.path);
+                        }
+                      }).catchError((onError) {
+                        log(onError.toString());
+                      });
+                    },
                     child: const Text('Guardar'),
-                  ),
-                  TextButton(
-                    onPressed: () => _sharePng(_capturePng()),
-                    child: const Text('Compartir'),
                   ),
                 ],
               ),

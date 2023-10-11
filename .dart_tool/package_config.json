@@ -662,6 +662,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "screenshot",
+      "rootUri": "file:///C:/Users/Raul/AppData/Local/Pub/Cache/hosted/pub.dev/screenshot-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "share",
       "rootUri": "file:///C:/Users/Raul/AppData/Local/Pub/Cache/hosted/pub.dev/share-2.0.4",
       "packageUri": "lib/",
@@ -938,7 +944,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-10-04T17:52:23.248134Z",
+  "generated": "2023-10-11T03:45:59.959890Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }
