@@ -7,8 +7,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:inventory_tesis/common/theme/app_colors.dart';
-import 'package:inventory_tesis/features/generateQR/presentation/bloc/generate_qr_bloc.dart';
+import 'package:inventory_tesis/src/common/theme/theme.dart';
+import 'package:inventory_tesis/src/presentation/presentation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -83,7 +83,7 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      state.nombre!.toUpperCase(),
+                      state.subClassification!.toUpperCase(),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -115,7 +115,7 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                           final directory =
                               await getApplicationDocumentsDirectory();
                           final imagePath = await File(
-                                  '${directory.path}/${state.nombre!.toString()}.png')
+                                  '${directory.path}/${state.subClassification!.toString()}.png')
                               .create();
                           await imagePath.writeAsBytes(image);
                           ImageGallerySaver.saveFile(imagePath.path);
