@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/common/theme/app_colors.dart';
-import 'package:inventory_tesis/core/validators/form_validator.dart';
+import 'package:inventory_tesis/src/common/theme/app_colors.dart';
+import 'package:inventory_tesis/src/core/validators/form_validator.dart';
 import 'package:inventory_tesis/src/presentation/presentation.dart';
 import 'package:oktoast/oktoast.dart';
 

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:inventory_tesis/common/routes/app_routes.gr.dart';
+import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends $AppRouter {

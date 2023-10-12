@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_tesis/common/theme/app_themes.dart';
-import 'package:inventory_tesis/core/config/language.dart';
+import 'package:inventory_tesis/src/common/theme/app_themes.dart';
+import 'package:inventory_tesis/src/core/config/language.dart';
 
 abstract class AppRepository {
   ThemeData get currentTheme;

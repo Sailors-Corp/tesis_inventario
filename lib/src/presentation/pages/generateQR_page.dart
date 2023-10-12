@@ -9,7 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:inventory_tesis/common/theme/app_colors.dart';
+import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/presentation/presentation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:share/share.dart';

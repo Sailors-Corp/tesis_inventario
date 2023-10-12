@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:inventory_tesis/common/theme/app_themes.dart';
-import 'package:inventory_tesis/core/config/language.dart';
-import 'package:inventory_tesis/core/constant/key_preferens.dart';
+import 'package:inventory_tesis/src/common/theme/app_themes.dart';
+import 'package:inventory_tesis/src/core/config/language.dart';
+import 'package:inventory_tesis/src/core/constant/key_preferens.dart';
 import 'package:inventory_tesis/src/domain/repositories/app_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

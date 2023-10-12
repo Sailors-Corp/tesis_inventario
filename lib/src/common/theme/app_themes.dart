@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_tesis/common/theme/app_colors.dart';
+import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 
 enum AppTheme {
   // ignore: constant_identifier_names

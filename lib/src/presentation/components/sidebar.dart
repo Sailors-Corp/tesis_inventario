@@ -2,8 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/common/theme/app_colors.dart';
-import 'package:inventory_tesis/common/theme/app_text_styles.dart';
+import 'package:inventory_tesis/src/common/theme/app_colors.dart';
+import 'package:inventory_tesis/src/common/theme/app_text_styles.dart';
 import 'package:inventory_tesis/src/presentation/presentation.dart';
 
 class SideBar extends StatelessWidget {
