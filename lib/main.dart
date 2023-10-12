@@ -7,7 +7,7 @@ import 'package:inventory_tesis/injector.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:sizer/sizer.dart' as sizer;
 
-import 'features/presentation/presentation.dart';
+import 'src/presentation/presentation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

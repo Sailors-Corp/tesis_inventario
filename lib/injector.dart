@@ -2,20 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:inventory_tesis/features/data/data.dart';
-import 'package:inventory_tesis/features/data/datasources/db_datasource.dart';
-import 'package:inventory_tesis/features/data/db/dao/dao.dart';
-import 'package:inventory_tesis/features/data/db/database.dart';
-import 'package:inventory_tesis/features/data/repositories/scan_repository_impl.dart';
-import 'package:inventory_tesis/features/domain/repositories/app_repo.dart';
-import 'package:inventory_tesis/features/domain/repositories/auth_repository.dart';
-import 'package:inventory_tesis/features/domain/repositories/generate_qr_repository.dart';
-import 'package:inventory_tesis/features/domain/repositories/scan_repositoy.dart';
-import 'package:inventory_tesis/features/presentation/blocs/scan/scan_cubit.dart';
+import 'package:inventory_tesis/src/data/data.dart';
+import 'package:inventory_tesis/src/data/datasources/db_datasource.dart';
+import 'package:inventory_tesis/src/data/db/dao/dao.dart';
+import 'package:inventory_tesis/src/data/db/database.dart';
+import 'package:inventory_tesis/src/data/repositories/scan_repository_impl.dart';
+import 'package:inventory_tesis/src/domain/repositories/app_repo.dart';
+import 'package:inventory_tesis/src/domain/repositories/auth_repository.dart';
+import 'package:inventory_tesis/src/domain/repositories/generate_qr_repository.dart';
+import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
+import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'features/presentation/presentation.dart';
+import 'src/presentation/presentation.dart';
 
 final injector = GetIt.instance;
 
