@@ -1,18 +1,17 @@
-// ignore_for_file: non_constant_identifier_names, file_names
+// ignore_for_file: non_constant_identifier_names, file_names, use_build_context_synchronously
 
 import 'dart:developer';
-import 'dart:ui';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:inventory_tesis/src/common/theme/app_colors.dart';
-import 'package:inventory_tesis/src/presentation/presentation.dart';
+import 'package:inventory_tesis/common/theme/app_colors.dart';
+import 'package:inventory_tesis/features/generateQR/presentation/bloc/generate_qr_bloc.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:share/share.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 @RoutePage()
 class GenerateQRPage extends StatefulWidget {
@@ -26,10 +25,8 @@ class _GenerateQRPage extends State<GenerateQRPage> {
   late TextEditingController _nombreController;
   late TextEditingController _subClasificacionController;
   late TextEditingController _rotuloController;
-
-  GlobalKey rootWidgetKey = GlobalKey();
-
-  List<Uint8List> images = [];
+  //Create an instance of ScreenshotController
+  ScreenshotController screenshotController = ScreenshotController();
 
   final _keyForm = GlobalKey<FormState>();
 
@@ -60,34 +57,6 @@ class _GenerateQRPage extends State<GenerateQRPage> {
     super.dispose();
   }
 
-  _capturePng() async {
-    RenderRepaintBoundary? boundary = rootWidgetKey.currentContext!
-        .findRenderObject() as RenderRepaintBoundary?;
-    var image = await boundary!.toImage(pixelRatio: 3.0);
-    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-    Uint8List pngBytes = byteData!.buffer.asUint8List();
-    return pngBytes;
-  }
-
-  _savePng(Uint8List pngBytes) async {
-    try {
-      ImageGallerySaver.saveImage(pngBytes);
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
-  _sharePng(Uint8List pngBytes) async {
-    try {
-      final result = await ImageGallerySaver.saveImage(pngBytes);
-      if (result != null) {
-        Share.shareFiles([result]);
-      }
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final generateQRBloc = BlocProvider.of<GenerateQRBloc>(context);
@@ -114,17 +83,17 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      state.subClassification!.toUpperCase(),
+                      state.nombre!.toUpperCase(),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    RepaintBoundary(
-                      key: rootWidgetKey,
-                      child: Center(
-                        child: SizedBox(
-                          width: 150,
-                          height: 150,
+                    Center(
+                      child: SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: Screenshot(
+                          controller: screenshotController,
                           child: state.qr,
                         ),
                       ),
@@ -133,12 +102,29 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                 ),
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () => _savePng(_capturePng()),
+                    onPressed: () {
+                      double pixelRatio =
+                          MediaQuery.of(context).devicePixelRatio;
+                      screenshotController
+                          .capture(
+                        delay: const Duration(milliseconds: 10),
+                        pixelRatio: pixelRatio,
+                      )
+                          .then((image) async {
+                        if (image != null) {
+                          final directory =
+                              await getApplicationDocumentsDirectory();
+                          final imagePath = await File(
+                                  '${directory.path}/${state.nombre!.toString()}.png')
+                              .create();
+                          await imagePath.writeAsBytes(image);
+                          ImageGallerySaver.saveFile(imagePath.path);
+                        }
+                      }).catchError((onError) {
+                        log(onError.toString());
+                      });
+                    },
                     child: const Text('Guardar'),
-                  ),
-                  TextButton(
-                    onPressed: () => _sharePng(_capturePng()),
-                    child: const Text('Compartir'),
                   ),
                 ],
               ),
@@ -184,6 +170,7 @@ class GenerateQRForm extends StatelessWidget {
           title: const Text("Generar QR"),
           centerTitle: true,
         ),
+        backgroundColor: Colors.white,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -196,16 +183,80 @@ class GenerateQRForm extends StatelessWidget {
                   child: TextFormField(
                     autocorrect: true,
                     keyboardType: TextInputType.text,
+                    controller: _nombreController,
+                    cursorColor: AppColors.primaryBlue,
+                    decoration: const InputDecoration(
+                      hintText: "Nombre",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          color: AppColors.primaryBlue,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 13,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Material(
+                  elevation: 1.0,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: TextFormField(
+                    autocorrect: true,
+                    keyboardType: TextInputType.text,
+                    controller: _subClasificacionController,
+                    cursorColor: AppColors.primaryBlue,
+                    decoration: const InputDecoration(
+                      hintText: "Subclasificación",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          color: AppColors.primaryBlue,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 13,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Material(
+                  elevation: 1.0,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: TextFormField(
+                    autocorrect: true,
+                    keyboardType: TextInputType.text,
                     controller: _rotuloController,
-                    cursorColor: AppColors.primaryColor,
+                    cursorColor: AppColors.primaryBlue,
                     decoration: const InputDecoration(
                       hintText: "Rótulo",
                       prefixIcon: Material(
                         elevation: 0,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Icon(
-                          Icons.numbers,
-                          color: AppColors.primaryColor,
+                          Icons.people_alt_outlined,
+                          color: AppColors.primaryBlue,
                         ),
                       ),
                       border: InputBorder.none,
@@ -219,70 +270,6 @@ class GenerateQRForm extends StatelessWidget {
               ),
               const SizedBox(
                 height: 25,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Material(
-                  elevation: 1.0,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: TextFormField(
-                    autocorrect: true,
-                    keyboardType: TextInputType.text,
-                    controller: _subClasificacionController,
-                    cursorColor: AppColors.primaryColor,
-                    decoration: const InputDecoration(
-                      hintText: "Subclasificación",
-                      prefixIcon: Material(
-                        elevation: 0,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: Icon(
-                          Icons.grid_view_outlined,
-                          color: AppColors.primaryColor,
-                        ),
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 13,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Material(
-                  elevation: 1.0,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: TextFormField(
-                    autocorrect: true,
-                    keyboardType: TextInputType.text,
-                    controller: _nombreController,
-                    cursorColor: AppColors.primaryColor,
-                    decoration: const InputDecoration(
-                      hintText: "Area",
-                      prefixIcon: Material(
-                        elevation: 0,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: Icon(
-                          Icons.app_registration,
-                          color: AppColors.primaryColor,
-                        ),
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 13,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 80),
@@ -313,9 +300,7 @@ class GenerateQRForm extends StatelessWidget {
                                 )
                               : const SizedBox(width: 0),
                           const SizedBox(width: 10),
-                          (state is LoadingGenerateQRState)
-                              ? const Text('Generando')
-                              : const Text('Generar QR'),
+                          const Text('Generar QR'),
                         ],
                       ),
                     );
