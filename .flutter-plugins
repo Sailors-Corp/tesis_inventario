@@ -8,13 +8,21 @@ path_provider_android=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.c
 path_provider_foundation=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_foundation-2.3.1/
 path_provider_linux=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_linux-2.2.1/
 path_provider_windows=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_windows-2.2.1/
+<<<<<<< HEAD
 qr_code_scanner=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/qr_code_scanner-1.0.1/
 share=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/share-2.0.4/
 shared_preferences=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-2.2.1/
+=======
+share=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/share-2.0.4/
+shared_preferences=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-2.2.2/
+>>>>>>> generateQR
 shared_preferences_android=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_android-2.2.1/
 shared_preferences_foundation=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_foundation-2.3.4/
 shared_preferences_linux=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_linux-2.3.1/
 shared_preferences_web=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_web-2.2.1/
 shared_preferences_windows=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_windows-2.3.1/
+<<<<<<< HEAD
 sqflite=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite-2.3.0/
 sqlite3_flutter_libs=/Users/roma/dev/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqlite3_flutter_libs-0.5.16/
+=======
+>>>>>>> generateQR
