@@ -9,7 +9,7 @@ class ScanRepositoryImpl extends ScanRepository {
 
   @override
   Future<bool> scan(String rotulo, String area) async {
-    final MBTableEntity? response = await mbDao.getMBsByRotulo(rotulo);
+    final MedioBasicoEntity? response = await mbDao.getMBsByRotulo(rotulo);
 
     if (response == null) {
       return false;

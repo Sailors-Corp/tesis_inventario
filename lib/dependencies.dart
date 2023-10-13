@@ -6,11 +6,15 @@ import 'package:inventory_tesis/src/data/data.dart';
 import 'package:inventory_tesis/src/data/datasources/db_datasource.dart';
 import 'package:inventory_tesis/src/data/db/dao/dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
+import 'package:inventory_tesis/src/data/repositories/db_repository_impl.dart';
 import 'package:inventory_tesis/src/data/repositories/scan_repository_impl.dart';
 import 'package:inventory_tesis/src/domain/repositories/app_repo.dart';
 import 'package:inventory_tesis/src/domain/repositories/auth_repository.dart';
+import 'package:inventory_tesis/src/domain/repositories/db_repository.dart';
 import 'package:inventory_tesis/src/domain/repositories/generate_qr_repository.dart';
 import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
+import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
+import 'package:inventory_tesis/src/presentation/blocs/area/area_detail_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,14 +62,19 @@ Future<void> initializeDependencies() async {
     ..registerLazySingleton<AuthDataSources>(
       () => AuthDataSourcesImpl(),
     )
-    ..registerLazySingleton<DBDataSources>(
-        () => DBDataSourcesImpl(injector<MBDao>()));
+    ..registerLazySingleton<DataBaseDataSources>(
+        () => DataBaseDataSourcesImpl(injector<MBDao>()));
 
   // Register Repositories
   injector
     ..registerLazySingleton<AppRepository>(
       () => AppRepositoryImpl(
         injector<SharedPreferences>(),
+      ),
+    )
+    ..registerLazySingleton<DataBaseRepository>(
+      () => DataBaseRepositoryImpl(
+        injector<DataBaseDataSources>(),
       ),
     )
     ..registerLazySingleton<AuthRepository>(
@@ -87,6 +96,16 @@ Future<void> initializeDependencies() async {
         injector<AppRepository>(),
       ),
     )
+    ..registerFactory<AreaBloc>(
+      () => AreaBloc(
+        injector<DataBaseRepository>(),
+      ),
+    )
+    ..registerFactory<AreaDetailBloc>(
+      () => AreaDetailBloc(
+        injector<DataBaseRepository>(),
+      ),
+    )
     ..registerLazySingleton<AppCubit>(
       () => AppCubit(
         injector<AppRepository>(),
@@ -98,7 +117,9 @@ Future<void> initializeDependencies() async {
       ),
     )
     ..registerLazySingleton<HomeBloc>(
-      () => HomeBloc(),
+      () => HomeBloc(
+        injector<DataBaseDataSources>(),
+      ),
     )
     ..registerLazySingleton<GenerateQRBloc>(
       () => GenerateQRBloc(

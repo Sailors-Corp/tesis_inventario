@@ -10,16 +10,13 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
 import 'package:flutter/cupertino.dart' as _i7;
-import 'package:inventory_tesis/src/presentation/pages/auth_page.dart'
-    as _i2;
+import 'package:inventory_tesis/src/presentation/pages/areas_detail_page.dart'
+    as _i1;
+import 'package:inventory_tesis/src/presentation/pages/auth_page.dart' as _i2;
 import 'package:inventory_tesis/src/presentation/pages/generateQR_page.dart'
     as _i3;
-import 'package:inventory_tesis/src/presentation/pages/home_page.dart'
-    as _i4;
-import 'package:inventory_tesis/src/presentation/pages/scan_page.dart'
-    as _i5;
-import 'package:inventory_tesis/src/shared/presentation/pages/areas_detail_page.dart'
-    as _i1;
+import 'package:inventory_tesis/src/presentation/pages/home_page.dart' as _i4;
+import 'package:inventory_tesis/src/presentation/pages/scan_page.dart' as _i5;
 
 abstract class $AppRouter extends _i6.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -32,7 +29,7 @@ abstract class $AppRouter extends _i6.RootStackRouter {
         routeData: routeData,
         child: _i1.AreasDetailsPage(
           key: args.key,
-          title: args.title,
+          area: args.area,
         ),
       );
     },
@@ -68,13 +65,13 @@ abstract class $AppRouter extends _i6.RootStackRouter {
 class AreasDetailsRoute extends _i6.PageRouteInfo<AreasDetailsRouteArgs> {
   AreasDetailsRoute({
     _i7.Key? key,
-    required String title,
+    required String area,
     List<_i6.PageRouteInfo>? children,
   }) : super(
           AreasDetailsRoute.name,
           args: AreasDetailsRouteArgs(
             key: key,
-            title: title,
+            area: area,
           ),
           initialChildren: children,
         );
@@ -88,16 +85,16 @@ class AreasDetailsRoute extends _i6.PageRouteInfo<AreasDetailsRouteArgs> {
 class AreasDetailsRouteArgs {
   const AreasDetailsRouteArgs({
     this.key,
-    required this.title,
+    required this.area,
   });
 
   final _i7.Key? key;
 
-  final String title;
+  final String area;
 
   @override
   String toString() {
-    return 'AreasDetailsRouteArgs{key: $key, title: $title}';
+    return 'AreasDetailsRouteArgs{key: $key, area: $area}';
   }
 }
 
