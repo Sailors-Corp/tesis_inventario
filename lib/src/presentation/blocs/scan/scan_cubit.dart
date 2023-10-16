@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
 
 part 'scan_state.dart';
+// ...
 
 class ScanCubit extends Cubit<ScanState> {
   ScanCubit(
@@ -15,8 +16,11 @@ class ScanCubit extends Cubit<ScanState> {
   Future<void> scan(String rotulo, String area) async {
     emit(ScanLoading());
 
-    final response = await _scanRepository.scan(rotulo, area);
-
-    emit(ScanSuccess(response));
+    try {
+      final response = await _scanRepository.scan(rotulo, area);
+      emit(ScanSuccess(correctPosition: response));
+    } catch (error) {
+      emit(ScanError(error.toString()));
+    }
   }
 }

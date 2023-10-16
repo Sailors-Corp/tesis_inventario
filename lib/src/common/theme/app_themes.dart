@@ -13,7 +13,6 @@ class AppThemeData {
 
   static final appThemeData = {
     AppTheme.Light: _lightThemeData,
-    AppTheme.Dark: _darkThemeData,
   };
 
   static final ThemeData _base = ThemeData(

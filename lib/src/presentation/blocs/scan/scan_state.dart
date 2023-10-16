@@ -1,22 +1,30 @@
 part of 'scan_cubit.dart';
 
 sealed class ScanState extends Equatable {
-  const ScanState({this.isCorrectPosition = false});
+  const ScanState({this.correctPosition = ''});
 
   // ignore: prefer_typing_uninitialized_variables
-  final isCorrectPosition;
+  final String correctPosition;
 
   @override
-  List<Object> get props => [isCorrectPosition];
+  List<Object> get props => [correctPosition];
 }
 
 final class ScanInitial extends ScanState {}
 
 final class ScanLoading extends ScanState {}
 
+final class ScanError extends ScanState {
+  final String message;
+
+  const ScanError(this.message);
+}
+
 final class ScanSuccess extends ScanState {
   @override
-  final isCorrectPosition;
+  final String correctPosition;
 
-  const ScanSuccess(this.isCorrectPosition);
+  const ScanSuccess({required this.correctPosition});
 }
+
+final class ScanClosed extends ScanState {}

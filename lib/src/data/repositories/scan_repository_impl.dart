@@ -1,22 +1,22 @@
-import 'package:inventory_tesis/src/data/db/dao/dao.dart';
+import 'package:inventory_tesis/src/data/db/dao/medio_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
 import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
 
 class ScanRepositoryImpl extends ScanRepository {
-  final MBDao mbDao;
+  final MedioBasicoDao mbDao;
 
   ScanRepositoryImpl(this.mbDao);
 
   @override
-  Future<bool> scan(String rotulo, String area) async {
-    final MedioBasicoEntity? response = await mbDao.getMBsByRotulo(rotulo);
+  Future<String> scan(String rotulo, String area) async {
+    final MedioBasicoTableEntity? response = await mbDao.getMBsByRotulo(rotulo);
 
     if (response == null) {
-      return false;
+      return '';
     }
     if (response.area == area) {
-      return true;
+      return response.area;
     }
-    return false;
+    return '';
   }
 }
