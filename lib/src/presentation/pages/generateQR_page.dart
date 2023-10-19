@@ -82,10 +82,13 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      state.subClassification!.toUpperCase(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        state.subClassification!.toUpperCase(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Center(
@@ -119,6 +122,12 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                               .create();
                           await imagePath.writeAsBytes(image);
                           ImageGallerySaver.saveFile(imagePath.path);
+                          showToast(
+                            'Imagen Guardada exitósamente',
+                            position: ToastPosition.bottom,
+                            backgroundColor: Colors.green,
+                          );
+                          context.router.pop();
                         }
                       }).catchError((onError) {
                         log(onError.toString());

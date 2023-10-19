@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
-import 'package:inventory_tesis/src/data/mapper/medio_table.dart';
+import 'package:inventory_tesis/src/data/db/table/medio_table.dart';
 
 part 'medio_dao.g.dart';
 

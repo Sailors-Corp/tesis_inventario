@@ -22,6 +22,9 @@ class AppRouter extends $AppRouter {
           page: AreasDetailsRoute.page,
         ),
         AutoRoute(
+          page: TakeInventoryRoute.page,
+        ),
+        AutoRoute(
           page: MovementRoute.page,
         ),
       ];

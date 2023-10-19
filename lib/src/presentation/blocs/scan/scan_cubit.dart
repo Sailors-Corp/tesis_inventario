@@ -23,4 +23,19 @@ class ScanCubit extends Cubit<ScanState> {
       emit(ScanError(error.toString()));
     }
   }
+
+  Future<void> takeInventory(String rotulo, String area, String invArea) async {
+    emit(ScanLoading());
+
+    final response = await _scanRepository.takeInventory(rotulo, area, invArea);
+
+    emit(ScanSuccess(takeInv: response));
+  }
+
+  Future<void> getPercent(String area, String invArea) async {
+    emit(ScanLoading());
+
+    final response = await _scanRepository.percentInventory(invArea);
+    emit(ScanSuccess(percent: response));
+  }
 }

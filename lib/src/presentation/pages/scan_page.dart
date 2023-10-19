@@ -67,14 +67,12 @@ class _ScanState extends State<Scan> {
           _showMyDialog(
             context: context,
             item: item,
-            // ignore: use_build_context_synchronously
-            correctPosition: context.read<ScanCubit>().state.correctPosition,
+            correctPosition: context.read<ScanCubit>().state.correctPosition!,
           ).then((_) {
             isDialogOpen = false;
           });
         }
       } catch (e) {
-        // Manejar errores aquí
       }
     });
   }
@@ -92,7 +90,6 @@ class _ScanState extends State<Scan> {
     return BlocListener<ScanCubit, ScanState>(
       listener: (context, state) {
         if (state is ScanClosed) {
-          // Cuando se cierra el ScanCubit, puedes restablecer el estado aquí
           controller?.resumeCamera();
         }
       },

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_tesis/src/data/data.dart';
 import 'package:inventory_tesis/src/data/datasources/db_datasource.dart';
+import 'package:inventory_tesis/src/data/db/dao/inventario_dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/medio_dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/movement_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
@@ -49,6 +50,11 @@ Future<void> initializeDependencies() async {
         injector<AppDatabase>(),
       ),
     )
+    ..registerFactory(
+      () => InvDao(
+        injector<AppDatabase>(),
+      ),
+    )
     ..registerFactory<MovementDao>(
       () => MovementDao(
         injector<AppDatabase>(),
@@ -88,6 +94,8 @@ Future<void> initializeDependencies() async {
     ..registerLazySingleton<ScanRepository>(
       () => ScanRepositoryImpl(
         injector<MedioBasicoDao>(),
+        injector<InvDao>(),
+
       ),
     )
     ..registerLazySingleton<PDFRepository>(() => PDFRepository())
