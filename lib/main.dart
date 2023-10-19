@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/src/common/routes/app_routes.dart';
 import 'package:inventory_tesis/dependencies.dart';
+import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:sizer/sizer.dart' as sizer;
 
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
     ) {
       return MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (context) => injector.call<AreaBloc>(),
+          ),
           BlocProvider(
             create: (context) => injector.call<AppCubit>(),
           ),
