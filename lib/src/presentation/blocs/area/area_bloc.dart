@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/core/utils/result.dart';
-import 'package:inventory_tesis/src/data/db/database.dart';
 import 'package:inventory_tesis/src/domain/repositories/db_repository.dart';
 
 part 'area_event.dart';

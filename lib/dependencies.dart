@@ -4,8 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_tesis/src/data/data.dart';
 import 'package:inventory_tesis/src/data/datasources/db_datasource.dart';
-import 'package:inventory_tesis/src/data/db/dao/dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/inventario_dao.dart';
+import 'package:inventory_tesis/src/data/db/dao/medio_dao.dart';
+import 'package:inventory_tesis/src/data/db/dao/movement_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
 import 'package:inventory_tesis/src/data/repositories/db_repository_impl.dart';
 import 'package:inventory_tesis/src/data/repositories/scan_repository_impl.dart';
@@ -16,7 +17,10 @@ import 'package:inventory_tesis/src/domain/repositories/generate_qr_repository.d
 import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_detail_bloc.dart';
+import 'package:inventory_tesis/src/presentation/blocs/area/report_bloc/report_bloc.dart';
+import 'package:inventory_tesis/src/presentation/blocs/medio_form/movement_form_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
+import 'package:inventory_tesis/src/presentation/services/domain/pdf_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,34 +32,34 @@ Future<void> initializeDependencies() async {
   await registerStorageDirectory();
 
   //SharedPreferences
+
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   injector.registerLazySingleton(() => preferences);
 
-  // final packageInfo = await PackageInfo.fromPlatform();
-  // injector.registerLazySingleton(() => packageInfo);
-
-  // injector.registerLazySingleton<PackageInfoService>(
-  // () => PackageInfoServiceImpl(
-  // injector(),
-  // ),
-  // );
-
-  // injector.registerLazySingleton<LoggerService>(() => LoggerServiceImpl());
-
-  // Rest Client
-  // injector.registerLazySingleton<Dio>(() => Dio());
-  // injector.registerLazySingleton<RestApiClient>(() => RestApiClient(
-  //       injector(),
-  //     ));
-
   //Database
-  injector.registerLazySingleton<AppDatabase>(() => AppDatabase());
 
-  // injector.registerLazySingleton<IsarServices>(() => IsarServices());
+  injector.registerLazySingleton<AppDatabase>(
+    () => AppDatabase(),
+  );
 
-  injector.registerFactory(() => MBDao(
+//Daos
+
+  injector
+    ..registerFactory(
+      () => MedioBasicoDao(
         injector<AppDatabase>(),
-      ));
+      ),
+    )
+    ..registerFactory(
+      () => InvDao(
+        injector<AppDatabase>(),
+      ),
+    )
+    ..registerFactory<MovementDao>(
+      () => MovementDao(
+        injector<AppDatabase>(),
+      ),
+    );
 
   // Register DataSources
 
@@ -64,7 +68,11 @@ Future<void> initializeDependencies() async {
       () => AuthDataSourcesImpl(),
     )
     ..registerLazySingleton<DataBaseDataSources>(
-        () => DataBaseDataSourcesImpl(injector<MBDao>()));
+      () => DataBaseDataSourcesImpl(
+        injector<MedioBasicoDao>(),
+        injector<MovementDao>(),
+      ),
+    );
 
   // Register Repositories
   injector
@@ -79,11 +87,18 @@ Future<void> initializeDependencies() async {
       ),
     )
     ..registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(injector<AuthDataSources>()),
+      () => AuthRepositoryImpl(
+        injector<AuthDataSources>(),
+      ),
     )
     ..registerLazySingleton<ScanRepository>(
-      () => ScanRepositoryImpl(injector<MBDao>(), injector<InvDao>()),
+      () => ScanRepositoryImpl(
+        injector<MedioBasicoDao>(),
+        injector<InvDao>(),
+
+      ),
     )
+    ..registerLazySingleton<PDFRepository>(() => PDFRepository())
     ..registerLazySingleton<GenerateQRRepository>(
       () => GenerateQRRepositoryImpl(),
     );
@@ -112,15 +127,23 @@ Future<void> initializeDependencies() async {
         injector<AppRepository>(),
       ),
     )
-    ..registerLazySingleton<ScanCubit>(
+    ..registerFactory<ScanCubit>(
       () => ScanCubit(
         injector<ScanRepository>(),
+      ),
+    )
+    ..registerFactory<MovementFormBloc>(
+      () => MovementFormBloc(
+        injector<DataBaseRepository>(),
       ),
     )
     ..registerLazySingleton<HomeBloc>(
       () => HomeBloc(
         injector<DataBaseDataSources>(),
       ),
+    )
+    ..registerFactory<ReportBloc>(
+      () => ReportBloc(injector<PDFRepository>()),
     )
     ..registerLazySingleton<GenerateQRBloc>(
       () => GenerateQRBloc(

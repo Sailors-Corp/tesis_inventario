@@ -4,11 +4,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_tesis/dependencies.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/core/utils/delete_cotes.dart';
 import 'package:inventory_tesis/src/data/models/item_model.dart';
-import 'package:inventory_tesis/dependencies.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -87,7 +87,8 @@ class _ScanInventoryState extends State<ScanInventory> {
                 context: context,
                 item: item,
                 // ignore: use_build_context_synchronously
-                isCorrect: context.read<ScanCubit>().state.isCorrectPosition)
+                correctPosition:
+                    context.read<ScanCubit>().state.correctPosition ?? '')
             .then((_) {
           isDialogOpen = false;
         });
@@ -107,7 +108,8 @@ class _ScanInventoryState extends State<ScanInventory> {
       ..add(const AreasLoaded());
     return Column(
       children: [
-        Expanded(
+        Padding(
+          padding: const EdgeInsets.all(12.0),
           child: BlocBuilder<AreaBloc, BaseState<List<String?>>>(
             builder: (context, state) => state.when(
               initial: Container.new,
@@ -198,13 +200,14 @@ class _ScanInventoryState extends State<ScanInventory> {
     );
   }
 
-  Future<void> _showMyDialog(
-      {required BuildContext context,
-      required ItemModel item,
-      required bool isCorrect}) async {
+  Future<void> _showMyDialog({
+    required BuildContext context,
+    required ItemModel item,
+    required String correctPosition,
+  }) async {
     final TextEditingController rotuloController =
         TextEditingController(text: item.rotulo);
-    final TextEditingController subclasificationController =
+    final TextEditingController subclassificationController =
         TextEditingController(text: item.subClassification);
     final TextEditingController areaController =
         TextEditingController(text: item.area);
@@ -213,53 +216,74 @@ class _ScanInventoryState extends State<ScanInventory> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Center(
-            child: Text("Resultado"),
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          content: SingleChildScrollView(
-            child: ListBody(
+          child: SingleChildScrollView(
+            child: Column(
               children: <Widget>[
-                isCorrect == true
-                    ? Container()
-                    : const Text(
-                        'El medio basico no esta en su lugar',
-                        style: TextStyle(color: Colors.red),
-                        textAlign: TextAlign.center,
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  color:
+                      correctPosition == item.area ? Colors.green : Colors.red,
+                  child: Center(
+                    child: Text(
+                      correctPosition.isEmpty
+                          ? 'El medio no se encuentra en la base de datos'
+                          : correctPosition == item.area
+                              ? 'El medio básico está en su lugar'
+                              : 'El medio básico no está en su lugar, pertenece a $correctPosition',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                TextField(
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Rotulo',
-                  ),
-                  controller: rotuloController,
-                ),
-                TextField(
-                  readOnly: true,
-                  controller: subclasificationController,
-                  decoration: const InputDecoration(
-                    labelText: 'Subclasificación',
+                    ),
                   ),
                 ),
-                TextField(
-                  readOnly: true,
-                  controller: areaController,
-                  decoration: const InputDecoration(
-                    labelText: 'Área',
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: TextField(
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Rótulo',
+                    ),
+                    controller: rotuloController,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: TextField(
+                    readOnly: true,
+                    controller: subclassificationController,
+                    decoration: const InputDecoration(
+                      labelText: 'Subclasificación',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: TextField(
+                    readOnly: true,
+                    controller: areaController,
+                    decoration: const InputDecoration(
+                      labelText: 'Área',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Cerrar',
+                    style: TextStyle(color: AppColors.primaryColor),
                   ),
                 ),
               ],
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Escanear otro'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            const Spacer(),
-          ],
         );
       },
     );
