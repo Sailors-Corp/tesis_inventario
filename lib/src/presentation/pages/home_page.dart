@@ -47,6 +47,13 @@ class HomePage extends StatelessWidget {
             IconButton(
               color: Colors.white,
               onPressed: () {
+                context.router.push(const TakeInventoryRoute());
+              },
+              icon: const Icon(Icons.inventory_2_outlined),
+            ),
+            IconButton(
+              color: Colors.white,
+              onPressed: () {
                 context.router.push(const ScanRoute());
               },
               icon: const Icon(Icons.qr_code_scanner_outlined),

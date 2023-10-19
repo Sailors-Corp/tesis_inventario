@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:inventory_tesis/src/data/data.dart';
 import 'package:inventory_tesis/src/data/datasources/db_datasource.dart';
 import 'package:inventory_tesis/src/data/db/dao/dao.dart';
+import 'package:inventory_tesis/src/data/db/dao/inventario_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
 import 'package:inventory_tesis/src/data/repositories/db_repository_impl.dart';
 import 'package:inventory_tesis/src/data/repositories/scan_repository_impl.dart';
@@ -81,7 +82,7 @@ Future<void> initializeDependencies() async {
       () => AuthRepositoryImpl(injector<AuthDataSources>()),
     )
     ..registerLazySingleton<ScanRepository>(
-      () => ScanRepositoryImpl(injector<MBDao>()),
+      () => ScanRepositoryImpl(injector<MBDao>(), injector<InvDao>()),
     )
     ..registerLazySingleton<GenerateQRRepository>(
       () => GenerateQRRepositoryImpl(),

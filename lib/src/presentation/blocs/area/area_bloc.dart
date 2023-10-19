@@ -14,7 +14,7 @@ final class AreaBloc extends Bloc<AreaEvent, BaseState<List<String?>>> {
     on<AreasLoaded>(_onAreaLoaded);
   }
 
-          final DataBaseRepository _dataBaseRepository;
+  final DataBaseRepository _dataBaseRepository;
 
   FutureOr<void> _onAreaLoaded(
       AreasLoaded event, Emitter<BaseState<List<String?>>> emit) async {
@@ -30,7 +30,6 @@ final class AreaBloc extends Bloc<AreaEvent, BaseState<List<String?>>> {
           message: message,
         )
     };
-
     emit(newState);
   }
 }
