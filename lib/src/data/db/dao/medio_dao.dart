@@ -1,19 +1,20 @@
 import 'package:drift/drift.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
-import 'package:inventory_tesis/src/data/db/table/medio_table.dart';
+import 'package:inventory_tesis/src/data/mapper/medio_table.dart';
 
-part 'dao.g.dart';
+part 'medio_dao.g.dart';
 
 // Denote which tables this DAO can access
 @DriftAccessor(tables: [MedioBasico])
-class MBDao extends DatabaseAccessor<AppDatabase> with _$MBDaoMixin {
-  MBDao(super.attachedDatabase);
+class MedioBasicoDao extends DatabaseAccessor<AppDatabase>
+    with _$MedioBasicoDaoMixin {
+  MedioBasicoDao(super.attachedDatabase);
 
-  Future<void> insertMBs(List<MedioBasicoEntity> medios) async {
+  Future<void> insertMBs(List<MedioBasicoTableEntity> medios) async {
     await medioBasico.insertAll(medios);
   }
 
-  Future<void> insertMB(MedioBasicoEntity medioTableEntity) async {
+  Future<void> insertMB(MedioBasicoTableEntity medioTableEntity) async {
     await into(medioBasico).insertOnConflictUpdate(medioTableEntity);
   }
 
@@ -25,17 +26,17 @@ class MBDao extends DatabaseAccessor<AppDatabase> with _$MBDaoMixin {
     await (delete(medioBasico)..where((tbl) => tbl.rotulo.equals(rotulo))).go();
   }
 
-  Future<void> updateMB(MedioBasicoEntity medioTableEntity) async {
+  Future<void> updateMB(MedioBasicoTableEntity medioTableEntity) async {
     await update(medioBasico).replace(medioTableEntity);
   }
 
-  Future<void> updateMBs(List<MedioBasicoEntity> medios) async {
+  Future<void> updateMBs(List<MedioBasicoTableEntity> medios) async {
     await batch((batch) {
       batch.insertAll(medioBasico, medios, mode: InsertMode.insertOrReplace);
     });
   }
 
-  Future<List<MedioBasicoEntity>> getAllMBs() async {
+  Future<List<MedioBasicoTableEntity>> getAllMBs() async {
     return await select(medioBasico).get();
   }
 
@@ -46,15 +47,15 @@ class MBDao extends DatabaseAccessor<AppDatabase> with _$MBDaoMixin {
         .get();
   }
 
-  Future<List<MedioBasicoEntity>> getMBsByArea(String area) async {
+  Future<List<MedioBasicoTableEntity>> getMBsByArea(String area) async {
     return await (select(medioBasico)..where((tbl) => tbl.area.equals(area)))
         .get();
   }
 
-  Future<List<MedioBasicoEntity>> getMBsBySubclassification(
+  Future<List<MedioBasicoTableEntity>> getMBsBySubclassification(
       String subclassification) async {
     return await (select(medioBasico)
-          ..where((tbl) => tbl.subclasification.equals(subclassification)))
+          ..where((tbl) => tbl.subclassification.equals(subclassification)))
         .get();
   }
 
@@ -62,22 +63,23 @@ class MBDao extends DatabaseAccessor<AppDatabase> with _$MBDaoMixin {
       String area, String subclassification) async {
     final response = await (select(medioBasico)
           ..where((tbl) => tbl.area.equals(area))
-          ..where((tbl) => tbl.subclasification.equals(subclassification)))
+          ..where((tbl) => tbl.subclassification.equals(subclassification)))
         .get();
     final cant = response.length;
     return cant;
   }
 
-  Future<List<MedioBasicoEntity>> getMBsByAreaAndSubclassificationAndRotulo(
-      String area, String subclassification, String rotulo) async {
+  Future<List<MedioBasicoTableEntity>>
+      getMBsByAreaAndSubclassificationAndRotulo(
+          String area, String subclassification, String rotulo) async {
     return await (select(medioBasico)
           ..where((tbl) => tbl.area.equals(area))
-          ..where((tbl) => tbl.subclasification.equals(subclassification))
+          ..where((tbl) => tbl.subclassification.equals(subclassification))
           ..where((tbl) => tbl.rotulo.equals(rotulo)))
         .get();
   }
 
-  Future<List<MedioBasicoEntity>> getMBsByAreaAndRotulo(
+  Future<List<MedioBasicoTableEntity>> getMBsByAreaAndRotulo(
       String area, String rotulo) async {
     return await (select(medioBasico)
           ..where((tbl) => tbl.area.equals(area))
@@ -85,15 +87,15 @@ class MBDao extends DatabaseAccessor<AppDatabase> with _$MBDaoMixin {
         .get();
   }
 
-  Future<List<MedioBasicoEntity>> getMBsBySubclassificationAndRotulo(
+  Future<List<MedioBasicoTableEntity>> getMBsBySubclassificationAndRotulo(
       String subclassification, String rotulo) async {
     return await (select(medioBasico)
-          ..where((tbl) => tbl.subclasification.equals(subclassification))
+          ..where((tbl) => tbl.subclassification.equals(subclassification))
           ..where((tbl) => tbl.rotulo.equals(rotulo)))
         .get();
   }
 
-  Future<MedioBasicoEntity?> getMBsByRotulo(String rotulo) async {
+  Future<MedioBasicoTableEntity?> getMBsByRotulo(String rotulo) async {
     return await (select(medioBasico)
           ..where((tbl) => tbl.rotulo.equals(rotulo)))
         .getSingleOrNull();

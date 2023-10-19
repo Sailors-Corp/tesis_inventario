@@ -1,31 +1,90 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/dependencies.dart';
+import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
+import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/domain/entities/medio_entity.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_detail_bloc.dart';
+import 'package:inventory_tesis/src/presentation/blocs/area/report_bloc/report_bloc.dart';
 
 @RoutePage()
 class AreasDetailsPage extends StatelessWidget {
-  const AreasDetailsPage({super.key, required this.area});
+  AreasDetailsPage({
+    Key? key,
+    required this.area,
+  }) : super(key: key);
 
   final String area;
+  late List<MedioEntity>? listData = [];
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          injector.call<AreaDetailBloc>()..add(AreaDetailLoaded(area)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              injector.call<AreaDetailBloc>()..add(AreaDetailLoaded(area)),
+        ),
+        BlocProvider(
+          create: (context) => injector.call<ReportBloc>(),
+        ),
+      ],
       child: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: AppColors.primaryColor,
+            label: const Text(
+              'Realizar movimiento',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            onPressed: () async {
+              context.router.push(const MovementRoute());
+            }),
         appBar: AppBar(
           title: Text(area),
           actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(CupertinoIcons.cloud_download))
+            BlocConsumer<AreaDetailBloc, BaseState<List<MedioEntity>>>(
+              listener: (context, state) {
+                listData = <MedioEntity>[];
+                state.when(
+                  initial: () {},
+                  loading: () {},
+                  error: (error) {},
+                  empty: () {},
+                  success: (data) {
+                    listData = data;
+                  },
+                );
+              },
+              builder: (context, state) {
+                return BlocConsumer<ReportBloc, BaseState<void>>(
+                  listener: (context, state) {
+                    if (state is BaseStateError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.message),
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return IconButton(
+                      onPressed: () {
+                        context
+                            .read<ReportBloc>()
+                            .add(ReportExported(data: listData!, area: area));
+                      },
+                      icon: const Icon(CupertinoIcons.cloud_download),
+                    );
+                  },
+                );
+              },
+            )
           ],
         ),
         body: BlocBuilder<AreaDetailBloc, BaseState<List<MedioEntity>>>(

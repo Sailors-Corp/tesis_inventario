@@ -1,3 +1,3 @@
 abstract class ScanRepository {
-  Future<bool> scan(String rotulo, String area);
+  Future<String> scan(String rotulo, String area);
 }

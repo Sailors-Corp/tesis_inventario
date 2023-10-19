@@ -6,15 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/dependencies.dart';
 import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
-import 'package:inventory_tesis/src/common/theme/app_text_styles.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/home/home_bloc.dart';
-import 'package:inventory_tesis/src/presentation/components/sidebar.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +28,8 @@ class HomePage extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        drawer: const SideBar(),
         appBar: AppBar(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("UCInventory"),
-              Text(
-                "Áreas",
-                style: AppTextStyle.getAppTextStyle(
-                  size: 16,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
+          title: const Text("Control de inventario"),
           actions: [
             IconButton(
               color: Colors.white,
@@ -60,6 +47,21 @@ class HomePage extends StatelessWidget {
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: AppColors.primaryColor,
+            label: const Row(children: [
+              Icon(
+                Icons.import_export,
+                color: Colors.white,
+              ),
+              Text(
+                'Importar Base de datos',
+                style: TextStyle(color: Colors.white),
+              )
+            ]),
+            onPressed: () {
+              context.read<HomeBloc>().add(DataBaseImported());
+            }),
         body: BlocBuilder<HomeBloc, BaseState<void>>(
           builder: (context, state) {
             if (state is BaseStateLoading) {
@@ -75,13 +77,9 @@ class HomePage extends StatelessWidget {
               context.read<AreaBloc>().add(const AreasLoaded());
               return const ViewListArea();
             } else {
-              return Center(
-                child: PrimaryButton(
-                  text: 'Importar base de datos',
-                  onPresed: () {
-                    context.read<HomeBloc>().add(DataBaseImported());
-                  },
-                ),
+
+              return const Center(
+                  child: Text('Aun no ha importado una Base de datos')
               );
             }
           },

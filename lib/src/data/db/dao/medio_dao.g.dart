@@ -1,8 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dao.dart';
+part of 'medio_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$MBDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$MedioBasicoDaoMixin on DatabaseAccessor<AppDatabase> {
   $MedioBasicoTable get medioBasico => attachedDatabase.medioBasico;
 }
