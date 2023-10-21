@@ -70,12 +70,14 @@ dependencies:
   reactive_forms_annotations: ^4.0.0
   permission_handler: ^11.0.1
   external_path: ^1.0.3
+  flutter_svg:
+  introduction_screen: ^3.1.12
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
+  rename_app: ^1.3.1
   isar_generator: ^3.1.0+1
   drift_local_storage_inspector: ^0.6.0
   drift_dev: ^2.5.0
@@ -120,8 +122,9 @@ flutter:
 
 
   assets:
-    - assets/
     - assets/db/
+    - assets/img/
+    - assets/svg/
 
 
 flutter_intl:
@@ -130,20 +133,19 @@ flutter_intl:
   output_dir: lib/src/presentation/generated/lang
 
 #   # Icon Generator
-# # run this: flutter pub run flutter_launcher_icons:main
+# # run this: dart run flutter_launcher_icons:main
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/Kikis_imagotipo principal.png"
+  image_path: "assets/img/logo.png"
 
 # # Splash Generator
-# # run this: flutter pub run flutter_native_splash:create
+# # run this: dart run flutter_native_splash:create
 flutter_native_splash:
   color: "#ffffff"
-  image: "assets/svg/Kikis_Horizontal_principal.svg"
+  image: "assets/img/logo.png"
   android: true
   ios: true
-  web: false
 
 # # For rename project name and id
 # # flutter pub global activate rename

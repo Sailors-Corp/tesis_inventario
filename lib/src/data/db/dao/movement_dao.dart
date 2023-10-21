@@ -10,7 +10,14 @@ class MovementDao extends DatabaseAccessor<AppDatabase>
     with _$MovementDaoMixin {
   MovementDao(super.attachedDatabase);
 
-  Future<void> insertMB(MovementTableEntity movementTableEntity) async {
-    await into(movement).insertOnConflictUpdate(movementTableEntity);
+  Future<int> insertMovement(MovementTableEntity movementTableEntity) async {
+    final insertedId =
+        await into(movement).insertOnConflictUpdate(movementTableEntity);
+    return insertedId;
+  }
+
+  Future<List<MovementTableEntity>> getMovementsByType(String type) async {
+    return await (select(movement)..where((tbl) => tbl.type.equals(type)))
+        .get();
   }
 }

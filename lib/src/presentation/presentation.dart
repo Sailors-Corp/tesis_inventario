@@ -1,7 +1,6 @@
 export 'blocs/GenerateQr/generate_qr_bloc.dart';
 export 'blocs/auth/auth_bloc.dart';
 export 'blocs/home/home_bloc.dart';
-export 'blocs/manager/app_cubit.dart';
 export 'components/sidebar.dart';
 export 'pages/auth_page.dart';
 export 'pages/generateQR_page.dart';

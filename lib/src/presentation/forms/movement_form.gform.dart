@@ -185,8 +185,6 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
     this.path,
   );
 
-  static const String idControlName = "id";
-
   static const String entityControlName = "entity";
 
   static const String costCenterControlName = "costCenter";
@@ -197,19 +195,13 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
 
   static const String roleControlName = "role";
 
-  static const String idMedioControlName = "idMedio";
-
   static const String typeControlName = "type";
-
-  static const String subclassificationControlName = "subclassification";
 
   static const String areaControlName = "area";
 
   final FormGroup form;
 
   final String? path;
-
-  String idControlPath() => pathBuilder(idControlName);
 
   String entityControlPath() => pathBuilder(entityControlName);
 
@@ -221,16 +213,9 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
 
   String roleControlPath() => pathBuilder(roleControlName);
 
-  String idMedioControlPath() => pathBuilder(idMedioControlName);
-
   String typeControlPath() => pathBuilder(typeControlName);
 
-  String subclassificationControlPath() =>
-      pathBuilder(subclassificationControlName);
-
   String areaControlPath() => pathBuilder(areaControlName);
-
-  String get _idValue => idControl.value ?? "";
 
   String get _entityValue => entityControl.value ?? "";
 
@@ -242,22 +227,9 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
 
   String get _roleValue => roleControl.value ?? "";
 
-  String get _idMedioValue => idMedioControl.value ?? "";
-
-  String get _typeValue => typeControl.value ?? "";
-
-  String get _subclassificationValue => subclassificationControl.value ?? "";
+  TypeMovement? get _typeValue => typeControl?.value;
 
   String get _areaValue => areaControl.value ?? "";
-
-  bool get containsId {
-    try {
-      form.control(idControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
 
   bool get containsEntity {
     try {
@@ -304,27 +276,9 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
     }
   }
 
-  bool get containsIdMedio {
-    try {
-      form.control(idMedioControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   bool get containsType {
     try {
       form.control(typeControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsSubclassification {
-    try {
-      form.control(subclassificationControlPath());
       return true;
     } catch (e) {
       return false;
@@ -340,8 +294,6 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
     }
   }
 
-  Object? get idErrors => idControl.errors;
-
   Object? get entityErrors => entityControl.errors;
 
   Object? get costCenterErrors => costCenterControl.errors;
@@ -352,15 +304,9 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
 
   Object? get roleErrors => roleControl.errors;
 
-  Object? get idMedioErrors => idMedioControl.errors;
-
-  Object? get typeErrors => typeControl.errors;
-
-  Object? get subclassificationErrors => subclassificationControl.errors;
+  Object? get typeErrors => typeControl?.errors;
 
   Object? get areaErrors => areaControl.errors;
-
-  void get idFocus => form.focus(idControlPath());
 
   void get entityFocus => form.focus(entityControlPath());
 
@@ -372,21 +318,34 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
 
   void get roleFocus => form.focus(roleControlPath());
 
-  void get idMedioFocus => form.focus(idMedioControlPath());
-
   void get typeFocus => form.focus(typeControlPath());
-
-  void get subclassificationFocus => form.focus(subclassificationControlPath());
 
   void get areaFocus => form.focus(areaControlPath());
 
-  void idValueUpdate(
-    String value, {
+  void typeRemove({
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    idControl.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
+    if (containsType) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          typeControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            typeControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
   }
 
   void entityValueUpdate(
@@ -434,30 +393,12 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void idMedioValueUpdate(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    idMedioControl.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
   void typeValueUpdate(
-    String value, {
+    TypeMovement? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    typeControl.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void subclassificationValueUpdate(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    subclassificationControl.updateValue(value,
+    typeControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -467,15 +408,6 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
     bool emitEvent = true,
   }) {
     areaControl.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void idValuePatch(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    idControl.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -524,30 +456,12 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void idMedioValuePatch(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    idMedioControl.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
   void typeValuePatch(
-    String value, {
+    TypeMovement? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    typeControl.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void subclassificationValuePatch(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    subclassificationControl.patchValue(value,
+    typeControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -559,16 +473,6 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
     areaControl.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
-
-  void idValueReset(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      idControl.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
 
   void entityValueReset(
     String value, {
@@ -620,34 +524,14 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
       roleControl.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
 
-  void idMedioValueReset(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      idMedioControl.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-
   void typeValueReset(
-    String value, {
+    TypeMovement? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
     bool? disabled,
   }) =>
-      typeControl.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-
-  void subclassificationValueReset(
-    String value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      subclassificationControl.reset(
+      typeControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
 
   void areaValueReset(
@@ -659,9 +543,6 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
   }) =>
       areaControl.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
-
-  FormControl<String> get idControl =>
-      form.control(idControlPath()) as FormControl<String>;
 
   FormControl<String> get entityControl =>
       form.control(entityControlPath()) as FormControl<String>;
@@ -678,35 +559,12 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
   FormControl<String> get roleControl =>
       form.control(roleControlPath()) as FormControl<String>;
 
-  FormControl<String> get idMedioControl =>
-      form.control(idMedioControlPath()) as FormControl<String>;
-
-  FormControl<String> get typeControl =>
-      form.control(typeControlPath()) as FormControl<String>;
-
-  FormControl<String> get subclassificationControl =>
-      form.control(subclassificationControlPath()) as FormControl<String>;
+  FormControl<TypeMovement>? get typeControl => containsType
+      ? form.control(typeControlPath()) as FormControl<TypeMovement>?
+      : null;
 
   FormControl<String> get areaControl =>
       form.control(areaControlPath()) as FormControl<String>;
-
-  void idSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      idControl.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      idControl.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
 
   void entitySetDisabled(
     bool disabled, {
@@ -798,54 +656,18 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
     }
   }
 
-  void idMedioSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      idMedioControl.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      idMedioControl.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
   void typeSetDisabled(
     bool disabled, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
     if (disabled) {
-      typeControl.markAsDisabled(
+      typeControl?.markAsDisabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     } else {
-      typeControl.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void subclassificationSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      subclassificationControl.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      subclassificationControl.markAsEnabled(
+      typeControl?.markAsEnabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
@@ -879,15 +701,12 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
           '[${path ?? 'MovementFormEntityForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return MovementFormEntity(
-        id: _idValue,
         entity: _entityValue,
         costCenter: _costCenterValue,
         description: _descriptionValue,
         name: _nameValue,
         role: _roleValue,
-        idMedio: _idMedioValue,
         type: _typeValue,
-        subclassification: _subclassificationValue,
         area: _areaValue);
   }
 
@@ -929,13 +748,6 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
 
   static FormGroup formElements(MovementFormEntity? movementFormEntity) =>
       FormGroup({
-        idControlName: FormControl<String>(
-            value: movementFormEntity?.id,
-            validators: [RequiredValidator()],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
         entityControlName: FormControl<String>(
             value: movementFormEntity?.entity,
             validators: [RequiredValidator()],
@@ -952,7 +764,7 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
             touched: false),
         descriptionControlName: FormControl<String>(
             value: movementFormEntity?.description,
-            validators: [RequiredValidator()],
+            validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
@@ -971,22 +783,8 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        idMedioControlName: FormControl<String>(
-            value: movementFormEntity?.idMedio,
-            validators: [RequiredValidator()],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        typeControlName: FormControl<String>(
+        typeControlName: FormControl<TypeMovement>(
             value: movementFormEntity?.type,
-            validators: [RequiredValidator()],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        subclassificationControlName: FormControl<String>(
-            value: movementFormEntity?.subclassification,
             validators: [RequiredValidator()],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,

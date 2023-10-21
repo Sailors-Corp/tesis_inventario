@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
-import 'package:inventory_tesis/src/data/mapper/medio_table.dart';
+import 'package:inventory_tesis/src/data/db/table/medio_table.dart';
 
 part 'medio_dao.g.dart';
 
@@ -38,6 +38,13 @@ class MedioBasicoDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<MedioBasicoTableEntity>> getAllMBs() async {
     return await select(medioBasico).get();
+  }
+
+  Future<List<MedioBasicoTableEntity>> getAllMBsByMovement(
+      int idMovement) async {
+    return await (select(medioBasico)
+          ..where((tbl) => tbl.movementId.equals(idMovement)))
+        .get();
   }
 
   Future<List<String?>> getAreas() async {

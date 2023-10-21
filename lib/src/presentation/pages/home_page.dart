@@ -3,12 +3,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/dependencies.dart';
+import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
-import 'package:inventory_tesis/src/presentation/blocs/home/home_bloc.dart';
+import 'package:inventory_tesis/src/presentation/pages/widgets/custom_buttons.dart';
+import 'package:inventory_tesis/src/presentation/presentation.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -28,9 +29,17 @@ class HomePage extends StatelessWidget {
         ),
       ],
       child: Scaffold(
+        drawer: const SideBar(),
         appBar: AppBar(
           title: const Text("Control de inventario"),
           actions: [
+            IconButton(
+              color: Colors.white,
+              onPressed: () {
+                context.router.push(const TakeInventoryRoute());
+              },
+              icon: const Icon(Icons.inventory_2_outlined),
+            ),
             IconButton(
               color: Colors.white,
               onPressed: () {
@@ -67,9 +76,12 @@ class HomePage extends StatelessWidget {
             if (state is BaseStateLoading) {
               return Center(
                 child: PrimaryButton(
+                  icon: const Icon(
+                    Icons.import_export,
+                  ),
                   isLoading: true,
                   text: 'Importando',
-                  onPresed: () {},
+                  onPressed: () {},
                 ),
               );
             }
@@ -77,61 +89,13 @@ class HomePage extends StatelessWidget {
               context.read<AreaBloc>().add(const AreasLoaded());
               return const ViewListArea();
             } else {
-
               return const Center(
-                  child: Text('Aun no ha importado una Base de datos')
-              );
+                  child: Text('Aun no ha importado una Base de datos'));
             }
           },
         ),
       ),
     );
-  }
-}
-
-class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({
-    super.key,
-    this.isLoading = false,
-    required this.text,
-    this.textLoading,
-    this.onPresed,
-  });
-
-  final String text;
-  final String? textLoading;
-  final bool? isLoading;
-  final Function()? onPresed;
-
-  @override
-  Widget build(BuildContext context) {
-    return isLoading == false
-        ? ElevatedButton(
-            onPressed: onPresed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.import_export),
-                const SizedBox(width: 10),
-                Text(text),
-              ],
-            ))
-        : ElevatedButton(
-            onPressed: null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CupertinoActivityIndicator(),
-                const SizedBox(width: 10),
-                Text(text),
-              ],
-            ));
   }
 }
 
@@ -165,6 +129,7 @@ class ViewListArea extends StatelessWidget {
                   );
                 },
               ),
-            ));
+      ),
+    );
   }
 }

@@ -1,18 +1,42 @@
+// ignore_for_file: overridden_fields
+
 part of 'scan_cubit.dart';
 
 sealed class ScanState extends Equatable {
-  const ScanState({this.correctPosition = ''});
+  const ScanState({
+    this.correctPosition = '',
+    this.takeInv,
+    this.percent = 0,
+  });
 
-  // ignore: prefer_typing_uninitialized_variables
-  final String correctPosition;
+  final double? percent;
+  final bool? takeInv;
+  final String? correctPosition;
 
   @override
-  List<Object> get props => [correctPosition];
+  List<Object> get props => [correctPosition!, percent!, takeInv!];
 }
 
 final class ScanInitial extends ScanState {}
 
+final class ScanClosed extends ScanState {}
+
 final class ScanLoading extends ScanState {}
+
+final class ScanSuccessPercent extends ScanState {
+  @override
+  final double? percent;
+  @override
+  final bool? takeInv;
+  @override
+  final String? correctPosition;
+
+  const ScanSuccessPercent({
+    this.takeInv,
+    this.correctPosition,
+    this.percent,
+  });
+}
 
 final class ScanError extends ScanState {
   final String message;
@@ -22,9 +46,15 @@ final class ScanError extends ScanState {
 
 final class ScanSuccess extends ScanState {
   @override
-  final String correctPosition;
+  final double? percent;
+  @override
+  final bool? takeInv;
+  @override
+  final String? correctPosition;
 
-  const ScanSuccess({required this.correctPosition});
+  const ScanSuccess({
+    this.takeInv,
+    this.correctPosition,
+    this.percent,
+  });
 }
-
-final class ScanClosed extends ScanState {}

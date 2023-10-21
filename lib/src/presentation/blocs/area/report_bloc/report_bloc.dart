@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/core/utils/result.dart';
 import 'package:inventory_tesis/src/domain/entities/medio_entity.dart';
-import 'package:inventory_tesis/src/presentation/services/domain/pdf_repository.dart';
+import 'package:inventory_tesis/src/presentation/services/export_pdf/pdf_repository.dart';
 
 part 'report_event.dart';
 
