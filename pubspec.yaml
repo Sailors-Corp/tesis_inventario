@@ -60,6 +60,16 @@ dependencies:
   freezed: ^2.4.5
   freezed_annotation: ^2.4.1
   collection: ^1.17.2
+  http: ^1.1.0
+  pdf: ^3.8.4
+  open_file: ^3.3.2
+  google_fonts: ^6.1.0
+  reactive_date_time_picker: ^3.0.0
+  reactive_dropdown_search: ^3.0.0
+  reactive_forms: ^16.0.0
+  reactive_forms_annotations: ^4.0.0
+  permission_handler: ^11.0.1
+  external_path: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +89,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.2.2
   retrofit_generator: ^7.0.8
+  reactive_forms_generator: ^4.0.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

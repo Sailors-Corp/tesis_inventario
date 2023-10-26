@@ -1,32 +1,30 @@
-import 'dart:ffi';
-
-import 'package:inventory_tesis/src/data/db/dao/dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/inventario_dao.dart';
+import 'package:inventory_tesis/src/data/db/dao/medio_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
 import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
 
 class ScanRepositoryImpl extends ScanRepository {
-  final MBDao mbDao;
+  final MedioBasicoDao mbDao;
   final InvDao invDao;
 
   ScanRepositoryImpl(this.mbDao, this.invDao);
 
   @override
-  Future<bool> scan(String rotulo, String area) async {
-    final MedioBasicoEntity? response = await mbDao.getMBsByRotulo(rotulo);
+  Future<String> scan(String rotulo, String area) async {
+    final MedioBasicoTableEntity? response = await mbDao.getMBsByRotulo(rotulo);
 
     if (response == null) {
-      return false;
+      return '';
     }
     if (response.area == area) {
-      return true;
+      return response.area;
     }
-    return false;
+    return '';
   }
 
   @override
   Future<bool> takeInventory(String rotulo, String area, String invArea) async {
-    final MedioBasicoEntity? response = await mbDao.getMBsByRotulo(rotulo);
+    final MedioBasicoTableEntity? response = await mbDao.getMBsByRotulo(rotulo);
 
     if (response == null) {
       return false;
@@ -36,7 +34,7 @@ class ScanRepositoryImpl extends ScanRepository {
         InventarioEntity medioInv = InventarioEntity(
             rotulo: response.rotulo,
             area: response.area,
-            subclasification: response.subclasification);
+            subclasification: response.subclassification);
         await invDao.insertInv(medioInv);
         return true;
       }
@@ -45,7 +43,7 @@ class ScanRepositoryImpl extends ScanRepository {
         InventarioEntity medioInv = InventarioEntity(
             rotulo: response.rotulo,
             area: response.area,
-            subclasification: response.subclasification);
+            subclasification: response.subclassification);
         await invDao.insertInv(medioInv);
         return true;
       } else {
@@ -57,7 +55,7 @@ class ScanRepositoryImpl extends ScanRepository {
 
   @override
   Future<double> percentInventory(String area) async {
-    List<MedioBasicoEntity> listMedios = [];
+    List<MedioBasicoTableEntity> listMedios = [];
     List<InventarioEntity> listInv = [];
     if (area != 'Todas') {
       listMedios = await mbDao.getMBsByArea(area);

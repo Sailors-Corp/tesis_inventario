@@ -24,5 +24,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: TakeInventoryRoute.page,
         ),
+        AutoRoute(
+          page: MovementRoute.page,
+        ),
       ];
 }
