@@ -158,19 +158,29 @@ class _ScanInventoryState extends State<ScanInventory> {
         Expanded(
           flex: 1,
           child: Column(children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        'Grafica',
-                      ),
-                    ),
-                    Text('%'),
-                  ],
+                child: BlocBuilder<ScanCubit, ScanState>(
+                  builder: (context, state) {
+                    if (state is ScanSuccessPecent) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Flexible(
+                            child: LinearProgressIndicator(
+                              value: double.parse(state.percent),
+                            ),
+                          ),
+                          Text(state.percent.toString()),
+                        ],
+                      );
+                    }
+                    if (state is ScanLoading) {
+                      return const CircularProgressIndicator.adaptive();
+                    }
+                    return Container();
+                  },
                 ),
               ),
             ),

@@ -26,5 +26,5 @@ final class ScanSuccessPecent extends ScanState {
   @override
   final percent;
 
-  const ScanSuccessPecent(this.percent);
+  const ScanSuccessPecent(double this.percent);
 }
