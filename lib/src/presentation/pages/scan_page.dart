@@ -67,13 +67,12 @@ class _ScanState extends State<Scan> {
           _showMyDialog(
             context: context,
             item: item,
-            correctPosition: context.read<ScanCubit>().state.correctPosition!,
+            correctPosition: context.read<ScanCubit>().state.isCorrectPosition!,
           ).then((_) {
             isDialogOpen = false;
           });
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     });
   }
 
@@ -136,50 +135,36 @@ class _ScanState extends State<Scan> {
   }
 }
 
+  Future<void> _showMyDialog(
+      {required BuildContext context,
+      required ItemModel item,
+      required bool isCorrect}) async {
+    final TextEditingController rotuloController =
+        TextEditingController(text: item.rotulo);
+    final TextEditingController subclasificationController =
+        TextEditingController(text: item.subClassification);
+    final TextEditingController areaController =
+        TextEditingController(text: item.area);
 
-Future<void> _showMyDialog({
-  required BuildContext context,
-  required ItemModel item,
-  required String correctPosition,
-}) async {
-  final TextEditingController rotuloController =
-      TextEditingController(text: item.rotulo);
-  final TextEditingController subclassificationController =
-      TextEditingController(text: item.subClassification);
-  final TextEditingController areaController =
-      TextEditingController(text: item.area);
-
-  return showDialog<void>(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(12),
-                color: correctPosition == item.area ? Colors.green : Colors.red,
-                child: Center(
-                  child: Text(
-                    correctPosition.isEmpty
-                        ? 'El medio no se encuentra en la base de datos'
-                        : correctPosition == item.area
-                            ? 'El medio básico está en su lugar'
-                            : 'El medio básico no está en su lugar, pertenece a $correctPosition',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: TextField(
+    return showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text("Resultado"),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                isCorrect == true
+                    ? Container()
+                    : const Text(
+                        'El medio basico no esta en su lugar',
+                        style: TextStyle(color: Colors.red),
+                        textAlign: TextAlign.center,
+                      ),
+                TextField(
                   readOnly: true,
                   decoration: const InputDecoration(
                     labelText: 'Rótulo',
