@@ -6,6 +6,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/core/utils/delete_cotes.dart';
@@ -165,11 +167,38 @@ class _ScanInventoryState extends State<ScanInventory> {
               }
               return Row(
                 children: [
-                  const Expanded(flex: 4, child: LinearProgressIndicator()),
+                  Expanded(
+                    flex: 4,
+                    child: GFProgressBar(
+                      percentage: state.percent ?? 0.0,
+                      lineHeight: 30,
+                      backgroundColor: Colors.black26,
+                      progressBarColor: Colors.green,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(right: 5, top: 5, bottom: 5),
+                        child: Text(
+                          "${state.percent! * 100}%",
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
+                              fontSize: 17, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     width: 20,
                   ),
-                  Expanded(flex: 1, child: Text(areaSelect))
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      areaSelect,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               );
             },

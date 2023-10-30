@@ -3,12 +3,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
+import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
-import 'package:inventory_tesis/src/presentation/pages/widgets/custom_buttons.dart';
 import 'package:inventory_tesis/src/presentation/presentation.dart';
 
 @RoutePage()
@@ -33,13 +32,13 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Control de inventario"),
           actions: [
-            IconButton(
-              color: Colors.white,
-              onPressed: () {
-                context.router.push(const TakeInventoryRoute());
-              },
-              icon: const Icon(Icons.inventory_2_outlined),
-            ),
+            // IconButton(
+            //   color: Colors.white,
+            //   onPressed: () {
+            //     context.router.push(const TakeInventoryRoute());
+            //   },
+            //   icon: const Icon(Icons.inventory_2_outlined),
+            // ),
             IconButton(
               color: Colors.white,
               onPressed: () {
@@ -74,16 +73,7 @@ class HomePage extends StatelessWidget {
         body: BlocBuilder<HomeBloc, BaseState<void>>(
           builder: (context, state) {
             if (state is BaseStateLoading) {
-              return Center(
-                child: PrimaryButton(
-                  icon: const Icon(
-                    Icons.import_export,
-                  ),
-                  isLoading: true,
-                  text: 'Importando',
-                  onPressed: () {},
-                ),
-              );
+              return const CupertinoActivityIndicator();
             }
             if (state is BaseStateSuccess) {
               context.read<AreaBloc>().add(const AreasLoaded());
@@ -107,29 +97,33 @@ class ViewListArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AreaBloc, BaseState<List<String?>>>(
-        builder: (context, state) => state.when(
-              initial: Container.new,
-              loading: () => const CupertinoActivityIndicator(),
-              error: (error) => Container(),
-              empty: Container.new,
-              success: (data) => ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: ListTile(
-                        onTap: () {
-                          context.router.push(
-                              AreasDetailsRoute(area: data[index].toString()));
-                        },
-                        title: Text(data[index].toString()),
-                      ),
-                    ),
-                  );
-                },
+      builder: (context, state) => state.when(
+        initial: Container.new,
+        loading: () => const CupertinoActivityIndicator(),
+        error: (error) => Container(),
+        empty: Container.new,
+        success: (data) => ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: ListTile(
+                  onTap: () {
+                    context.router
+                        .push(AreasDetailsRoute(area: data[index].toString()));
+                  },
+                  title: Text(data[index].toString()),
+                ),
               ),
+            );
+          },
+        ),
       ),
     );
   }
 }
+
+
+
+
