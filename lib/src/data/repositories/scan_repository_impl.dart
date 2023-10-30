@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:inventory_tesis/src/data/db/dao/inventario_dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/medio_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
@@ -23,11 +25,12 @@ class ScanRepositoryImpl extends ScanRepository {
   }
 
   @override
-  Future<bool> takeInventory(String rotulo, String area, String invArea) async {
+  Future<String> takeInventory(
+      String rotulo, String area, String invArea) async {
     final MedioBasicoTableEntity? response = await mbDao.getMBsByRotulo(rotulo);
 
     if (response == null) {
-      return false;
+      return '';
     }
     if (invArea == 'Todas') {
       if (response.area == area) {
@@ -36,7 +39,8 @@ class ScanRepositoryImpl extends ScanRepository {
             area: response.area,
             subclasification: response.subclassification);
         await invDao.insertInv(medioInv);
-        return true;
+        log('Se inserto');
+        return area;
       }
     } else {
       if (response.area == area) {
@@ -45,12 +49,13 @@ class ScanRepositoryImpl extends ScanRepository {
             area: response.area,
             subclasification: response.subclassification);
         await invDao.insertInv(medioInv);
-        return true;
+        log('Se inserto');
+        return area;
       } else {
-        return false;
+        return '';
       }
     }
-    return false;
+    return '';
   }
 
   @override
@@ -64,7 +69,6 @@ class ScanRepositoryImpl extends ScanRepository {
       listMedios = await mbDao.getMBsByArea(area);
       listInv = await invDao.getInvsByArea(area);
     }
-
     final double percent = listMedios.length / listInv.length * 100;
 
     return percent;

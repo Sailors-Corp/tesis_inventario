@@ -29,13 +29,9 @@ class ScanCubit extends Cubit<ScanState> {
 
     final response = await _scanRepository.takeInventory(rotulo, area, invArea);
 
-    emit(ScanSuccess(takeInv: response));
-  }
+    // Verificar después de hacer el inventario entero
+    final percent = await _scanRepository.percentInventory(invArea);
 
-  Future<void> getPercent(String area, String invArea) async {
-    emit(ScanLoading());
-
-    final response = await _scanRepository.percentInventory(invArea);
-    emit(ScanSuccess(percent: response));
+    emit(ScanSuccessPercent(correctPosition: response, percent: percent));
   }
 }

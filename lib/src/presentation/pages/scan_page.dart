@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/dependencies.dart';
+import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/delete_cotes.dart';
-import 'package:inventory_tesis/src/data/models/item_model.dart';
+import 'package:inventory_tesis/src/data/models/medio_basico_model.dart';
 import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -139,7 +139,7 @@ class _ScanState extends State<Scan> {
 
 Future<void> _showMyDialog({
   required BuildContext context,
-  required ItemModel item,
+  required MedioBasicoModel item,
   required String correctPosition,
 }) async {
   final TextEditingController rotuloController =

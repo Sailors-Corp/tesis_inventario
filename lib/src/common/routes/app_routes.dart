@@ -6,11 +6,11 @@ class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          page: AuthRoute.page,
+          page: OnBoardingRoute.page,
+          initial: true,
         ),
         AutoRoute(
           page: HomeRoute.page,
-          initial: true,
         ),
         AutoRoute(
           page: ScanRoute.page,
@@ -26,6 +26,12 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(
           page: MovementRoute.page,
+        ),
+        AutoRoute(
+          page: ReportsRoute.page,
+        ),
+        AutoRoute(
+          page: MovementReportRoute.page,
         ),
       ];
 }

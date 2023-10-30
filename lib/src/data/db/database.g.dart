@@ -25,8 +25,15 @@ class $MedioBasicoTable extends MedioBasico
   late final GeneratedColumn<String> subclassification =
       GeneratedColumn<String>('subclassification', aliasedName, false,
           type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _movementIdMeta =
+      const VerificationMeta('movementId');
   @override
-  List<GeneratedColumn> get $columns => [rotulo, area, subclassification];
+  late final GeneratedColumn<int> movementId = GeneratedColumn<int>(
+      'movement_id', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [rotulo, area, subclassification, movementId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -58,6 +65,12 @@ class $MedioBasicoTable extends MedioBasico
     } else if (isInserting) {
       context.missing(_subclassificationMeta);
     }
+    if (data.containsKey('movement_id')) {
+      context.handle(
+          _movementIdMeta,
+          movementId.isAcceptableOrUnknown(
+              data['movement_id']!, _movementIdMeta));
+    }
     return context;
   }
 
@@ -73,6 +86,8 @@ class $MedioBasicoTable extends MedioBasico
           .read(DriftSqlType.string, data['${effectivePrefix}area'])!,
       subclassification: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}subclassification'])!,
+      movementId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}movement_id']),
     );
   }
 
@@ -87,16 +102,21 @@ class MedioBasicoTableEntity extends DataClass
   final String rotulo;
   final String area;
   final String subclassification;
+  final int? movementId;
   const MedioBasicoTableEntity(
       {required this.rotulo,
       required this.area,
-      required this.subclassification});
+      required this.subclassification,
+      this.movementId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['rotulo'] = Variable<String>(rotulo);
     map['area'] = Variable<String>(area);
     map['subclassification'] = Variable<String>(subclassification);
+    if (!nullToAbsent || movementId != null) {
+      map['movement_id'] = Variable<int>(movementId);
+    }
     return map;
   }
 
@@ -105,6 +125,9 @@ class MedioBasicoTableEntity extends DataClass
       rotulo: Value(rotulo),
       area: Value(area),
       subclassification: Value(subclassification),
+      movementId: movementId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(movementId),
     );
   }
 
@@ -115,6 +138,7 @@ class MedioBasicoTableEntity extends DataClass
       rotulo: serializer.fromJson<String>(json['rotulo']),
       area: serializer.fromJson<String>(json['area']),
       subclassification: serializer.fromJson<String>(json['subclassification']),
+      movementId: serializer.fromJson<int?>(json['movementId']),
     );
   }
   @override
@@ -124,52 +148,62 @@ class MedioBasicoTableEntity extends DataClass
       'rotulo': serializer.toJson<String>(rotulo),
       'area': serializer.toJson<String>(area),
       'subclassification': serializer.toJson<String>(subclassification),
+      'movementId': serializer.toJson<int?>(movementId),
     };
   }
 
   MedioBasicoTableEntity copyWith(
-          {String? rotulo, String? area, String? subclassification}) =>
+          {String? rotulo,
+          String? area,
+          String? subclassification,
+          Value<int?> movementId = const Value.absent()}) =>
       MedioBasicoTableEntity(
         rotulo: rotulo ?? this.rotulo,
         area: area ?? this.area,
         subclassification: subclassification ?? this.subclassification,
+        movementId: movementId.present ? movementId.value : this.movementId,
       );
   @override
   String toString() {
     return (StringBuffer('MedioBasicoTableEntity(')
           ..write('rotulo: $rotulo, ')
           ..write('area: $area, ')
-          ..write('subclassification: $subclassification')
+          ..write('subclassification: $subclassification, ')
+          ..write('movementId: $movementId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(rotulo, area, subclassification);
+  int get hashCode => Object.hash(rotulo, area, subclassification, movementId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is MedioBasicoTableEntity &&
           other.rotulo == this.rotulo &&
           other.area == this.area &&
-          other.subclassification == this.subclassification);
+          other.subclassification == this.subclassification &&
+          other.movementId == this.movementId);
 }
 
 class MedioBasicoCompanion extends UpdateCompanion<MedioBasicoTableEntity> {
   final Value<String> rotulo;
   final Value<String> area;
   final Value<String> subclassification;
+  final Value<int?> movementId;
   final Value<int> rowid;
   const MedioBasicoCompanion({
     this.rotulo = const Value.absent(),
     this.area = const Value.absent(),
     this.subclassification = const Value.absent(),
+    this.movementId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   MedioBasicoCompanion.insert({
     required String rotulo,
     required String area,
     required String subclassification,
+    this.movementId = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : rotulo = Value(rotulo),
         area = Value(area),
@@ -178,12 +212,14 @@ class MedioBasicoCompanion extends UpdateCompanion<MedioBasicoTableEntity> {
     Expression<String>? rotulo,
     Expression<String>? area,
     Expression<String>? subclassification,
+    Expression<int>? movementId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (rotulo != null) 'rotulo': rotulo,
       if (area != null) 'area': area,
       if (subclassification != null) 'subclassification': subclassification,
+      if (movementId != null) 'movement_id': movementId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -192,11 +228,13 @@ class MedioBasicoCompanion extends UpdateCompanion<MedioBasicoTableEntity> {
       {Value<String>? rotulo,
       Value<String>? area,
       Value<String>? subclassification,
+      Value<int?>? movementId,
       Value<int>? rowid}) {
     return MedioBasicoCompanion(
       rotulo: rotulo ?? this.rotulo,
       area: area ?? this.area,
       subclassification: subclassification ?? this.subclassification,
+      movementId: movementId ?? this.movementId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -213,6 +251,9 @@ class MedioBasicoCompanion extends UpdateCompanion<MedioBasicoTableEntity> {
     if (subclassification.present) {
       map['subclassification'] = Variable<String>(subclassification.value);
     }
+    if (movementId.present) {
+      map['movement_id'] = Variable<int>(movementId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -225,6 +266,7 @@ class MedioBasicoCompanion extends UpdateCompanion<MedioBasicoTableEntity> {
           ..write('rotulo: $rotulo, ')
           ..write('area: $area, ')
           ..write('subclassification: $subclassification, ')
+          ..write('movementId: $movementId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -278,36 +320,14 @@ class $MovementTable extends Movement
   late final GeneratedColumn<String> role = GeneratedColumn<String>(
       'role', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _idMedioMeta =
-      const VerificationMeta('idMedio');
-  @override
-  late final GeneratedColumn<String> idMedio = GeneratedColumn<String>(
-      'id_medio', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
       'type', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _subclassificationMeta =
-      const VerificationMeta('subclassification');
   @override
-  late final GeneratedColumn<String> subclassification =
-      GeneratedColumn<String>('subclassification', aliasedName, false,
-          type: DriftSqlType.string, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        entity,
-        costCenter,
-        area,
-        description,
-        name,
-        role,
-        idMedio,
-        type,
-        subclassification
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, entity, costCenter, area, description, name, role, type];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -362,25 +382,11 @@ class $MovementTable extends Movement
     } else if (isInserting) {
       context.missing(_roleMeta);
     }
-    if (data.containsKey('id_medio')) {
-      context.handle(_idMedioMeta,
-          idMedio.isAcceptableOrUnknown(data['id_medio']!, _idMedioMeta));
-    } else if (isInserting) {
-      context.missing(_idMedioMeta);
-    }
     if (data.containsKey('type')) {
       context.handle(
           _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
-    }
-    if (data.containsKey('subclassification')) {
-      context.handle(
-          _subclassificationMeta,
-          subclassification.isAcceptableOrUnknown(
-              data['subclassification']!, _subclassificationMeta));
-    } else if (isInserting) {
-      context.missing(_subclassificationMeta);
     }
     return context;
   }
@@ -405,12 +411,8 @@ class $MovementTable extends Movement
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       role: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}role'])!,
-      idMedio: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id_medio'])!,
       type: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      subclassification: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}subclassification'])!,
     );
   }
 
@@ -429,9 +431,7 @@ class MovementTableEntity extends DataClass
   final String description;
   final String name;
   final String role;
-  final String idMedio;
   final String type;
-  final String subclassification;
   const MovementTableEntity(
       {this.id,
       required this.entity,
@@ -440,9 +440,7 @@ class MovementTableEntity extends DataClass
       required this.description,
       required this.name,
       required this.role,
-      required this.idMedio,
-      required this.type,
-      required this.subclassification});
+      required this.type});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -455,9 +453,7 @@ class MovementTableEntity extends DataClass
     map['description'] = Variable<String>(description);
     map['name'] = Variable<String>(name);
     map['role'] = Variable<String>(role);
-    map['id_medio'] = Variable<String>(idMedio);
     map['type'] = Variable<String>(type);
-    map['subclassification'] = Variable<String>(subclassification);
     return map;
   }
 
@@ -470,9 +466,7 @@ class MovementTableEntity extends DataClass
       description: Value(description),
       name: Value(name),
       role: Value(role),
-      idMedio: Value(idMedio),
       type: Value(type),
-      subclassification: Value(subclassification),
     );
   }
 
@@ -487,9 +481,7 @@ class MovementTableEntity extends DataClass
       description: serializer.fromJson<String>(json['description']),
       name: serializer.fromJson<String>(json['name']),
       role: serializer.fromJson<String>(json['role']),
-      idMedio: serializer.fromJson<String>(json['idMedio']),
       type: serializer.fromJson<String>(json['type']),
-      subclassification: serializer.fromJson<String>(json['subclassification']),
     );
   }
   @override
@@ -503,9 +495,7 @@ class MovementTableEntity extends DataClass
       'description': serializer.toJson<String>(description),
       'name': serializer.toJson<String>(name),
       'role': serializer.toJson<String>(role),
-      'idMedio': serializer.toJson<String>(idMedio),
       'type': serializer.toJson<String>(type),
-      'subclassification': serializer.toJson<String>(subclassification),
     };
   }
 
@@ -517,9 +507,7 @@ class MovementTableEntity extends DataClass
           String? description,
           String? name,
           String? role,
-          String? idMedio,
-          String? type,
-          String? subclassification}) =>
+          String? type}) =>
       MovementTableEntity(
         id: id.present ? id.value : this.id,
         entity: entity ?? this.entity,
@@ -528,9 +516,7 @@ class MovementTableEntity extends DataClass
         description: description ?? this.description,
         name: name ?? this.name,
         role: role ?? this.role,
-        idMedio: idMedio ?? this.idMedio,
         type: type ?? this.type,
-        subclassification: subclassification ?? this.subclassification,
       );
   @override
   String toString() {
@@ -542,16 +528,14 @@ class MovementTableEntity extends DataClass
           ..write('description: $description, ')
           ..write('name: $name, ')
           ..write('role: $role, ')
-          ..write('idMedio: $idMedio, ')
-          ..write('type: $type, ')
-          ..write('subclassification: $subclassification')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, entity, costCenter, area, description,
-      name, role, idMedio, type, subclassification);
+  int get hashCode =>
+      Object.hash(id, entity, costCenter, area, description, name, role, type);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -563,9 +547,7 @@ class MovementTableEntity extends DataClass
           other.description == this.description &&
           other.name == this.name &&
           other.role == this.role &&
-          other.idMedio == this.idMedio &&
-          other.type == this.type &&
-          other.subclassification == this.subclassification);
+          other.type == this.type);
 }
 
 class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
@@ -576,9 +558,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
   final Value<String> description;
   final Value<String> name;
   final Value<String> role;
-  final Value<String> idMedio;
   final Value<String> type;
-  final Value<String> subclassification;
   const MovementCompanion({
     this.id = const Value.absent(),
     this.entity = const Value.absent(),
@@ -587,9 +567,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
     this.description = const Value.absent(),
     this.name = const Value.absent(),
     this.role = const Value.absent(),
-    this.idMedio = const Value.absent(),
     this.type = const Value.absent(),
-    this.subclassification = const Value.absent(),
   });
   MovementCompanion.insert({
     this.id = const Value.absent(),
@@ -599,18 +577,14 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
     required String description,
     required String name,
     required String role,
-    required String idMedio,
     required String type,
-    required String subclassification,
   })  : entity = Value(entity),
         costCenter = Value(costCenter),
         area = Value(area),
         description = Value(description),
         name = Value(name),
         role = Value(role),
-        idMedio = Value(idMedio),
-        type = Value(type),
-        subclassification = Value(subclassification);
+        type = Value(type);
   static Insertable<MovementTableEntity> custom({
     Expression<int>? id,
     Expression<String>? entity,
@@ -619,9 +593,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
     Expression<String>? description,
     Expression<String>? name,
     Expression<String>? role,
-    Expression<String>? idMedio,
     Expression<String>? type,
-    Expression<String>? subclassification,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -631,9 +603,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
       if (description != null) 'description': description,
       if (name != null) 'name': name,
       if (role != null) 'role': role,
-      if (idMedio != null) 'id_medio': idMedio,
       if (type != null) 'type': type,
-      if (subclassification != null) 'subclassification': subclassification,
     });
   }
 
@@ -645,9 +615,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
       Value<String>? description,
       Value<String>? name,
       Value<String>? role,
-      Value<String>? idMedio,
-      Value<String>? type,
-      Value<String>? subclassification}) {
+      Value<String>? type}) {
     return MovementCompanion(
       id: id ?? this.id,
       entity: entity ?? this.entity,
@@ -656,9 +624,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
       description: description ?? this.description,
       name: name ?? this.name,
       role: role ?? this.role,
-      idMedio: idMedio ?? this.idMedio,
       type: type ?? this.type,
-      subclassification: subclassification ?? this.subclassification,
     );
   }
 
@@ -686,14 +652,8 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
     if (role.present) {
       map['role'] = Variable<String>(role.value);
     }
-    if (idMedio.present) {
-      map['id_medio'] = Variable<String>(idMedio.value);
-    }
     if (type.present) {
       map['type'] = Variable<String>(type.value);
-    }
-    if (subclassification.present) {
-      map['subclassification'] = Variable<String>(subclassification.value);
     }
     return map;
   }
@@ -708,9 +668,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
           ..write('description: $description, ')
           ..write('name: $name, ')
           ..write('role: $role, ')
-          ..write('idMedio: $idMedio, ')
-          ..write('type: $type, ')
-          ..write('subclassification: $subclassification')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
