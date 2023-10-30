@@ -57,9 +57,7 @@ class _ScanInventoryState extends State<ScanInventory> {
   @override
   void reassemble() {
     super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    } else if (Platform.isIOS) {
+    if (controller != null && Platform.isAndroid) {
       controller!.resumeCamera();
     }
   }
@@ -74,13 +72,11 @@ class _ScanInventoryState extends State<ScanInventory> {
       });
 
       result = await Utilities.deleteCotesInText(result);
-
       final item = itemModelFromJson(result);
 
       await context
           .read<ScanCubit>()
           .takeInventory(item.rotulo, item.area, areaSelect);
-
       if (!isDialogOpen) {
         isDialogOpen = true;
         _showMyDialog(
@@ -104,6 +100,7 @@ class _ScanInventoryState extends State<ScanInventory> {
   @override
   Widget build(BuildContext context) {
     context.read<AreaBloc>().add(const AreasLoaded());
+    final cubit = context.read<ScanCubit>();
 
     return Column(
       children: [
@@ -189,6 +186,9 @@ class _ScanInventoryState extends State<ScanInventory> {
                   backgroundColor: AppColors.primaryColor,
                 ),
                 onPressed: () {
+                  if (cubit.state is! ScanClosed) {
+                    cubit.emit(ScanClosed());
+                  }
                   context.router.pop();
                 },
                 child: const Text('Cancelar'),

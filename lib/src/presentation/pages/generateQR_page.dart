@@ -196,7 +196,7 @@ class GenerateQRForm extends StatelessWidget {
                     controller: _nombreController,
                     cursorColor: AppColors.primaryBlue,
                     decoration: const InputDecoration(
-                      hintText: "Nombre",
+                      hintText: "Área",
                       prefixIcon: Material(
                         elevation: 0,
                         borderRadius: BorderRadius.all(Radius.circular(10)),

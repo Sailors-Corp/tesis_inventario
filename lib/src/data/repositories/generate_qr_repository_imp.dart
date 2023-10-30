@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_renaming_method_parameters
+
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inventory_tesis/src/domain/repositories/generate_qr_repository.dart';
 import 'package:inventory_tesis/src/presentation/generated/assets/assets.gen.dart';
@@ -23,14 +26,10 @@ class GenerateQRRepositoryImpl extends GenerateQRRepository {
     String jsonString = jsonEncode(dataString);
 
     return QrImageView(
-      embeddedImage: AssetImage(Assets.img.uciLogo.path),
-      embeddedImageStyle: const QrEmbeddedImageStyle(
-        size: Size(80, 80),
-      ),
+      backgroundColor: Colors.white,
       data: jsonString,
       version: QrVersions.auto,
       size: 320,
-      gapless: false,
     );
   }
 }
