@@ -72,6 +72,7 @@ dependencies:
   external_path: ^1.0.3
   flutter_svg:
   introduction_screen: ^3.1.12
+  getwidget:
 
 dev_dependencies:
   flutter_test:
