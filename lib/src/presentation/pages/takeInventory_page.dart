@@ -283,8 +283,15 @@ class _ScanInventoryState extends State<ScanInventory> {
               children: <Widget>[
                 Container(
                   padding: const EdgeInsets.all(12),
-                  color:
-                      correctPosition == item.area ? Colors.green : Colors.red,
+                  color: correctPosition.isEmpty
+                      ? Colors.red
+                      : correctPosition != 'Todas'
+                          ? correctPosition == areaSelect
+                              ? Colors.green
+                              : Colors.red
+                          : correctPosition == item.area
+                              ? Colors.green
+                              : Colors.red,
                   child: Center(
                     child: Text(
                       correctPosition.isEmpty
