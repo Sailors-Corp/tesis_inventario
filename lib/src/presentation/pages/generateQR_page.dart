@@ -28,7 +28,8 @@ class _GenerateQRPage extends State<GenerateQRPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Generar QR'),
+        title: const Text('Generar QR '),
+        centerTitle: true,
       ),
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

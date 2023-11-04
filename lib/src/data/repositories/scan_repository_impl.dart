@@ -32,6 +32,7 @@ class ScanRepositoryImpl extends ScanRepository {
     if (response == null) {
       return '';
     }
+    log("InvArea: => ${invArea}\n Area: => ${area}\n ResponseArea: => ${response.area}");
     if (invArea == 'Todas') {
       if (response.area == area) {
         InventarioEntity medioInv = InventarioEntity(
@@ -43,7 +44,7 @@ class ScanRepositoryImpl extends ScanRepository {
         return area;
       }
     } else {
-      if (response.area == area) {
+      if (response.area == area && response.area == invArea) {
         InventarioEntity medioInv = InventarioEntity(
             rotulo: response.rotulo,
             area: response.area,
@@ -52,7 +53,7 @@ class ScanRepositoryImpl extends ScanRepository {
         log('Se inserto');
         return area;
       } else {
-        return '';
+        return response.area;
       }
     }
     return '';
@@ -66,11 +67,15 @@ class ScanRepositoryImpl extends ScanRepository {
       listMedios = await mbDao.getMBsByArea(area);
       listInv = await invDao.getInvsByArea(area);
     } else {
-      listMedios = await mbDao.getMBsByArea(area);
-      listInv = await invDao.getInvsByArea(area);
+      listMedios = await mbDao.getAllMBs();
+      listInv = await invDao.getAllInvs();
     }
-    final double percent = listMedios.length / listInv.length * 100;
-
-    return percent;
+    final double percent = listMedios.length / listInv.length / 100;
+    log("${listInv.length} - ${listMedios.length}");
+    if (listInv.isNotEmpty) {
+      return percent;
+    } else {
+      return 0.0;
+    }
   }
 }

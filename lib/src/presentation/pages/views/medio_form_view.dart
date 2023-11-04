@@ -20,6 +20,7 @@ class MedioFormView extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const Gutter(),
             ReactiveTextField<String>(
               formControlName: MedioFormEntityForm.rotuloControlName,
               validationMessages: {
@@ -54,17 +55,22 @@ class MedioFormView extends StatelessWidget {
               ),
             ),
             const Gutter(),
-            PrimaryButton(
-              onPressed: () {
-                formModel.form.markAllAsTouched();
-                if (formModel.form.invalid) return;
-                context.read<GenerateQRBloc>().add(
-                      GenerateQr(
-                        medioFormEntity: formModel.model,
-                      ),
-                    );
+            BlocBuilder<GenerateQRBloc, GenerateQRState>(
+              builder: (context, state) {
+                return PrimaryButton(
+                  isLoading: state is LoadingGenerateQRState ? true : false,
+                  onPressed: () {
+                    formModel.form.markAllAsTouched();
+                    if (formModel.form.invalid) return;
+                    context.read<GenerateQRBloc>().add(
+                          GenerateQr(
+                            medioFormEntity: formModel.model,
+                          ),
+                        );
+                  },
+                  text: 'Generar Qr',
+                );
               },
-              text: 'Generar Qr',
             )
           ],
         );
