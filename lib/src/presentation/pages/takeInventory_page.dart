@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 
 import 'dart:io';
 
@@ -104,6 +104,8 @@ class _ScanInventoryState extends State<ScanInventory> {
     context.read<AreaBloc>().add(const AreasLoaded());
     final cubit = context.read<ScanCubit>();
 
+    cubit.getPercent(areaSelect);
+
     return Column(
       children: [
         Padding(
@@ -128,6 +130,7 @@ class _ScanInventoryState extends State<ScanInventory> {
                 }).toList(),
                 onChanged: (value) {
                   areaSelect = value!;
+                  cubit.getPercent(areaSelect);
                   setState(() {});
                 },
               ),
@@ -154,10 +157,30 @@ class _ScanInventoryState extends State<ScanInventory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Expanded(
-                        flex: 4,
-                        child: LinearProgressIndicator(
-                          value: state.percent,
-                        )),
+                      flex: 4,
+                      child: GFProgressBar(
+                        percentage: state.percent ?? 0.0,
+                        lineHeight: 30,
+                        backgroundColor: Colors.black26,
+                        progressBarColor: state.percent == null
+                            ? Colors.red
+                            : state.percent != null && state.percent! < 0.01
+                                ? Colors.red
+                                : state.percent! < 0.5
+                                    ? Colors.yellow.withOpacity(.7)
+                                    : Colors.green,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 5, top: 5, bottom: 5),
+                          child: Text(
+                            "${state.percent! * 100}%",
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(
+                                fontSize: 17, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
@@ -173,7 +196,13 @@ class _ScanInventoryState extends State<ScanInventory> {
                       percentage: state.percent ?? 0.0,
                       lineHeight: 30,
                       backgroundColor: Colors.black26,
-                      progressBarColor: Colors.green,
+                      progressBarColor: state.percent == null
+                          ? Colors.red
+                          : state.percent != null && state.percent! < 0.01
+                              ? Colors.red
+                              : state.percent! < 0.5
+                                  ? Colors.yellow.withOpacity(.7)
+                                  : Colors.green,
                       child: Padding(
                         padding:
                             const EdgeInsets.only(right: 5, top: 5, bottom: 5),
@@ -260,9 +289,13 @@ class _ScanInventoryState extends State<ScanInventory> {
                     child: Text(
                       correctPosition.isEmpty
                           ? 'El medio no se encuentra en la base de datos'
-                          : correctPosition == item.area
-                              ? 'El medio básico está en su lugar'
-                              : 'El medio básico no está en su lugar, pertenece a $correctPosition',
+                          : areaSelect != 'Todas'
+                              ? correctPosition == areaSelect
+                                  ? 'El medio básico está en su lugar'
+                                  : 'El medio básico no está en su lugar, pertenece a $correctPosition'
+                              : correctPosition == item.area
+                                  ? 'El medio básico está en su lugar'
+                                  : 'El medio básico no está en su lugar, pertenece a $correctPosition',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

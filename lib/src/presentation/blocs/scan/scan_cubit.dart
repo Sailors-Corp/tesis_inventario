@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
@@ -31,7 +33,20 @@ class ScanCubit extends Cubit<ScanState> {
 
     // Verificar después de hacer el inventario entero
     final percent = await _scanRepository.percentInventory(invArea);
+    double percentRound = double.parse((percent / 100).toStringAsFixed(2));
+    log("Percent: => ${percent / 100}");
+    log("PercentRound: => $percentRound");
+    emit(ScanSuccessPercent(correctPosition: response, percent: percentRound));
+  }
 
-    emit(ScanSuccessPercent(correctPosition: response, percent: percent / 100));
+  Future<void> getPercent(String invArea) async {
+    emit(ScanLoading());
+
+    final percent = await _scanRepository.percentInventory(invArea);
+    log("Percent: => ${percent / 100}");
+    double percentRound = double.parse((percent / 100).toStringAsFixed(2));
+    log("PercentRound: => $percentRound");
+
+    emit(ScanSuccessPercent(percent: percentRound / 100));
   }
 }
