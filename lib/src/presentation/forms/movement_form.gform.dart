@@ -694,8 +694,6 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
 
   @override
   MovementFormEntity get model {
-    final currentForm = path == null ? form : form.control(path!);
-
     if (!currentForm.valid) {
       debugPrint(
           '[${path ?? 'MovementFormEntityForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
@@ -715,12 +713,16 @@ class MovementFormEntityForm implements FormModel<MovementFormEntity> {
     required void Function(MovementFormEntity model) onValid,
     void Function()? onNotValid,
   }) {
-    form.markAllAsTouched();
-    if (form.valid) {
+    currentForm.markAllAsTouched();
+    if (currentForm.valid) {
       onValid(model);
     } else {
       onNotValid?.call();
     }
+  }
+
+  AbstractControl<dynamic> get currentForm {
+    return path == null ? form : form.control(path!);
   }
 
   @override

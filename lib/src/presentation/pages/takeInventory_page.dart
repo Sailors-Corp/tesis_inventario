@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/core/utils/delete_cotes.dart';
 import 'package:inventory_tesis/src/data/models/medio_basico_model.dart';
 import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
+import 'package:inventory_tesis/src/presentation/blocs/medios_inventoried/medios_inventoried_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -28,8 +30,12 @@ class TakeInventoryPage extends StatefulWidget {
 class _TakeInventoryPage extends State<TakeInventoryPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => injector.call<ScanCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => injector.call<ScanCubit>(),
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -233,26 +239,53 @@ class _ScanInventoryState extends State<ScanInventory> {
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: SizedBox(
-              height: 30,
-              width: 120,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                ),
-                onPressed: () {
-                  if (cubit.state is! ScanClosed) {
-                    cubit.emit(ScanClosed());
-                  }
-                  context.router.pop();
-                },
-                child: const Text('Cancelar'),
-              ),
-            ),
-          ),
+        BlocBuilder<ScanCubit, ScanState>(
+          builder: (context, state) {
+            return state.percent != 0
+                ? Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: 30,
+                        width: 120,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                          ),
+                          onPressed: () async {
+                            controller!.pauseCamera();
+                            context
+                                .read<MediosInventoriedBloc>()
+                                .add(MediosInventoriedLoaded());
+                            context.router.push(const InventoryReportRoute());
+                          },
+                          child: const Text('Terminar'),
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: 30,
+                        width: 120,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                          ),
+                          onPressed: () {
+                            if (cubit.state is! ScanClosed) {
+                              cubit.emit(ScanClosed());
+                            }
+                            context.router.pop();
+                          },
+                          child: const Text('Cancelar'),
+                        ),
+                      ),
+                    ),
+                  );
+          },
         ),
       ],
     );
@@ -274,6 +307,7 @@ class _ScanInventoryState extends State<ScanInventory> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
+        controller!.pauseCamera();
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -343,6 +377,7 @@ class _ScanInventoryState extends State<ScanInventory> {
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
+                    controller!.resumeCamera();
                     Navigator.of(context).pop();
                   },
                   child: const Text(

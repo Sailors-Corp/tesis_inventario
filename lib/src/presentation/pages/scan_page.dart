@@ -65,6 +65,7 @@ class _ScanState extends State<Scan> {
           isDialogOpen = true;
           // ignore: use_build_context_synchronously
           _showMyDialog(
+            controller: controller,
             context: context,
             item: item,
             correctPosition: context.read<ScanCubit>().state.correctPosition!,
@@ -121,6 +122,7 @@ class _ScanState extends State<Scan> {
                       if (cubit.state is! ScanClosed) {
                         cubit.emit(ScanClosed());
                       }
+
                       context.router.pop();
                     },
                     child: const Text('Cancelar'),
@@ -135,12 +137,11 @@ class _ScanState extends State<Scan> {
   }
 }
 
-
-
 Future<void> _showMyDialog({
   required BuildContext context,
   required MedioBasicoModel item,
   required String correctPosition,
+  required QRViewController controller,
 }) async {
   final TextEditingController rotuloController =
       TextEditingController(text: item.rotulo);
@@ -153,6 +154,7 @@ Future<void> _showMyDialog({
     barrierDismissible: false,
     context: context,
     builder: (BuildContext context) {
+      controller.pauseCamera();
       return Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -210,6 +212,7 @@ Future<void> _showMyDialog({
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
+                  controller.resumeCamera();
                   Navigator.of(context).pop();
                 },
                 child: const Text(

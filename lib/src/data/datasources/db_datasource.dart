@@ -4,18 +4,22 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:inventory_tesis/src/data/db/dao/inventario_dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/medio_dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/movement_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
+import 'package:inventory_tesis/src/data/mapper/inventory_mapper.dart';
+import 'package:inventory_tesis/src/data/mapper/medio_mapper.dart';
+import 'package:inventory_tesis/src/data/mapper/movement_mapper.dart';
+import 'package:inventory_tesis/src/domain/entities/inventory_entity.dart';
 import 'package:inventory_tesis/src/domain/entities/medio_entity.dart';
 import 'package:inventory_tesis/src/domain/entities/movement_entity.dart';
 import 'package:inventory_tesis/src/domain/enums/type_movement.dart';
-import 'package:inventory_tesis/src/domain/mapper/medio_mapper.dart';
-import 'package:inventory_tesis/src/domain/mapper/movement_mapper.dart';
 import 'package:inventory_tesis/src/presentation/forms/movement_form.dart';
 
 abstract class DataBaseDataSources {
   Future<bool> importDataBase();
+  Future<void> deleteDataBase();
 
   Future<List<String?>> getAreas();
 
@@ -31,15 +35,20 @@ abstract class DataBaseDataSources {
   Future<List<MovementEntity>> getMovementByType(
     String type,
   );
+
+  Future<InventoryEntity> getMediosInventoried();
+  Future<void> closeInventory();
 }
 
 class DataBaseDataSourcesImpl implements DataBaseDataSources {
   DataBaseDataSourcesImpl(
     this.medioDao,
     this.movementDao,
+    this.invDao,
   );
   final MedioBasicoDao medioDao;
   final MovementDao movementDao;
+  final InvDao invDao;
 
   @override
   Future<bool> importDataBase() async {
@@ -51,6 +60,8 @@ class DataBaseDataSourcesImpl implements DataBaseDataSources {
 
     if (result != null) {
       await medioDao.deleteAllMBs();
+      await invDao.deleteAllInv();
+      await movementDao.deleteAllMovement();
 
       final file = File(result.files.single.path!);
 
@@ -156,5 +167,25 @@ class DataBaseDataSourcesImpl implements DataBaseDataSources {
       movementList.add(movementEntity);
     }
     return movementList;
+  }
+
+  @override
+  Future<InventoryEntity> getMediosInventoried() async {
+    final correctMedios = await invDao.getMediosInventoriedInCorrectArea();
+    final incorrectMedios = await invDao.getMediosInventoriedInIncorrectArea();
+
+    return InventoryMapper.tableToEntity(correctMedios, incorrectMedios);
+  }
+
+  @override
+  Future<void> closeInventory() async {
+    await invDao.deleteAllInv();
+  }
+
+  @override
+  Future<void> deleteDataBase() async {
+    await medioDao.deleteAllMBs();
+    await invDao.deleteAllInv();
+    await movementDao.deleteAllMovement();
   }
 }

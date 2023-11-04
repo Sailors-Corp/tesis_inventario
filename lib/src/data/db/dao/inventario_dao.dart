@@ -9,15 +9,11 @@ part 'inventario_dao.g.dart';
 class InvDao extends DatabaseAccessor<AppDatabase> with _$InvDaoMixin {
   InvDao(super.attachedDatabase);
 
-  Future<void> insertInvs(List<InventarioEntity> mbInventario) async {
-    await inventario.insertAll(mbInventario);
-  }
-
-  Future<void> insertInv(InventarioEntity inventarioTableEntity) async {
+  Future<void> insertInv(InventarioTableEntity inventarioTableEntity) async {
     await into(inventario).insertOnConflictUpdate(inventarioTableEntity);
   }
 
-  Future<void> deleteAllInvs() async {
+  Future<void> deleteAllInventory() async {
     await delete(inventario).go();
   }
 
@@ -25,77 +21,36 @@ class InvDao extends DatabaseAccessor<AppDatabase> with _$InvDaoMixin {
     await (delete(inventario)..where((tbl) => tbl.rotulo.equals(rotulo))).go();
   }
 
-  Future<void> updateInv(InventarioEntity inventarioTableEntity) async {
-    await update(inventario).replace(inventarioTableEntity);
-  }
-
-  Future<void> updateInvs(List<InventarioEntity> mbInventario) async {
-    await batch((batch) {
-      batch.insertAll(inventario, mbInventario, mode: InsertMode.insertOrReplace);
-    });
-  }
-
-  Future<List<InventarioEntity>> getAllInvs() async {
+  Future<List<InventarioTableEntity>> getAllInventory() async {
     return await select(inventario).get();
   }
 
-  Future<List<String?>> getAreas() async {
-    return await (selectOnly(inventario, distinct: true)
-          ..addColumns([inventario.area]))
-        .map((row) => row.read(inventario.area))
+  Future<List<InventarioTableEntity>>
+      getMediosInventoriedInIncorrectArea() async {
+    return await (select(inventario)
+          ..where((tbl) => tbl.isCorrectPosition.equals(false)))
         .get();
   }
 
-  Future<List<InventarioEntity>> getInvsByArea(String area) async {
+  Future<List<InventarioTableEntity>>
+      getMediosInventoriedInCorrectArea() async {
+    return await (select(inventario)
+          ..where((tbl) => tbl.isCorrectPosition.equals(true)))
+        .get();
+  }
+
+  Future<List<InventarioTableEntity>> getInventoryByArea(String area) async {
     return await (select(inventario)..where((tbl) => tbl.area.equals(area)))
         .get();
   }
+  Future<void> deleteAllInv() async {
+    await delete(inventario).go();
+  }
 
-  Future<List<InventarioEntity>> getInvsBySubclassification(
+  Future<List<InventarioTableEntity>> getInventoryBySubclassification(
       String subclassification) async {
     return await (select(inventario)
-          ..where((tbl) => tbl.subclasification.equals(subclassification)))
+          ..where((tbl) => tbl.classification.equals(subclassification)))
         .get();
-  }
-
-  Future<int> getCantInvsByAreaAndSubclassification(
-      String area, String subclassification) async {
-    final response = await (select(inventario)
-          ..where((tbl) => tbl.area.equals(area))
-          ..where((tbl) => tbl.subclasification.equals(subclassification)))
-        .get();
-    final cant = response.length;
-    return cant;
-  }
-
-  Future<List<InventarioEntity>> getInvsByAreaAndSubclassificationAndRotulo(
-      String area, String subclassification, String rotulo) async {
-    return await (select(inventario)
-          ..where((tbl) => tbl.area.equals(area))
-          ..where((tbl) => tbl.subclasification.equals(subclassification))
-          ..where((tbl) => tbl.rotulo.equals(rotulo)))
-        .get();
-  }
-
-  Future<List<InventarioEntity>> getInvsByAreaAndRotulo(
-      String area, String rotulo) async {
-    return await (select(inventario)
-          ..where((tbl) => tbl.area.equals(area))
-          ..where((tbl) => tbl.rotulo.equals(rotulo)))
-        .get();
-  }
-
-  Future<List<InventarioEntity>> getInvsBySubclassificationAndRotulo(
-      String subclassification, String rotulo) async {
-    return await (select(inventario)
-          ..where((tbl) => tbl.subclasification.equals(subclassification))
-          ..where((tbl) => tbl.rotulo.equals(rotulo)))
-        .get();
-  }
-
-  Future<InventarioEntity?> getInvsByRotulo(String rotulo) async {
-    return await (select(inventario)
-          ..where((tbl) => tbl.rotulo.equals(rotulo)))
-        .getSingleOrNull();
   }
 }

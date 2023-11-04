@@ -33,5 +33,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: MovementReportRoute.page,
         ),
+        AutoRoute(
+          page: InventoryReportRoute.page,
+        ),
       ];
 }

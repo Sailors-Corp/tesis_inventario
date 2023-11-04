@@ -4,5 +4,7 @@ part of 'home_bloc.dart';
 abstract class HomeEvent {}
 
 class DataBaseImported extends HomeEvent {
-  DataBaseImported();
+}
+
+class DeleteDataBase extends HomeEvent {
 }

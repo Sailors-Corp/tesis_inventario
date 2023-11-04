@@ -31,4 +31,6 @@ final class AreaBloc extends Bloc<AreaEvent, BaseState<List<String?>>> {
     };
     emit(newState);
   }
+
+
 }

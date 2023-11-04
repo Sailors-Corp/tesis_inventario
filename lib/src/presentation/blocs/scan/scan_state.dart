@@ -58,3 +58,5 @@ final class ScanSuccess extends ScanState {
     this.percent,
   });
 }
+
+

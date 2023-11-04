@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/src/common/theme/theme.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
+import 'package:inventory_tesis/src/data/mapper/medio_mapper.dart';
 import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/domain/entities/medio_entity.dart';
 import 'package:inventory_tesis/src/domain/entities/movement_entity.dart';
 import 'package:inventory_tesis/src/domain/enums/type_movement.dart';
-import 'package:inventory_tesis/src/domain/mapper/medio_mapper.dart';
 import 'package:inventory_tesis/src/presentation/forms/medio_form.dart';
 import 'package:inventory_tesis/src/presentation/forms/movement_form.dart';
 import 'package:inventory_tesis/src/presentation/movement/movement_form/movement_form_bloc.dart';
@@ -467,8 +467,7 @@ class MovementFormContent extends StatelessWidget {
                           medios: pageState.medios,
                           movementFormEntity: formModel.model,
                         ));
-
-                    context.router.pop(true);
+                    formModel.form.reset();
                   },
                   child: SizedBox(
                     height: 20,

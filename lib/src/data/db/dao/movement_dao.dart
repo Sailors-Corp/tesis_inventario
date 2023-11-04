@@ -20,4 +20,8 @@ class MovementDao extends DatabaseAccessor<AppDatabase>
     return await (select(movement)..where((tbl) => tbl.type.equals(type)))
         .get();
   }
+
+  Future<void> deleteAllMovement() async {
+    await delete(movement).go();
+  }
 }
