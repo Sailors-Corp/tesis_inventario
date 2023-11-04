@@ -32,6 +32,6 @@ class ScanCubit extends Cubit<ScanState> {
     // Verificar después de hacer el inventario entero
     final percent = await _scanRepository.percentInventory(invArea);
 
-    emit(ScanSuccessPercent(correctPosition: response, percent: percent));
+    emit(ScanSuccessPercent(correctPosition: response, percent: percent / 100));
   }
 }
