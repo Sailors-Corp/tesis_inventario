@@ -52,13 +52,9 @@ final class ScanSuccess extends ScanState {
   @override
   final String? correctPosition;
 
-<<<<<<< HEAD
-  const ScanSuccessPecent(double this.percent);
-=======
   const ScanSuccess({
     this.takeInv,
     this.correctPosition,
     this.percent,
   });
->>>>>>> 4d3099019f0b5832677037e520d2f1ddf1ea9e1d
 }

@@ -7,12 +7,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:inventory_tesis/src/presentation/forms/medio_form.dart';
+import 'package:inventory_tesis/src/common/theme/theme.dart';
 import 'package:inventory_tesis/src/presentation/pages/widgets/custom_buttons.dart';
 import 'package:inventory_tesis/src/presentation/presentation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:screenshot/screenshot.dart';
 
 @RoutePage()
@@ -24,7 +23,40 @@ class GenerateQRPage extends StatefulWidget {
 }
 
 class _GenerateQRPage extends State<GenerateQRPage> {
+  late TextEditingController _nombreController;
+  late TextEditingController _subClasificacionController;
+  late TextEditingController _rotuloController;
+  //Create an instance of ScreenshotController
   ScreenshotController screenshotController = ScreenshotController();
+
+  final _keyForm = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    _nombreController = TextEditingController();
+    _subClasificacionController = TextEditingController();
+    _rotuloController = TextEditingController();
+
+    super.initState();
+  }
+
+  void _clearForm() {
+    _nombreController.clear();
+    _subClasificacionController.clear();
+    _rotuloController.clear();
+    _keyForm.currentState?.reset();
+  }
+
+  @override
+  void dispose() {
+    _nombreController.clear();
+    _subClasificacionController.clear();
+    _rotuloController.clear();
+    _nombreController.dispose();
+    _subClasificacionController.dispose();
+    _rotuloController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +76,7 @@ class _GenerateQRPage extends State<GenerateQRPage> {
               backgroundColor: Colors.red,
             );
           } else if (state.qr != null) {
+            _clearForm();
             showDialog(
               context: context,
               builder: (BuildContext context) => AlertDialog(
@@ -91,7 +124,7 @@ class _GenerateQRPage extends State<GenerateQRPage> {
                           await imagePath.writeAsBytes(image);
                           ImageGallerySaver.saveFile(imagePath.path);
                           showToast(
-                            'Imagen Guardada exitosamente',
+                            'Imagen Guardada exitósamente',
                             position: ToastPosition.bottom,
                             backgroundColor: Colors.green,
                           );
@@ -108,92 +141,175 @@ class _GenerateQRPage extends State<GenerateQRPage> {
             );
           }
         },
-        child: GenerateQRForm(generateQRBloc: generateQRBloc),
+        child: GenerateQRForm(
+            keyForm: _keyForm,
+            nombreController: _nombreController,
+            subClasificacionController: _subClasificacionController,
+            rotuloController: _rotuloController,
+            generateQRBloc: generateQRBloc),
       ),
     );
   }
 }
 
 class GenerateQRForm extends StatelessWidget {
-  final GenerateQRBloc generateQRBloc;
+  const GenerateQRForm({
+    super.key,
+    required GlobalKey<FormState> keyForm,
+    required TextEditingController nombreController,
+    required TextEditingController subClasificacionController,
+    required TextEditingController rotuloController,
+    required this.generateQRBloc,
+  })  : _keyForm = keyForm,
+        _nombreController = nombreController,
+        _rotuloController = rotuloController,
+        _subClasificacionController = subClasificacionController;
 
-  const GenerateQRForm({super.key, required this.generateQRBloc});
+  final GlobalKey<FormState> _keyForm;
+  final TextEditingController _nombreController;
+  final TextEditingController _subClasificacionController;
+  final TextEditingController _rotuloController;
+  final GenerateQRBloc generateQRBloc;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Generar Qr')),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: MedioFormEntityFormBuilder(
-          builder: (BuildContext context, MedioFormEntityForm formModel,
-              Widget? child) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ReactiveTextField<String>(
-                  formControlName: MedioFormEntityForm.rotuloControlName,
-                  validationMessages: {
-                    'required': (text) => 'El rótulo del medio es obligatorio',
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Rótulo del medio básico',
-                    border: OutlineInputBorder(),
+    return Form(
+      key: _keyForm,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Generar QR"),
+          centerTitle: true,
+        ),
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Material(
+                  elevation: 1.0,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: TextFormField(
+                    autocorrect: true,
+                    keyboardType: TextInputType.text,
+                    controller: _nombreController,
+                    cursorColor: AppColors.primaryBlue,
+                    decoration: const InputDecoration(
+                      hintText: "Nombre",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          color: AppColors.primaryBlue,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 13,
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 15),
-                ReactiveTextField<String>(
-                  formControlName: MedioFormEntityForm.areaControlName,
-                  validationMessages: {
-                    'required': (text) => 'El área a asignar es obligatoria',
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Área',
-                    border: OutlineInputBorder(),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Material(
+                  elevation: 1.0,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: TextFormField(
+                    autocorrect: true,
+                    keyboardType: TextInputType.text,
+                    controller: _subClasificacionController,
+                    cursorColor: AppColors.primaryBlue,
+                    decoration: const InputDecoration(
+                      hintText: "Subclasificación",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          color: AppColors.primaryBlue,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 13,
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 15),
-                ReactiveTextField<String>(
-                  formControlName:
-                      MedioFormEntityForm.subclassificationControlName,
-                  validationMessages: {
-                    'required': (text) =>
-                        'La Subclasificación del medio es obligatoria',
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Subclasificación',
-                    border: OutlineInputBorder(),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Material(
+                  elevation: 1.0,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: TextFormField(
+                    autocorrect: true,
+                    keyboardType: TextInputType.text,
+                    controller: _rotuloController,
+                    cursorColor: AppColors.primaryBlue,
+                    decoration: const InputDecoration(
+                      hintText: "Rótulo",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          color: AppColors.primaryBlue,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 13,
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 50),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
-                  child: BlocBuilder<GenerateQRBloc, GenerateQRState>(
-                    builder: (context, state) {
-                      if (state is LoadingGenerateQRState) {
-                        return const PrimaryButton(
-                          isLoading: true,
-                          text: 'Generando',
-                        );
-                      } else {
-                        return PrimaryButton(
-                            onPressed: () {
-                              formModel.form.markAllAsTouched();
-                              if (formModel.form.invalid) return;
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 80),
+                child: BlocBuilder<GenerateQRBloc, GenerateQRState>(
+                  builder: (context, state) {
+                    if (state is LoadingGenerateQRState) {
+                      return const PrimaryButton(
+                        isLoading: true,
+                        text: 'Generando',
+                      );
+                    } else {
+                      return PrimaryButton(
+                          onPressed: () {
+                            if (_keyForm.currentState!.validate()) {
                               generateQRBloc.add(
                                 GenerateQr(
-                                  medioFormEntity: formModel.model,
+                                  _nombreController.text,
+                                  _subClasificacionController.text,
+                                  _rotuloController.text,
                                 ),
                               );
-                            },
-                            text: 'Generar Qr');
-                      }
-                    },
-                  ),
+                            }
+                          },
+                          text: 'Generar Qr');
+                    }
+                  },
                 ),
-              ],
-            );
-          },
+              ),
+            ],
+          ),
         ),
       ),
     );

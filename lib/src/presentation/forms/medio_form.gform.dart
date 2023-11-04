@@ -395,6 +395,8 @@ class MedioFormEntityForm implements FormModel<MedioFormEntity> {
 
   @override
   MedioFormEntity get model {
+    final currentForm = path == null ? form : form.control(path!);
+
     if (!currentForm.valid) {
       debugPrint(
           '[${path ?? 'MedioFormEntityForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
@@ -410,16 +412,12 @@ class MedioFormEntityForm implements FormModel<MedioFormEntity> {
     required void Function(MedioFormEntity model) onValid,
     void Function()? onNotValid,
   }) {
-    currentForm.markAllAsTouched();
-    if (currentForm.valid) {
+    form.markAllAsTouched();
+    if (form.valid) {
       onValid(model);
     } else {
       onNotValid?.call();
     }
-  }
-
-  AbstractControl<dynamic> get currentForm {
-    return path == null ? form : form.control(path!);
   }
 
   @override

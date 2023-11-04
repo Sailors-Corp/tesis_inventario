@@ -6,8 +6,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
 import 'package:inventory_tesis/src/core/utils/delete_cotes.dart';
@@ -59,7 +57,9 @@ class _ScanInventoryState extends State<ScanInventory> {
   @override
   void reassemble() {
     super.reassemble();
-    if (controller != null && Platform.isAndroid) {
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    } else if (Platform.isIOS) {
       controller!.resumeCamera();
     }
   }
@@ -74,11 +74,13 @@ class _ScanInventoryState extends State<ScanInventory> {
       });
 
       result = await Utilities.deleteCotesInText(result);
+
       final item = itemModelFromJson(result);
 
       await context
           .read<ScanCubit>()
           .takeInventory(item.rotulo, item.area, areaSelect);
+
       if (!isDialogOpen) {
         isDialogOpen = true;
         _showMyDialog(
@@ -102,7 +104,6 @@ class _ScanInventoryState extends State<ScanInventory> {
   @override
   Widget build(BuildContext context) {
     context.read<AreaBloc>().add(const AreasLoaded());
-    final cubit = context.read<ScanCubit>();
 
     return Column(
       children: [
@@ -147,105 +148,58 @@ class _ScanInventoryState extends State<ScanInventory> {
         ),
         Expanded(
           flex: 1,
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: BlocBuilder<ScanCubit, ScanState>(
-                  builder: (context, state) {
-                    if (state is ScanSuccessPecent) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Flexible(
-                            child: LinearProgressIndicator(
-                              value: double.parse(state.percent),
-                            ),
-                          ),
-                          Text(state.percent.toString()),
-                        ],
-                      );
-                    }
-                    if (state is ScanLoading) {
-                      return const CircularProgressIndicator.adaptive();
-                    }
-                    return Container();
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: SizedBox(
-                  height: 30,
-                  width: 120,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                    ),
-                    Expanded(flex: 1, child: Text(areaSelect))
-                  ],
-                );
-              }
-              return Row(
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: GFProgressBar(
-                      percentage: state.percent ?? 0.0,
-                      lineHeight: 30,
-                      backgroundColor: Colors.black26,
-                      progressBarColor: Colors.green,
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(right: 5, top: 5, bottom: 5),
-                        child: Text(
-                          "${state.percent! * 100}%",
-                          textAlign: TextAlign.end,
-                          style: const TextStyle(
-                              fontSize: 17, color: Colors.white),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: BlocBuilder<ScanCubit, ScanState>(
+                        builder: (context, state) {
+                          if (state is ScanSuccessPercent) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Flexible(
+                                  child: LinearProgressIndicator(
+                                    value: (state.percent),
+                                  ),
+                                ),
+                                Text(state.percent.toString()),
+                              ],
+                            );
+                          }
+                          if (state is ScanLoading) {
+                            return const CircularProgressIndicator.adaptive();
+                          }
+                          return Container();
+                        },
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      areaSelect,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  Expanded(flex: 1, child: Text(areaSelect))
+
                 ],
-              );
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: SizedBox(
-              height: 30,
-              width: 120,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                ),
-                onPressed: () {
-                  if (cubit.state is! ScanClosed) {
-                    cubit.emit(ScanClosed());
-                  }
-                  context.router.pop();
-                },
-                child: const Text('Cancelar'),
               ),
-            ),
+
+              Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                      child: SizedBox(
+                    height: 30,
+                    width: 120,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                      ),
+                      onPressed: () {
+                        context.router.pop();
+                      },
+                      child: const Text('Cancelar'),
+                    ),
+                  ))),
+            ],
           ),
         ),
       ],

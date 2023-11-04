@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
+import 'package:inventory_tesis/src/core/validators/form_validator.dart';
 import 'package:inventory_tesis/src/presentation/presentation.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -112,6 +112,7 @@ class AuthForm extends StatelessWidget {
                   child: TextFormField(
                     autocorrect: true,
                     keyboardType: TextInputType.text,
+                    validator: validateUserLogin,
                     controller: _emailController,
                     cursorColor: AppColors.primaryBlue,
                     decoration: const InputDecoration(
@@ -133,13 +134,16 @@ class AuthForm extends StatelessWidget {
                   ),
                 ),
               ),
-              const Gutter(),
+              const SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: Material(
                   elevation: 1,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: TextFormField(
+                    validator: validatedPasswordLogin,
                     controller: _passwordController,
                     cursorColor: AppColors.primaryBlue,
                     decoration: const InputDecoration(

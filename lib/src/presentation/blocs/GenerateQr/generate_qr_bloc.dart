@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_tesis/src/domain/repositories/generate_qr_repository.dart';
-import 'package:inventory_tesis/src/presentation/forms/medio_form.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 part 'generate_qr_event.dart';
@@ -24,9 +23,9 @@ class GenerateQRBloc extends Bloc<GenerateQREvent, GenerateQRState> {
 
     await Future.delayed(const Duration(seconds: 1));
 
-    final response =
-        await generateQRRepository.generateQR(event.medioFormEntity);
-    String subClassification = event.medioFormEntity.subclassification;
+    final response = await generateQRRepository.generateQR(
+        event.area, event.subClassification, event.rotulo);
+    String subClassification = event.subClassification;
     if (response != null) {
       emit(state.copyWith(qr: response, subClassification: subClassification));
     } else {

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
+import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/common/theme/app_text_styles.dart';
 import 'package:inventory_tesis/src/presentation/generated/assets/assets.gen.dart';
 
@@ -114,6 +115,7 @@ class SideBarItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.primaryColor),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),

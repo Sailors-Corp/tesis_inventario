@@ -1,30 +1,36 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:inventory_tesis/src/domain/repositories/generate_qr_repository.dart';
-import 'package:inventory_tesis/src/presentation/forms/medio_form.dart';
+import 'package:inventory_tesis/src/presentation/generated/assets/assets.gen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GenerateQRRepositoryImpl extends GenerateQRRepository {
   GenerateQRRepositoryImpl();
 
   @override
-  Future<QrImageView?> generateQR(MedioFormEntity medioFormEntity) async {
+  Future<QrImageView?> generateQR(
+    String area,
+    String subClassification,
+    String rotulo,
+  ) async {
     Map<String, dynamic> dataString = {
-      'rotulo': medioFormEntity.rotulo,
-      'subClassification': medioFormEntity.subclassification,
-      'area': medioFormEntity.area,
+      'rotulo': rotulo,
+      'subClassification': subClassification,
+      'area': area,
     };
 
     String jsonString = jsonEncode(dataString);
 
     return QrImageView(
-      backgroundColor: Colors.white,
+      embeddedImage: AssetImage(Assets.img.uciLogo.path),
+      embeddedImageStyle: const QrEmbeddedImageStyle(
+        size: Size(80, 80),
+      ),
       data: jsonString,
       version: QrVersions.auto,
       size: 320,
+      gapless: false,
     );
   }
 }
