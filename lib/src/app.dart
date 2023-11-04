@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
-import 'package:inventory_tesis/src/presentation/services/on_boarding/data/on_boarding_repository_impl.dart';
+import 'package:inventory_tesis/src/services/on_boarding/data/on_boarding_repository_impl.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart' as sizer;

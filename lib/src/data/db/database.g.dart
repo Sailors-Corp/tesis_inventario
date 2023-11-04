@@ -675,7 +675,7 @@ class MovementCompanion extends UpdateCompanion<MovementTableEntity> {
 }
 
 class $InventarioTable extends Inventario
-    with TableInfo<$InventarioTable, InventarioEntity> {
+    with TableInfo<$InventarioTable, InventarioTableEntity> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -690,21 +690,38 @@ class $InventarioTable extends Inventario
   late final GeneratedColumn<String> area = GeneratedColumn<String>(
       'area', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _subclasificationMeta =
-      const VerificationMeta('subclasification');
+  static const VerificationMeta _classificationMeta =
+      const VerificationMeta('classification');
   @override
-  late final GeneratedColumn<String> subclasification = GeneratedColumn<String>(
-      'subclasification', aliasedName, false,
+  late final GeneratedColumn<String> classification = GeneratedColumn<String>(
+      'classification', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isCorrectPositionMeta =
+      const VerificationMeta('isCorrectPosition');
   @override
-  List<GeneratedColumn> get $columns => [rotulo, area, subclasification];
+  late final GeneratedColumn<bool> isCorrectPosition = GeneratedColumn<bool>(
+      'is_correct_position', aliasedName, true,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_correct_position" IN (0, 1))'));
+  static const VerificationMeta _correctPositionMeta =
+      const VerificationMeta('correctPosition');
+  @override
+  late final GeneratedColumn<String> correctPosition = GeneratedColumn<String>(
+      'correct_position', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [rotulo, area, classification, isCorrectPosition, correctPosition];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'inventario';
   @override
-  VerificationContext validateIntegrity(Insertable<InventarioEntity> instance,
+  VerificationContext validateIntegrity(
+      Insertable<InventarioTableEntity> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -720,13 +737,25 @@ class $InventarioTable extends Inventario
     } else if (isInserting) {
       context.missing(_areaMeta);
     }
-    if (data.containsKey('subclasification')) {
+    if (data.containsKey('classification')) {
       context.handle(
-          _subclasificationMeta,
-          subclasification.isAcceptableOrUnknown(
-              data['subclasification']!, _subclasificationMeta));
+          _classificationMeta,
+          classification.isAcceptableOrUnknown(
+              data['classification']!, _classificationMeta));
     } else if (isInserting) {
-      context.missing(_subclasificationMeta);
+      context.missing(_classificationMeta);
+    }
+    if (data.containsKey('is_correct_position')) {
+      context.handle(
+          _isCorrectPositionMeta,
+          isCorrectPosition.isAcceptableOrUnknown(
+              data['is_correct_position']!, _isCorrectPositionMeta));
+    }
+    if (data.containsKey('correct_position')) {
+      context.handle(
+          _correctPositionMeta,
+          correctPosition.isAcceptableOrUnknown(
+              data['correct_position']!, _correctPositionMeta));
     }
     return context;
   }
@@ -734,15 +763,19 @@ class $InventarioTable extends Inventario
   @override
   Set<GeneratedColumn> get $primaryKey => {rotulo};
   @override
-  InventarioEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+  InventarioTableEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return InventarioEntity(
+    return InventarioTableEntity(
       rotulo: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}rotulo'])!,
       area: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}area'])!,
-      subclasification: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}subclasification'])!,
+      classification: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}classification'])!,
+      isCorrectPosition: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}is_correct_position']),
+      correctPosition: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}correct_position']),
     );
   }
 
@@ -752,21 +785,31 @@ class $InventarioTable extends Inventario
   }
 }
 
-class InventarioEntity extends DataClass
-    implements Insertable<InventarioEntity> {
+class InventarioTableEntity extends DataClass
+    implements Insertable<InventarioTableEntity> {
   final String rotulo;
   final String area;
-  final String subclasification;
-  const InventarioEntity(
+  final String classification;
+  final bool? isCorrectPosition;
+  final String? correctPosition;
+  const InventarioTableEntity(
       {required this.rotulo,
       required this.area,
-      required this.subclasification});
+      required this.classification,
+      this.isCorrectPosition,
+      this.correctPosition});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['rotulo'] = Variable<String>(rotulo);
     map['area'] = Variable<String>(area);
-    map['subclasification'] = Variable<String>(subclasification);
+    map['classification'] = Variable<String>(classification);
+    if (!nullToAbsent || isCorrectPosition != null) {
+      map['is_correct_position'] = Variable<bool>(isCorrectPosition);
+    }
+    if (!nullToAbsent || correctPosition != null) {
+      map['correct_position'] = Variable<String>(correctPosition);
+    }
     return map;
   }
 
@@ -774,17 +817,25 @@ class InventarioEntity extends DataClass
     return InventarioCompanion(
       rotulo: Value(rotulo),
       area: Value(area),
-      subclasification: Value(subclasification),
+      classification: Value(classification),
+      isCorrectPosition: isCorrectPosition == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isCorrectPosition),
+      correctPosition: correctPosition == null && nullToAbsent
+          ? const Value.absent()
+          : Value(correctPosition),
     );
   }
 
-  factory InventarioEntity.fromJson(Map<String, dynamic> json,
+  factory InventarioTableEntity.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return InventarioEntity(
+    return InventarioTableEntity(
       rotulo: serializer.fromJson<String>(json['rotulo']),
       area: serializer.fromJson<String>(json['area']),
-      subclasification: serializer.fromJson<String>(json['subclasification']),
+      classification: serializer.fromJson<String>(json['classification']),
+      isCorrectPosition: serializer.fromJson<bool?>(json['isCorrectPosition']),
+      correctPosition: serializer.fromJson<String?>(json['correctPosition']),
     );
   }
   @override
@@ -793,67 +844,94 @@ class InventarioEntity extends DataClass
     return <String, dynamic>{
       'rotulo': serializer.toJson<String>(rotulo),
       'area': serializer.toJson<String>(area),
-      'subclasification': serializer.toJson<String>(subclasification),
+      'classification': serializer.toJson<String>(classification),
+      'isCorrectPosition': serializer.toJson<bool?>(isCorrectPosition),
+      'correctPosition': serializer.toJson<String?>(correctPosition),
     };
   }
 
-  InventarioEntity copyWith(
-          {String? rotulo, String? area, String? subclasification}) =>
-      InventarioEntity(
+  InventarioTableEntity copyWith(
+          {String? rotulo,
+          String? area,
+          String? classification,
+          Value<bool?> isCorrectPosition = const Value.absent(),
+          Value<String?> correctPosition = const Value.absent()}) =>
+      InventarioTableEntity(
         rotulo: rotulo ?? this.rotulo,
         area: area ?? this.area,
-        subclasification: subclasification ?? this.subclasification,
+        classification: classification ?? this.classification,
+        isCorrectPosition: isCorrectPosition.present
+            ? isCorrectPosition.value
+            : this.isCorrectPosition,
+        correctPosition: correctPosition.present
+            ? correctPosition.value
+            : this.correctPosition,
       );
   @override
   String toString() {
-    return (StringBuffer('InventarioEntity(')
+    return (StringBuffer('InventarioTableEntity(')
           ..write('rotulo: $rotulo, ')
           ..write('area: $area, ')
-          ..write('subclasification: $subclasification')
+          ..write('classification: $classification, ')
+          ..write('isCorrectPosition: $isCorrectPosition, ')
+          ..write('correctPosition: $correctPosition')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(rotulo, area, subclasification);
+  int get hashCode => Object.hash(
+      rotulo, area, classification, isCorrectPosition, correctPosition);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is InventarioEntity &&
+      (other is InventarioTableEntity &&
           other.rotulo == this.rotulo &&
           other.area == this.area &&
-          other.subclasification == this.subclasification);
+          other.classification == this.classification &&
+          other.isCorrectPosition == this.isCorrectPosition &&
+          other.correctPosition == this.correctPosition);
 }
 
-class InventarioCompanion extends UpdateCompanion<InventarioEntity> {
+class InventarioCompanion extends UpdateCompanion<InventarioTableEntity> {
   final Value<String> rotulo;
   final Value<String> area;
-  final Value<String> subclasification;
+  final Value<String> classification;
+  final Value<bool?> isCorrectPosition;
+  final Value<String?> correctPosition;
   final Value<int> rowid;
   const InventarioCompanion({
     this.rotulo = const Value.absent(),
     this.area = const Value.absent(),
-    this.subclasification = const Value.absent(),
+    this.classification = const Value.absent(),
+    this.isCorrectPosition = const Value.absent(),
+    this.correctPosition = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   InventarioCompanion.insert({
     required String rotulo,
     required String area,
-    required String subclasification,
+    required String classification,
+    this.isCorrectPosition = const Value.absent(),
+    this.correctPosition = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : rotulo = Value(rotulo),
         area = Value(area),
-        subclasification = Value(subclasification);
-  static Insertable<InventarioEntity> custom({
+        classification = Value(classification);
+  static Insertable<InventarioTableEntity> custom({
     Expression<String>? rotulo,
     Expression<String>? area,
-    Expression<String>? subclasification,
+    Expression<String>? classification,
+    Expression<bool>? isCorrectPosition,
+    Expression<String>? correctPosition,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (rotulo != null) 'rotulo': rotulo,
       if (area != null) 'area': area,
-      if (subclasification != null) 'subclasification': subclasification,
+      if (classification != null) 'classification': classification,
+      if (isCorrectPosition != null) 'is_correct_position': isCorrectPosition,
+      if (correctPosition != null) 'correct_position': correctPosition,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -861,12 +939,16 @@ class InventarioCompanion extends UpdateCompanion<InventarioEntity> {
   InventarioCompanion copyWith(
       {Value<String>? rotulo,
       Value<String>? area,
-      Value<String>? subclasification,
+      Value<String>? classification,
+      Value<bool?>? isCorrectPosition,
+      Value<String?>? correctPosition,
       Value<int>? rowid}) {
     return InventarioCompanion(
       rotulo: rotulo ?? this.rotulo,
       area: area ?? this.area,
-      subclasification: subclasification ?? this.subclasification,
+      classification: classification ?? this.classification,
+      isCorrectPosition: isCorrectPosition ?? this.isCorrectPosition,
+      correctPosition: correctPosition ?? this.correctPosition,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -880,8 +962,14 @@ class InventarioCompanion extends UpdateCompanion<InventarioEntity> {
     if (area.present) {
       map['area'] = Variable<String>(area.value);
     }
-    if (subclasification.present) {
-      map['subclasification'] = Variable<String>(subclasification.value);
+    if (classification.present) {
+      map['classification'] = Variable<String>(classification.value);
+    }
+    if (isCorrectPosition.present) {
+      map['is_correct_position'] = Variable<bool>(isCorrectPosition.value);
+    }
+    if (correctPosition.present) {
+      map['correct_position'] = Variable<String>(correctPosition.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -894,7 +982,9 @@ class InventarioCompanion extends UpdateCompanion<InventarioEntity> {
     return (StringBuffer('InventarioCompanion(')
           ..write('rotulo: $rotulo, ')
           ..write('area: $area, ')
-          ..write('subclasification: $subclasification, ')
+          ..write('classification: $classification, ')
+          ..write('isCorrectPosition: $isCorrectPosition, ')
+          ..write('correctPosition: $correctPosition, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();

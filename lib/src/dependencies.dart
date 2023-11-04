@@ -18,12 +18,13 @@ import 'package:inventory_tesis/src/domain/repositories/scan_repositoy.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_detail_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/report_bloc/report_bloc.dart';
+import 'package:inventory_tesis/src/presentation/blocs/medios_inventoried/medios_inventoried_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
 import 'package:inventory_tesis/src/presentation/movement/movement_bloc.dart';
 import 'package:inventory_tesis/src/presentation/movement/movement_form/movement_form_bloc.dart';
 import 'package:inventory_tesis/src/presentation/movement/type_movement_form_bloc/type_movement_form_bloc.dart';
-import 'package:inventory_tesis/src/presentation/services/bloc_observer/bloc_observer.dart';
-import 'package:inventory_tesis/src/presentation/services/export_pdf/pdf_repository.dart';
+import 'package:inventory_tesis/src/services/bloc_observer/bloc_observer.dart';
+import 'package:inventory_tesis/src/services/export_pdf/pdf_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,6 +75,7 @@ Future<void> initializeDependencies() async {
       () => DataBaseDataSourcesImpl(
         injector<MedioBasicoDao>(),
         injector<MovementDao>(),
+        injector<InvDao>(),
       ),
     );
 
@@ -98,6 +100,7 @@ Future<void> initializeDependencies() async {
       () => ScanRepositoryImpl(
         injector<MedioBasicoDao>(),
         injector<InvDao>(),
+        injector<DataBaseDataSources>(),
       ),
     )
     ..registerLazySingleton<PDFRepository>(() => PDFRepository())
@@ -143,6 +146,11 @@ Future<void> initializeDependencies() async {
     ..registerLazySingleton<HomeBloc>(
       () => HomeBloc(
         injector<DataBaseDataSources>(),
+      ),
+    )
+    ..registerFactory<MediosInventoriedBloc>(
+      () => MediosInventoriedBloc(
+        injector<ScanRepository>(),
       ),
     )
     ..registerFactory<ReportBloc>(

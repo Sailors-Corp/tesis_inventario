@@ -4,8 +4,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:inventory_tesis/src/app.dart';
 import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
+import 'package:inventory_tesis/src/presentation/blocs/medios_inventoried/medios_inventoried_bloc.dart';
 import 'package:inventory_tesis/src/presentation/movement/movement_bloc.dart';
-import 'package:inventory_tesis/src/presentation/services/bloc_observer/bloc_observer.dart';
+import 'package:inventory_tesis/src/services/bloc_observer/bloc_observer.dart';
 
 import 'src/presentation/presentation.dart';
 
@@ -33,7 +34,10 @@ Future<void> main() async {
       BlocProvider(
         create: ((context) => injector.call<MovementBloc>()),
       ),
+      BlocProvider(
+        create: ((context) => injector.call<MediosInventoriedBloc>()),
+      ),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
