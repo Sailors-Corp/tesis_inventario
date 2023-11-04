@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:inventory_tesis/src/common/theme/theme.dart';
+import 'package:inventory_tesis/src/presentation/pages/widgets/custom_buttons.dart';
 import 'package:inventory_tesis/src/presentation/presentation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:path_provider/path_provider.dart';
@@ -284,35 +285,26 @@ class GenerateQRForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 80),
                 child: BlocBuilder<GenerateQRBloc, GenerateQRState>(
                   builder: (context, state) {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                      ),
-                      onPressed: () {
-                        if (_keyForm.currentState!.validate()) {
-                          generateQRBloc.add(
-                            GenerateQr(
-                              _nombreController.text,
-                              _subClasificacionController.text,
-                              _rotuloController.text,
-                            ),
-                          );
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          (state is LoadingGenerateQRState)
-                              ? const CircularProgressIndicator.adaptive(
-                                  backgroundColor: Colors.white,
-                                )
-                              : const SizedBox(width: 0),
-                          const SizedBox(width: 10),
-                          const Text('Generar QR'),
-                        ],
-                      ),
-                    );
+                    if (state is LoadingGenerateQRState) {
+                      return const PrimaryButton(
+                        isLoading: true,
+                        text: 'Generando',
+                      );
+                    } else {
+                      return PrimaryButton(
+                          onPressed: () {
+                            if (_keyForm.currentState!.validate()) {
+                              generateQRBloc.add(
+                                GenerateQr(
+                                  _nombreController.text,
+                                  _subClasificacionController.text,
+                                  _rotuloController.text,
+                                ),
+                              );
+                            }
+                          },
+                          text: 'Generar Qr');
+                    }
                   },
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
@@ -6,19 +7,30 @@ import 'package:file_picker/file_picker.dart';
 import 'package:inventory_tesis/src/data/db/dao/medio_dao.dart';
 import 'package:inventory_tesis/src/data/db/dao/movement_dao.dart';
 import 'package:inventory_tesis/src/data/db/database.dart';
-import 'package:inventory_tesis/src/data/mapper/medio_mapper.dart';
-import 'package:inventory_tesis/src/data/mapper/movement_mapper.dart';
 import 'package:inventory_tesis/src/domain/entities/medio_entity.dart';
+import 'package:inventory_tesis/src/domain/entities/movement_entity.dart';
+import 'package:inventory_tesis/src/domain/enums/type_movement.dart';
+import 'package:inventory_tesis/src/domain/mapper/medio_mapper.dart';
+import 'package:inventory_tesis/src/domain/mapper/movement_mapper.dart';
 import 'package:inventory_tesis/src/presentation/forms/movement_form.dart';
 
 abstract class DataBaseDataSources {
   Future<bool> importDataBase();
 
   Future<List<String?>> getAreas();
-  Future<List<MedioEntity?>> getItemsByArea(String area);
 
-  Future<void> updateItem(MedioEntity entity);
-  Future<bool> insertMovement(MovementFormEntity movementFormEntity);
+  Future<List<MedioEntity?>> getItemsByArea(
+    String area,
+  );
+
+  Future<bool> insertMovement(
+    MovementFormEntity movementFormEntity,
+    List<MedioEntity> medio,
+  );
+
+  Future<List<MovementEntity>> getMovementByType(
+    String type,
+  );
 }
 
 class DataBaseDataSourcesImpl implements DataBaseDataSources {
@@ -86,7 +98,7 @@ class DataBaseDataSourcesImpl implements DataBaseDataSources {
       final response = await medioDao.getCantMBsByAreaAndSubclassification(
           medio.area, medio.subclassification);
 
-      final medioWithCant = MedioMapper.modelToEntity(medio, response);
+      final medioWithCant = MedioMapper.tableToEntity(medio, response);
       listFinal.add(medioWithCant);
     }
 
@@ -102,15 +114,47 @@ class DataBaseDataSourcesImpl implements DataBaseDataSources {
   }
 
   @override
-  Future<void> updateItem(MedioEntity entity) async {
-    final item = MedioMapper.formToModel(entity);
-    await medioDao.updateMB(item);
+  Future<bool> insertMovement(
+      MovementFormEntity movementFormEntity, List<MedioEntity> medios) async {
+    final movement = MovementMapper.modelToEntity(movementFormEntity, medios);
+
+    final id = await movementDao.insertMovement(movement);
+    log("Se inserto el movimiento");
+
+    for (var element in medios) {
+      final medio = MedioMapper.entityToTable(element, id);
+      await medioDao.insertMB(medio);
+      log("Se inserto un medio");
+    }
+
+    return true;
   }
 
   @override
-  Future<bool> insertMovement(MovementFormEntity movementFormEntity) async {
-    final movement = MovementMapper.modelToEntity(movementFormEntity);
-    await movementDao.insertMB(movement);
-    return true;
+  Future<List<MovementEntity>> getMovementByType(String type) async {
+    List<MovementEntity> movementList = [];
+    List<MedioEntity> medios = [];
+
+    final response = await movementDao.getMovementsByType(type);
+
+    for (var element in response) {
+      TypeMovement typeMovement = TypeMovement.getByName(element.type);
+
+      final mediosTable = await medioDao.getAllMBsByMovement(element.id!);
+
+      for (var medio in mediosTable) {
+        final newMedio = MedioMapper.tableToEntity(medio, 0);
+        medios.add(newMedio);
+      }
+
+      final movementEntity = MovementMapper.entityToModel(
+        medios,
+        element,
+        typeMovement,
+      );
+
+      movementList.add(movementEntity);
+    }
+    return movementList;
   }
 }

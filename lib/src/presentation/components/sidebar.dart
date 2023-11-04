@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/common/theme/app_text_styles.dart';
-import 'package:inventory_tesis/src/presentation/presentation.dart';
+import 'package:inventory_tesis/src/presentation/generated/assets/assets.gen.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({
@@ -13,69 +15,61 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) {
-        return Container(
-          color: state.themeData?.brightness == Brightness.light
-              ? Colors.white
-              : AppColors.primaryBlue,
-          width: MediaQuery.of(context).size.width * .7,
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(
-                  height: 200,
-                  child: Placeholder(),
-                ),
-                const SideBarLabel(
-                  label: 'Operaciones',
-                ),
-                const SideBarItem(
-                  label: "Realizar Inventario",
-                  icon: Icon(
-                    CupertinoIcons.cube_box,
-                    size: 20,
-                  ),
-                ),
-                const SideBarItem(
-                  label: "Generar Reporte",
-                  icon: Icon(
-                    CupertinoIcons.doc,
-                    size: 20,
-                  ),
-                ),
-                const SideBarLabel(
-                  label: 'Opciones',
-                ),
-                BlocBuilder<AppCubit, AppState>(
-                  builder: (context, state) {
-                    return GestureDetector(
-                      onTap: () {
-                        final appCubit = context.read<AppCubit>().toggleTheme();
-                      },
-                      child: SideBarItem(
-                        label: "Cambiar tema",
-                        icon: state.themeData?.brightness == Brightness.light
-                            ? const Icon(
-                                CupertinoIcons.sun_max_fill,
-                                color: Colors.amber,
-                                size: 20,
-                              )
-                            : const Icon(
-                                CupertinoIcons.moon_stars_fill,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            bottomRight: Radius.circular(20),
           ),
-        );
-      },
+          color: Colors.white,
+        ),
+        width: MediaQuery.of(context).size.width * .7,
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(Assets.svg.logoUci.path),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Divider(height: 2, color: Colors.black),
+              const SideBarLabel(
+                label: 'Operaciones',
+              ),
+              SideBarItem(
+                onPressed: () =>
+                    context.router.push(const TakeInventoryRoute()),
+                label: "Realizar Inventario",
+                icon: const Icon(
+                  CupertinoIcons.cube_box,
+                  size: 20,
+                ),
+              ),
+              SideBarItem(
+                onPressed: () => context.router.push(const MovementRoute()),
+                label: "Realizar movimiento",
+                icon: const Icon(
+                  CupertinoIcons.cube_box,
+                  size: 20,
+                ),
+              ),
+              SideBarItem(
+                onPressed: () => context.router.push(const ReportsRoute()),
+                label: "Generar Reporte",
+                icon: const Icon(
+                  CupertinoIcons.doc,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -91,7 +85,7 @@ class SideBarLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(8.0),
       child: Text(
         label,
         style: AppTextStyle.getAppTextStyle(size: 16, color: Colors.grey),
@@ -102,27 +96,41 @@ class SideBarLabel extends StatelessWidget {
 
 class SideBarItem extends StatelessWidget {
   const SideBarItem({
-    super.key,
+    Key? key,
     required this.label,
     required this.icon,
-  });
+    this.onPressed,
+  }) : super(key: key);
 
   final String label;
   final Icon? icon;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Row(
-        children: [
-          icon!,
-          const SizedBox(width: 10),
-          Text(
-            label,
-            style: AppTextStyle.getAppTextStyle(size: 20),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.primaryColor),
           ),
-        ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                icon!,
+                const SizedBox(width: 10),
+                Text(
+                  label,
+                  style: AppTextStyle.getAppTextStyle(size: 20),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

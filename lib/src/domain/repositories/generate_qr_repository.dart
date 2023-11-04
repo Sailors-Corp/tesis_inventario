@@ -4,3 +4,4 @@ abstract class GenerateQRRepository {
   Future<QrImageView?> generateQR(
       String rotulo, String subClasificacion, String area);
 }
+   

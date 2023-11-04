@@ -40,6 +40,13 @@ class MedioBasicoDao extends DatabaseAccessor<AppDatabase>
     return await select(medioBasico).get();
   }
 
+  Future<List<MedioBasicoTableEntity>> getAllMBsByMovement(
+      int idMovement) async {
+    return await (select(medioBasico)
+          ..where((tbl) => tbl.movementId.equals(idMovement)))
+        .get();
+  }
+
   Future<List<String?>> getAreas() async {
     return await (selectOnly(medioBasico, distinct: true)
           ..addColumns([medioBasico.area]))
