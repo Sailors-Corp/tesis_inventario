@@ -82,26 +82,30 @@ class _GenerateQRPage extends State<GenerateQRPage> {
               builder: (BuildContext context) => AlertDialog(
                 content: Screenshot(
                   controller: screenshotController,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          state.subClassification!.toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                  child: Container(
+                    decoration: const BoxDecoration(color: Colors.white),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            state.subClassification!.toUpperCase(),
+                            style: const TextStyle(
+                              backgroundColor: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      Center(
-                        child: SizedBox(
-                          width: 150,
-                          height: 150,
-                          child: state.qr,
+                        Center(
+                          child: SizedBox(
+                            width: 150,
+                            height: 150,
+                            child: state.qr,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 actions: <Widget>[
