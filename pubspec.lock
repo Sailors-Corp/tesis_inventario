@@ -9,6 +9,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "61.0.0"
+  adaptive_breakpoints:
+    dependency: transitive
+    description:
+      name: adaptive_breakpoints
+      sha256: "3aa6ef09074fe7824dfdc9a6d9f955c8a3bae0fb71c495cbd72f471a87699b4f"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.6"
   analyzer:
     dependency: transitive
     description:
@@ -494,6 +502,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.3.2"
+  flutter_gutter:
+    dependency: "direct main"
+    description:
+      name: flutter_gutter
+      sha256: c1fb998f87d08450a779bdcbb00dd9e8e22e9dbcab10b857da6e243d66fa6df8
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -629,6 +645,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.2.0"
+  gap:
+    dependency: transitive
+    description:
+      name: gap
+      sha256: f19387d4e32f849394758b91377f9153a1b41d79513ef7668c088c77dbc6955d
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.1"
   get_it:
     dependency: "direct main"
     description:
@@ -637,6 +661,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "7.6.4"
+  getwidget:
+    dependency: "direct main"
+    description:
+      name: getwidget
+      sha256: "91df14a8d80e21f3ec02759295b90cc8badb8a872b90d34ad4aeb4085d833b5c"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.0"
   glob:
     dependency: transitive
     description:

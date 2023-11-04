@@ -135,6 +135,8 @@ class _ScanState extends State<Scan> {
   }
 }
 
+
+
 Future<void> _showMyDialog({
   required BuildContext context,
   required MedioBasicoModel item,

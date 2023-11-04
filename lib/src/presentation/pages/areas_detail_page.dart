@@ -1,9 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
+import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/domain/entities/medio_entity.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_bloc.dart';
 import 'package:inventory_tesis/src/presentation/blocs/area/area_detail_bloc.dart';

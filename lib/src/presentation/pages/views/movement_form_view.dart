@@ -5,9 +5,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/common/theme/theme.dart';
 import 'package:inventory_tesis/src/core/utils/base_state.dart';
+import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/domain/entities/medio_entity.dart';
 import 'package:inventory_tesis/src/domain/entities/movement_entity.dart';
 import 'package:inventory_tesis/src/domain/enums/type_movement.dart';
@@ -197,7 +197,6 @@ class IconAddMedio extends StatelessWidget {
         if (medio != null) {
           pageState.medios.add(medio);
         }
-
         context
             .read<TypeMovementFormBloc>()
             .add(TypeChange(pageState.selectedType!));
@@ -320,7 +319,6 @@ class MovementFormContent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-
                 InputDecorator(
                   decoration: const InputDecoration(
                     labelText: 'Tipo de movimiento',

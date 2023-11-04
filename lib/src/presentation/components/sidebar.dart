@@ -43,8 +43,18 @@ class SideBar extends StatelessWidget {
               ),
               SideBarItem(
                 onPressed: () =>
+                    context.router.push(const GenerateQRRoute()),
+                label: "Generar QR",
+                icon: const Icon(
+                  color: AppColors.primaryColor,
+                  CupertinoIcons.qrcode,
+                  size: 20,
+                ),
+              ),
+              SideBarItem(
+                onPressed: () =>
                     context.router.push(const TakeInventoryRoute()),
-                label: "Realizar Inventario",
+                label: "Realizar inventario",
                 icon: const Icon(
                   CupertinoIcons.cube_box,
                   size: 20,
@@ -54,15 +64,17 @@ class SideBar extends StatelessWidget {
                 onPressed: () => context.router.push(const MovementRoute()),
                 label: "Realizar movimiento",
                 icon: const Icon(
-                  CupertinoIcons.cube_box,
+                  CupertinoIcons.move,
+                  color: AppColors.primaryColor,
                   size: 20,
                 ),
               ),
               SideBarItem(
                 onPressed: () => context.router.push(const ReportsRoute()),
-                label: "Generar Reporte",
+                label: "Generar reportes",
                 icon: const Icon(
                   CupertinoIcons.doc,
+                  color: AppColors.primaryColor,
                   size: 20,
                 ),
               ),
@@ -115,7 +127,6 @@ class SideBarItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.primaryColor),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),

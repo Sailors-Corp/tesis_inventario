@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:inventory_tesis/src/common/routes/app_routes.gr.dart';
 import 'package:inventory_tesis/src/domain/enums/type_movement.dart';
 import 'package:inventory_tesis/src/presentation/movement/movement_bloc.dart';
@@ -35,7 +34,7 @@ class _ReportsPageState extends State<ReportsPage> {
               'Elige el tipo de reporte que desea realizar',
               style: TextStyle(fontSize: 18),
             ),
-            const SizedBox(height: 40),
+            const Gutter(),
             Padding(
               padding: const EdgeInsets.all(10),
               child: SizedBox(
