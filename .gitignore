@@ -4,9 +4,15 @@ build/
 
 # Local configuration file (sdk path, etc)
 local.properties
+.vscode/
 
 # Log/OS Files
 *.log
+
+# build
+ios/
+android/
+.dart_tool/
 
 # Android Studio generated files and folders
 captures/
@@ -31,3 +37,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# otros
+.flutter-plugins-dependencies
