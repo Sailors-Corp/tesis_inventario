@@ -1,22 +1,24 @@
-import 'package:json_annotation/json_annotation.dart';
+enum TypeMovement {
+  simpleInterno,
+  simpleExterno,
+  multipleInterno,
+  multipleExterno;
 
-enum Role {
-  @JsonValue('simple')
-  simple,
+  const TypeMovement();
 
-  @JsonValue('multiple')
-  more;
-
-  const Role();
-
-  static Role getByName(String name) => switch (name) {
-        'administrador' => Role.simple,
-        (_) => Role.more,
+  static TypeMovement getByName(String name) => switch (name) {
+        'simple interno' => TypeMovement.simpleInterno,
+        'simple externo' => TypeMovement.simpleExterno,
+        'multiple interno' => TypeMovement.multipleInterno,
+        'multiple externo' => TypeMovement.multipleExterno,
+        (_) => TypeMovement.simpleInterno
       };
 
   @override
   String toString() => switch (this) {
-        Role.simple => 'administrador',
-        Role.more => 'dependiente',
+        TypeMovement.simpleInterno => 'simple interno',
+        TypeMovement.simpleExterno => 'simple externo',
+        TypeMovement.multipleInterno => 'multiple interno',
+        TypeMovement.multipleExterno => 'multiple externo',
       };
 }

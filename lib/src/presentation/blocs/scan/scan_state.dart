@@ -18,9 +18,25 @@ sealed class ScanState extends Equatable {
 }
 
 final class ScanInitial extends ScanState {}
+
 final class ScanClosed extends ScanState {}
 
 final class ScanLoading extends ScanState {}
+
+final class ScanSuccessPercent extends ScanState {
+  @override
+  final double? percent;
+  @override
+  final bool? takeInv;
+  @override
+  final String? correctPosition;
+
+  const ScanSuccessPercent({
+    this.takeInv,
+    this.correctPosition,
+    this.percent,
+  });
+}
 
 final class ScanError extends ScanState {
   final String message;
@@ -29,7 +45,6 @@ final class ScanError extends ScanState {
 }
 
 final class ScanSuccess extends ScanState {
-
   @override
   final double? percent;
   @override

@@ -8,6 +8,8 @@ class MedioBasico extends Table {
 
   TextColumn get subclassification => text()();
 
+  IntColumn? get movementId => integer().nullable()();
+
   @override
   Set<Column> get primaryKey => {rotulo};
 }

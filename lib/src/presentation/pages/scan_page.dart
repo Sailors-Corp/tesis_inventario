@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_tesis/dependencies.dart';
+import 'package:inventory_tesis/src/dependencies.dart';
 import 'package:inventory_tesis/src/common/theme/app_colors.dart';
 import 'package:inventory_tesis/src/core/utils/delete_cotes.dart';
-import 'package:inventory_tesis/src/data/models/item_model.dart';
+import 'package:inventory_tesis/src/data/models/medio_basico_model.dart';
 import 'package:inventory_tesis/src/presentation/blocs/scan/scan_cubit.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -146,25 +146,49 @@ class _ScanState extends State<Scan> {
     final TextEditingController areaController =
         TextEditingController(text: item.area);
 
-    return showDialog<void>(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Center(
-            child: Text("Resultado"),
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                isCorrect == true
-                    ? Container()
-                    : const Text(
-                        'El medio basico no esta en su lugar',
-                        style: TextStyle(color: Colors.red),
-                        textAlign: TextAlign.center,
-                      ),
-                TextField(
+Future<void> _showMyDialog({
+  required BuildContext context,
+  required MedioBasicoModel item,
+  required String correctPosition,
+}) async {
+  final TextEditingController rotuloController =
+      TextEditingController(text: item.rotulo);
+  final TextEditingController subclassificationController =
+      TextEditingController(text: item.subClassification);
+  final TextEditingController areaController =
+      TextEditingController(text: item.area);
+
+  return showDialog<void>(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(12),
+                color: correctPosition == item.area ? Colors.green : Colors.red,
+                child: Center(
+                  child: Text(
+                    correctPosition.isEmpty
+                        ? 'El medio no se encuentra en la base de datos'
+                        : correctPosition == item.area
+                            ? 'El medio básico está en su lugar'
+                            : 'El medio básico no está en su lugar, pertenece a $correctPosition',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: TextField(
                   readOnly: true,
                   decoration: const InputDecoration(
                     labelText: 'Rótulo',
