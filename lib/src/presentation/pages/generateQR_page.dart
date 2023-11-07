@@ -49,29 +49,34 @@ class _GenerateQRPage extends State<GenerateQRPage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          state.subClassification!.toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                  content: Screenshot(
+                    controller: screenshotController,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
                       ),
-                      Center(
-                        child: SizedBox(
-                          width: 150,
-                          height: 150,
-                          child: Screenshot(
-                            controller: screenshotController,
-                            child: state.qr,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              state.subClassification!.toUpperCase(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
+                          Center(
+                            child: SizedBox(
+                              width: 150,
+                              height: 150,
+                              child: state.qr,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   actions: <Widget>[
                     TextButton(

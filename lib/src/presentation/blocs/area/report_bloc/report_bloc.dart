@@ -28,5 +28,6 @@ class ReportBloc extends Bloc<ReportEvent, BaseState<void>> {
       Success(:final data) => const BaseState<void>.success(data: null),
       Failure(:final message) => BaseState<void>.error(message: message),
     };
+    emit(newState);
   }
 }

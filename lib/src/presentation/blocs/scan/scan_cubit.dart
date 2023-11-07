@@ -32,8 +32,7 @@ class ScanCubit extends Cubit<ScanState> {
 
     // Verificar después de hacer el inventario entero
     final percent = await _scanRepository.percentInventory(invArea);
-
-    double percentRound = double.parse((percent).toStringAsFixed(2));
+    double percentRound = double.parse((percent).toStringAsFixed(3));
     log("Percent: => $percent");
     log("PercentRound: => $percentRound");
     emit(ScanSuccessPercent(
@@ -45,7 +44,7 @@ class ScanCubit extends Cubit<ScanState> {
 
     final percent = await _scanRepository.percentInventory(invArea);
     log("Percent: => $percent");
-    double percentRound = double.parse((percent).toStringAsFixed(2));
+    double percentRound = double.parse((percent).toStringAsFixed(3));
     log("PercentRound: => $percentRound");
 
     emit(ScanSuccessPercent(percent: percentRound / 100));
