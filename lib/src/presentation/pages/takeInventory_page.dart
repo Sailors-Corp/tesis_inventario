@@ -145,14 +145,20 @@ class _ScanInventoryState extends State<ScanInventory> {
         ),
         Expanded(
           flex: 4,
-          child: QRView(
-            overlay: QrScannerOverlayShape(
-              borderColor: Colors.white,
-            ),
-            cameraFacing: CameraFacing.back,
-            key: qrKey,
-            onQRViewCreated: _onQRViewCreated,
-          ),
+          child: areaSelect != "Todas"
+              ? QRView(
+                  overlay: QrScannerOverlayShape(
+                    borderColor: Colors.white,
+                  ),
+                  cameraFacing: CameraFacing.back,
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                )
+              : const Center(
+                  child: Text(
+                    "Selecione un área para realizar inventario...",
+                  ),
+                ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
